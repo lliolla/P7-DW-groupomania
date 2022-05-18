@@ -1,7 +1,7 @@
 <template>
     <div class="posts">
      <h1>Mon mur</h1>   
-<!-- btn creer un post -->
+<!-- btn create post -->
         <div class="create-post-btn">
             <v-btn 
                 color="red"
@@ -16,7 +16,7 @@
                 <CreatePost></CreatePost>  
             </v-dialog>
         </div>
-<!-- box afficher le forum -->
+<!-- box see forum -->
         <v-card 
             class="d-flex flex-column post-card"
             v-for='post in posts'
@@ -33,7 +33,7 @@
                     </v-avatar>
                     <div class="media-body">
                         <div class="user-title">
-                            <p class="name">username {{ post.User.username}} </p>
+                            <p class="name">{{user.username}} </p>
                         </div>
                     <div class="media-time">
                     <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} {{publishedDaysAgo}} jours </P> 

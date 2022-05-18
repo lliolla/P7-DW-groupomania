@@ -9,8 +9,8 @@
     </v-navigation-drawer>
     <TheNavbar></TheNavbar>
     <v-main>
-        <AllPosts v-if="seePostUser" ></AllPosts>
-         <MyPosts v-else ></MyPosts>
+        <AllPosts></AllPosts>
+        
 <!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
     </v-main>
      <Footer></Footer>
@@ -36,7 +36,7 @@
     },
 
     data: () => ({ 
-      drawer: null, 
+      drawer:null, 
       username: "",
       userId:"",
       dialog:"",

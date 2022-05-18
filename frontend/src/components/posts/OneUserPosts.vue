@@ -1,9 +1,8 @@
 <template>
     <div class="posts">
-        <!-- box afficher le forum -->
-    
+        
+<!-- box see My Posts -->
         <v-card 
-      
             class="d-flex flex-column post-card"
             v-for='post in userPosts'
             :key='post.id'>
