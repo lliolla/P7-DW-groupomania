@@ -106,7 +106,7 @@ if(email==null || password==null){
                         return res.status(404).json({ error: 'Le mot de passe et l \'Email ne correspondent pas ' }); 
                     }})
                 .catch(error => res.status(500).json({error:' probleme avec les mots de passe' }))
-                console.log("userExist_ID",userExist.id)
+            
         }else{
              return res.status(401).json({ error: 'Aucun compte ne correspond à cet email' });
          }})

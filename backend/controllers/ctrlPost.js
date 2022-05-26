@@ -1,7 +1,7 @@
 // import models in table POSTS
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
-
+const fs = require('fs');
 
 
 exports.createPost = (req,res,next)=>{   
@@ -102,15 +102,41 @@ exports.updatePost = (req,res,next)=>{
 }
 
 exports.delatePost = (req,res,next)=>{
-    const userID = req.params.id;
-    const postID = req.body.id
-  
-    console.log('delatePost',userID,postID);
-    Model.Post.destroy({
-      where : {id : userID}
-    })
-    .then(()=> res.status(200).json({message :"post supprimé"}))// on affiche l'utilisateur
-    .catch ((error)=> res.status(404).json( { error: "aucun utilisateur trouvé pour cet id"} ))
-}
+  Model.Post.findOne({
+    attributes :['id', 'title','content','like', 'id_users', 'media'],// on precise les attributs que l'on veux recup
+    where : {id : req.params.id}
+ })
+ .then(delatePost=> {
+  const filename = delatePost.media.split('/images/')[1]
+  console.log("filename",filename)
+  fs.unlink(`images/${filename}`,()=>{
+           Model.Post.destroy({
+             where : {id : req.params.id}
+           })
+           .then(() => res.status(200).json({ message: 'post supprimé !'}))
+           .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+ })// on affiche l'utilisateur
+})
+ .catch ( console.log("error")
+ )}
+    //find post and extract media to delate it to DB
+    
+  //8888888888888888888888888888888888888888888888888888888
+  // Model.Post.findOne(
+  //   {where :{id :userID }
+  // })
+  // .then(delatePost =>{
+  //   const filename = delatePost.media.split('/images/')[1]; // on récupère le nom précis du fichier à supprimer
+  //   console.log('filename',filename);
+  //   fs.unlink(`images/${filename}`,()=>{
+  //       Model.Post.destroy({
+  //         where : {id : userID}
+  //       })
+  //       .then(() => res.status(200).json({ message: 'post supprimé !'}))
+  //       .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+  //     })
+  // })
+  // .catch(error => res.status(500).json({ error }))
+
  //recuperer tous les posts d'un user et les com qui lui sont attachés
  
