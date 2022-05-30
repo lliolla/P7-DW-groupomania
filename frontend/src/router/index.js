@@ -7,6 +7,8 @@ import Wall from '../views/Wall.vue'
 import NotFound from '../views/NotFound.vue'
 import Dashboard from '../views/Dashboard.vue'
 import MyPosts from '../views/MyPosts.vue'
+import MyProfile from '../views/MyProfile.vue'
+
 
 Vue.use(VueRouter)
 
@@ -35,15 +37,15 @@ const routes = [
   },
 // routes des Utilisateurs
 {
-path: '/user/:id',//modifier le post d'un utilisateur
-name:'Profile',
+path: '/user/:id',//update user's profil
+name:'Mon profil',
+component: MyProfile,
 props:true,
 meta:{
   title :"Mon profil"
+  }
 },
-//lasy loading: permet d'aleger le chargement de l'appli en ciblant uniquement le composant et non toute l'application
-component:()=>import('../components/users/Profil.vue')
-},
+
 
 // routes des publications
 {
