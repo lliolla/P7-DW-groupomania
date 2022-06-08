@@ -26,6 +26,12 @@
 
 export default {
 name : 'Followers',
+
+data:()=>{
+  return {
+    drawer: false,
+  }
+},
 components : {
   TheSidebar ,
   TheNavbar,

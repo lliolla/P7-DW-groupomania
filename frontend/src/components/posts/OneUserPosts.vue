@@ -56,17 +56,17 @@
             </div> 
             <div class="post-body">
                 <v-card-subtitle >
-            Titre  {{post.title}} 
-            </v-card-subtitle>
-            <v-img 
-            class="mb-3"
-            height="225" 
-            aspect-ratio="2"
-            :src="post.media"
-            ></v-img>
-            <v-chip
-            color="orange"
-            >loisir</v-chip>
+                Titre  {{post.title}} 
+                </v-card-subtitle>
+                <v-img 
+                class="mb-3"
+                height="225" 
+                aspect-ratio="2"
+                :src="post.media"
+                ></v-img>
+                <v-chip
+                color="orange"
+                >loisir</v-chip>
             <div >
                 <v-icon class="blog-date"> mdi-calendar-month</v-icon>
              <p>le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} </p> 
@@ -116,10 +116,7 @@ export default {
         comments:"10",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[]
-        
-        
         //todo : ramener l'image avatar des quue multer ok
-        
     }
     },
     mounted (){

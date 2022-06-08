@@ -17,7 +17,7 @@ exports.register = (req,res,next) => {
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
-        const avatar = req.body.avatar;
+        const avatar ="../images/avatarDefault.jpg"
         const password = req.body.password;
 
     
@@ -95,6 +95,7 @@ if(email==null || password==null){
                         res.status(200).json({
                             message : 'utilisateur identifié',
                             userId: userExist.id,
+                            avatar :userExist.avatar,
                             username:userExist.username,
                             token: jwt.sign(
                                 { userId: userExist.id },

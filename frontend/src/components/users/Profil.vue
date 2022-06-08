@@ -1,62 +1,60 @@
 <template>
     <v-card class="cards-form d-flex flex-column justify-center" >
-       <div class="post-media d-flex ">
+       <div class="post-avatar d-flex ">
           <v-avatar
               size="45"
               color="red">
-              <img src="../../assets/images/avatar.jpg" alt="avatar">
+              <img :src="userInfos.avatar" :alt="avatar">
           </v-avatar>
           <v-card-title  >
-            Modifier mon profil
+            Modifier mon profil 
           </v-card-title >
        </div>      
       <v-divider></v-divider>
       <v-form class="form">
         <v-text-field
-          v-model="user.username"
+          v-model="userInfos.username"
           label="Nom d'utilisateur"
           required
         ></v-text-field>
         <!-- :rules="nameRules" -->
 
         <v-text-field
-          v-model="user.lastname"
+          v-model="userInfos.lastname"
           label="Nom"
           required
         ></v-text-field>
 
         <v-text-field
-          v-model="user.firstname"
+          v-model="userInfos.firstname"
           label="Prénom"
           required
         ></v-text-field>
 
         <v-text-field
-          v-model="user.email"
+          v-model="userInfos.email"
           label="E-mail"
           required
         ></v-text-field>
 
-        <v-text-field
-          v-model="user.password"
-          label="Mot de passe"
-          required
-        ></v-text-field>
       <!-- mettre des regles pour le format des images -->
-        <v-file-input
-            v-model="user.media"
-          truncate-length="15"
-          label="Changer votre photo"
-        ></v-file-input>
+        <div class="update-avatar">
+            <v-file-input
+                v-model="avatar"
+                ref="avatar"
+                label="Changer de photo de profil">
+            </v-file-input>
+        </div>
+
 
         <v-btn 
           block
           elevation="2"
           color="success"
           class="mr-4 btn"
-          @click="postProfil()"
+          @click="updatePost()"
         >
-          Valider les changements
+          Valider les changements 
         </v-btn>
           <v-btn 
           block
@@ -74,34 +72,77 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import axios from 'axios'
+
 export default {
    name : 'Profil',
+   props:['id'],
    data:()=>{
        return {
-         id:"",
-         username:"",
-         lastname:"",
-         firstname:"",
-         email:"",
-         password:"",
-         media:"",
+         dialog :"",
+         avatar:"",
+         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
+        //  userInfos:[],
+         userInfos:{
+            idUser:"",
+            username:"",
+            lastname:"",
+            firstname:"",
+            email:"",
+            password:"",
+            avatar:"",
+         },
        }
    },
-   //au chargement de la vue
-   mounted : function(){
+  
+   mounted : 
+   function(){
      if(this.$store.state.user.userId == -1){
- console.log('user profil', this.$store.state.user)
+      console.log('user profil', this.$store.state.user)
         this.$router.push('/')
         return;
      }
-     //on recupere les infos du user
-     this.$store.dispatch('getUserInfo')
+    // get user connect infos
+    
+  
+    // on récupere l'id du user connecté
+    let userConnect = JSON.parse(localStorage.getItem('user')) 
+    let userConnectId =userConnect.userId
+    console.log("userConnectId",userConnectId);
+
+    axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
+    .then(res=>{
+      this.userInfos= res.data
+    })
+    .catch(err=>{
+      console.log("err",err);
+    })
    },
    computed :{
-      ...mapState ({
-        // on renome userinfo en user
-        user: 'userInfos'
-      })
+     ...mapState(['user']),// ramène les infos du user connecté: message,userId,username,token,avatar
+   },
+   methods :{
+     updatePost(){
+    //get user ID connect
+    let idUsers=this.userInfos.id  
+
+    //test if media file exist
+      //  if(!this.avatar){
+      //       this.avatar=avatar  
+      //     }
+    // create formdata to send data
+    const updateDataProfil = new FormData;     
+    updateDataProfil.append('username', this.userInfos.username),
+    updateDataProfil.append('firstname', this.userInfos.firstname),
+    updateDataProfil.append('lastname',this.userInfos.lastname),
+    updateDataProfil.append('email', this.email),
+    updateDataProfil.append('avatar', this.avatar),
+    updateDataProfil.append('idUsers', idUsers),
+ 
+ 
+    console.log("post modifie pret a envoyer backend",updateDataProfil,idUsers)
+    //axios put data to database
+     }
    }
      
 }

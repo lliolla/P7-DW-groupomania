@@ -75,7 +75,6 @@ export default {
            axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(res =>{
                 this.onePost=res.data
-
             })
             .catch(err=>{
                 console.log("err",err);

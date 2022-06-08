@@ -63,7 +63,7 @@ meta:{
   name:'EditPost',
   props:true,
   meta:{
-    title :"Modifications"
+    title :"Modifier un article"
   },
   //lasy loading: permet d'aleger le chargement de l'appli en ciblant uniquement le composant et non toute l'application
   component:()=>import('../components/posts/EditPost.vue')
