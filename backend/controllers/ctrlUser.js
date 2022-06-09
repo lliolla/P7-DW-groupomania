@@ -13,9 +13,9 @@ exports.getAllUsers =(req,res,next)=>{
 
 exports.displayUser= (req,res, next) =>{
   // voir pour gerer le userid du token null quand on a pas le bon id
-  console.log("display",req.params);
+  console.log("displayUser",req.params);
      Model.User.findOne({
-       attributes :['id', 'email','username','avatar'],// on precise les attributs que l'on veux recup
+       //attributes :['id', 'email','username','avatar'],// on precise les attributs que l'on veux recup
        where : {id : req.params.id}
     })
     .then(displayUser=> res.status(200).json( displayUser ))// on affiche l'utilisateur
@@ -35,7 +35,6 @@ exports.delateUser= (req,res, next) =>{
   };
   
 exports.updateUser= (req,res, next) =>{
-  const userID = req.params.id;
 
   //verify if user change image in his profil.  or copie req.body
    const userObject  = req.file?
@@ -45,8 +44,8 @@ exports.updateUser= (req,res, next) =>{
 
    }:{...req.body};
    
-  console.log("UpdateUser",userID, userObject);
-     Model.User.update(userObject, {where : {id :userID} })
+  console.log("UpdateUser", userObject);
+     Model.User.update(userObject, {where : {id :userObject.idUsers} })
       .then(updateUser => res.status(200).json({message : 'profil modifié avec succes'}))
       .catch(error => res.status(404).json({ error: "aucun utilisateur trouvé pour cet id"}))
   };

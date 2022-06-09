@@ -22,13 +22,13 @@
             v-for='post in posts'
             :key='post.id'>
             <div class="post-header"> 
-                <div class="post-media">
+                <div class="post-avatar">
                     <v-avatar
                         color="teal"
                         size="49"
                         class="mx-3">
                         <v-img
-                        src="https://picsum.photos/id/237/200/300">
+                        :src="user.avatar">
                         </v-img>
                     </v-avatar>
                     <div class="media-body">

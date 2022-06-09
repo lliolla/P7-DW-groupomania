@@ -5,7 +5,7 @@
                  <v-avatar
                     size="45"
                     color="red">
-                        <img src="../../assets/images/avatar.jpg" alt="alt">
+                        <img :src="user.avatar" alt="avatar">
                 </v-avatar>
                 <v-card-title>
                    CREER VOTRE POST 
@@ -48,6 +48,8 @@
 
 <script>
 import axios from"axios"
+import { mapState } from 'vuex';
+
 export default {
     name : "CreatePost",
     data(){
@@ -58,6 +60,10 @@ export default {
             dialog :"",
         }
     } ,
+    computed:{
+      ...mapState(['user']),
+     
+      },
     methods: {
         sendDataPost (){
             //on recupere le user connecté ds le storage et on extrait l'ID

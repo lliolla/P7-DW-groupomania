@@ -9,7 +9,7 @@
                     <v-avatar
                         size="45"
                         color="red">
-                        <img src="../../assets/images/avatar.jpg" alt="alt">
+                        <img :src="user.avatar" alt="alt">
                     </v-avatar>
                     <v-card-title>
                         Modifier le post
@@ -53,6 +53,8 @@
 
 <script>
 import axios from"axios"
+import { mapState } from 'vuex';
+
 export default {
     name : "EditPost",
     props:['id'],
@@ -79,6 +81,9 @@ export default {
             .catch(err=>{
                 console.log("err",err);
             })
+   },
+   computed: {
+       ...mapState(['user']),
    },
     methods: {
         editDataPost (media){
@@ -124,6 +129,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+  
 /* on centre le modal en X et Y */
     display: flex;
     justify-content: center;
