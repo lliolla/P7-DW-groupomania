@@ -1,16 +1,27 @@
 <template>
-    <v-card class="cards-form d-flex flex-column justify-center" >
-       <div class="post-avatar d-flex ">
+    <v-card class="cards-form d-flex flex-column " >
+       <div class="post-avatar d-flex justify-space-between align-center">
           <v-avatar
               size="45"
-              color="red">
+              dark>
               <img :src="userInfos.avatar" alt="avatar">
           </v-avatar>
-        
           <v-card-title  >
             Modifier mon profil
           </v-card-title >
-       </div>      
+          <v-btn
+          icon
+          color="red"
+          outlined
+          x-small
+          @click="closePost()"
+         >
+            <v-icon >
+              mdi-close
+            </v-icon>
+         </v-btn> 
+       </div> 
+          
       <v-divider></v-divider>
       <v-form class="form" >
         <v-text-field
@@ -123,10 +134,6 @@ export default {
      
    },
    methods :{
-  
- 
- 
-
      updateProfil(media){
     //get user ID connect
     let idUsers=this.userInfos.id  
@@ -155,7 +162,11 @@ export default {
              .catch(err =>{
                 console.log(err);
              });
+     },
+    closePost(){
+       this.$router.push({name: 'Wall'})
      }
+
    }
      
 }
