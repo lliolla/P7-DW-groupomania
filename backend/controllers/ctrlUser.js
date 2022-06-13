@@ -41,9 +41,9 @@ exports.updateUser= (req,res, next) =>{
   let lastname = req.body.lastname;
   let email= req.body.email;
   let idUsers=req.body.idUsers
-  // let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
-  let userObject = { username,firstname,lastname,email}
-  console.log("userObject",username,firstname,lastname,email,idUsers);
+  let avatar =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.avatar);
+  let userObject = { username,firstname,lastname,email,avatar}
+  console.log("userObject",avatar,idUsers);
      Model.User.update(userObject, {where : {id :idUsers} })
       .then(updateUser => res.status(200).json(updateUser))
       .catch(error => res.status(404).json({ error: "le profil n'a pas pu etre mis a jour"}))

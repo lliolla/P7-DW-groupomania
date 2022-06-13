@@ -6,8 +6,9 @@
               color="red">
               <img :src="userInfos.avatar" alt="avatar">
           </v-avatar>
+        
           <v-card-title  >
-            Modifier mon profil 
+            Modifier mon profil
           </v-card-title >
        </div>      
       <v-divider></v-divider>
