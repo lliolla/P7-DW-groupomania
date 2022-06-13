@@ -85,8 +85,9 @@ export default {
             .then(response=>{
                     console.log("nouveau post créer",response)
                 // voir pour faire fonctionner this.dialog=false qui devrait close le modal
+                //fais en sorte que le nouveau post soit ajouté dans la liste des posts à afficher, et ensuite tu ferme le formulaire.
                  this.dialog=false
-                 this.$router.push({ name: 'Wall'}).catch(()=>{})
+                 this.$router.push({ name: 'Wall'})
             })
             .catch(err =>{
                 console.log(err);

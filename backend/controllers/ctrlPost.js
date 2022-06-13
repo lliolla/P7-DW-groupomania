@@ -92,13 +92,13 @@ exports.getOneUserPosts = (req,res,next)=>{
 }
 
 exports.updatePost = (req,res,next)=>{
-  // //  let title = req.body.title;
+  let title = req.body.title;
    let content = req.body.content;
    let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
    let updateObject = { title,content,media}
        Model.Post.update(updateObject , {where : {id : req.params.id} })
             .then(updatePost => res.status(200).json(updatePost))
-            .catch(error => res.status(404).json({ error: "aucun utilisateur trouvé pour cet id"}))
+            .catch(error => res.status(404).json({ error: "le post n'a pas pu etre mis ajour"}))
 }
 
 exports.delatePost = (req,res,next)=>{

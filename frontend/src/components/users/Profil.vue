@@ -4,7 +4,7 @@
           <v-avatar
               size="45"
               color="red">
-              <img :src="userInfos.avatar" :alt="avatar">
+              <img :src="userInfos.avatar" alt="avatar">
           </v-avatar>
           <v-card-title  >
             Modifier mon profil 
@@ -44,9 +44,8 @@
       <!-- mettre des regles pour le format des images -->
         <div class="update-avatar">
             <v-file-input
-                v-model="userInfos.avatar"
-                name="avatar" 
-                ref="avatar"
+                v-model="media"
+                name="media"
                 label="Changer de photo de profil">
             </v-file-input>
         </div>
@@ -57,7 +56,7 @@
           elevation="2"
           color="success"
           class="mr-4 btn"
-          @click="updateProfil()"
+          @click="updateProfil(userInfos.avatar)"
         >
           Valider les changements 
         </v-btn>
@@ -85,7 +84,7 @@ export default {
    data:()=>{
        return {
          dialog :"",
-         avatar:[],
+         media:[],
          userConnectId:JSON.parse(localStorage.getItem('user')).userId,
          userInfos:{ //User's info from database
             idUser:"",
@@ -93,7 +92,7 @@ export default {
             lastname:"",
             firstname:"",
             email:"",
-            avatar:[],
+            media:"",
          },
        }
    },
@@ -127,21 +126,23 @@ export default {
  
  
 
-     updateProfil(){
+     updateProfil(media){
     //get user ID connect
     let idUsers=this.userInfos.id  
-
+    if(!this.media){
+      this.media=media  
+            }
     // create formdata to send data
     const updateDataProfil = new FormData;     
     updateDataProfil.append('username', this.userInfos.username),
     updateDataProfil.append('firstname', this.userInfos.firstname),
     updateDataProfil.append('lastname',this.userInfos.lastname),
     updateDataProfil.append('email', this.userInfos.email),
-    updateDataProfil.append('avatar', this.userInfos.avatar),
+    updateDataProfil.append('media', this.media),
     updateDataProfil.append('idUsers', idUsers),
  
  
-    console.log("post modifie pret a envoyer backend",updateDataProfil,idUsers)
+    console.log("post modifie pret a envoyer backend",updateDataProfil,idUsers,this.media)
     //axios put data to database
      axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{

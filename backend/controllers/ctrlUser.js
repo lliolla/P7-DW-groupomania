@@ -36,18 +36,17 @@ exports.delateUser= (req,res, next) =>{
   
 exports.updateUser= (req,res, next) =>{
 
-  //verify if user change image in his profil.  or copie req.body
-   const userObject  = req.file?
-   {
-     ...JSON.parse(userObject),
-     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-
-   }:{...req.body};
-   
-  console.log("UpdateUser", userObject);
-     Model.User.update(userObject, {where : {id :userObject.idUsers} })
-      .then(updateUser => res.status(200).json({message : 'profil modifié avec succes'}))
-      .catch(error => res.status(404).json({ error: "aucun utilisateur trouvé pour cet id"}))
+  let username = req.body.username;
+  let firstname = req.body.firstname;
+  let lastname = req.body.lastname;
+  let email= req.body.email;
+  let idUsers=req.body.idUsers
+  // let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
+  let userObject = { username,firstname,lastname,email}
+  console.log("userObject",username,firstname,lastname,email,idUsers);
+     Model.User.update(userObject, {where : {id :idUsers} })
+      .then(updateUser => res.status(200).json(updateUser))
+      .catch(error => res.status(404).json({ error: "le profil n'a pas pu etre mis a jour"}))
   };
  
 
