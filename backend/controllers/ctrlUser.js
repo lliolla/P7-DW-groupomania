@@ -23,17 +23,30 @@ exports.displayUser= (req,res, next) =>{
   }
 
 exports.delateUser= (req,res, next) =>{
-  const bearerHeader = req.headers['authorization']
     const userID = req.params.id;
-    console.log("DelateUser",userID,bearerHeader);
-     Model.User.destroy({
-       where : {id : userID}
-     })
-     .then(delateUser=> res.status(200).json( {message : 'profil supprimé avec succes'} ))// on affiche l'utilisateur
-     .catch ((error)=> res.status(404).json( { error: "aucun utilisateur trouvé pour cet id"} ))
+   
+    console.log("deleteUser",userID)
+    //get user profil info for get user's avatar
+    Model.User.findOne({
+      where : {id : userID}
+    })
+     .then(delateProfil=>{
+       //find avatar file name's who want to delate to serveur
+      const filename = delateProfil.avatar.split('/images/')[1]
+      console.log("filename",filename,userID)
+      //delate image to serveur then delate user in DB
+
+          Model.User.destroy({
+            where : {id : userID}  
+          })
+          .then(() => res.status(200).json({ message: 'profil supprimé !'}))
+          .catch (error=> res.status(404).json( { error: "un pb a eu lieu lors de l a suppression du post"}))
+     
+      })
+   .catch ((error)=> res.status(404).json( { error: "aucun utilisateur trouvé pour cet id"} ))
    
   };
-  
+
 exports.updateUser= (req,res, next) =>{
 
   let username = req.body.username;
@@ -44,7 +57,10 @@ exports.updateUser= (req,res, next) =>{
   let avatar =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.avatar);
   let userObject = { username,firstname,lastname,email,avatar}
   console.log("userObject",avatar,idUsers);
-     Model.User.update(userObject, {where : {id :idUsers} })
+     Model.User.update(
+       userObject, 
+       {where : {id :idUsers} 
+      })
       .then(updateUser => res.status(200).json(updateUser))
       .catch(error => res.status(404).json({ error: "le profil n'a pas pu etre mis a jour"}))
   };

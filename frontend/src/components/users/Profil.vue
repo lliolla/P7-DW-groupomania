@@ -1,4 +1,5 @@
 <template>
+
     <v-card class="cards-form d-flex flex-column " >
        <div class="post-avatar d-flex justify-space-between align-center">
           <v-avatar
@@ -77,14 +78,14 @@
           elevation="2"
           color="red"
           class="mr-4 btn"
-          @click="delateProfil()"
+          @click="delateProfil(userInfos.id)"
         >
           Supprimer le profil
         </v-btn>
       </v-form>
     
     </v-card>
-      <!--  -->
+     
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -92,14 +93,15 @@ import axios from 'axios'
 
 export default {
    name : 'Profil',
-   props:['id'],
+   props:['id', 'mode'],
    data:()=>{
        return {
          dialog :"",
          media:[],
          userConnectId:JSON.parse(localStorage.getItem('user')).userId,
          userInfos:{ //User's info from database
-            idUser:"",
+            id:"",
+            mode:"",
             username:"",
             lastname:"",
             firstname:"",
@@ -165,6 +167,21 @@ export default {
      },
     closePost(){
        this.$router.push({name: 'Wall'})
+     },
+     delateProfil(idUser){
+        console.log("Profil pres pour suppression en db",idUser);
+        axios.delete("http://localhost:3000/api/v1/user/"+idUser,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+        .then(()=>{ 
+          this.mode = 'register'
+        
+          localStorage.clear();
+          this.$router.push("/")
+          }
+      
+        )
+        .catch(err=>{ console.log("err",err)} )
+     
+        
      }
 
    }

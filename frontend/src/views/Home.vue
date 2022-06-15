@@ -53,7 +53,7 @@
                         id="lastname" 
                         v-model="lastname"
                         ></v-text-field> 
-                      <v-text-field label="Saisissez votre identifiant"
+                      <v-text-field label="Saisissez votre identifiant *"
                         type="username" 
                         name="username" 
                         id="username" 
@@ -61,18 +61,21 @@
                         ></v-text-field>
                         
                     </div>
-                      <v-text-field label="Saisissez votre mail"
+                      <v-text-field label="Saisissez votre mail *"
                         type="email" 
                         name="email" 
                         id="email" 
                         v-model="email"></v-text-field> 
                         
-                        <v-text-field label="Saisissez votre Mot de passe"
+                        <v-text-field label="Saisissez votre Mot de passe *"
                         type="password" 
                         name="password" 
                         id="password" 
                         v-model="password"
                         ></v-text-field>
+                        <p>
+                          les champs suivis d'un * sont obligatoires
+                        </p>
                     <v-btn class="btnForm" :disabled="!validatedFields" block @click="login()" v-if="mode=='login'" >
                       <span v-if="status == 'loading'">  Connexion en cours ...</span>
                       <span v-else>connexion</span>

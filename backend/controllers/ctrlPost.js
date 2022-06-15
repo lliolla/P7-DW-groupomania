@@ -112,7 +112,7 @@ exports.delatePost = (req,res,next)=>{
            })
            .then(() => res.status(200).json({ message: 'post supprimé !'}))
            .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
- })// on affiche l'utilisateur
+ })
 })
  .catch ( console.log("error")
  )}
