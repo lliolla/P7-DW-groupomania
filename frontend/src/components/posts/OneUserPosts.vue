@@ -12,12 +12,12 @@
                         size="49"
                         class="mx-3">
                         <v-img
-                        src="https://picsum.photos/id/237/200/300">
+                        src="user.avatar">
                         </v-img>
                     </v-avatar>
                     <div class="media-body">
                         <div class="user-title">
-                            <p class="name">username {{ post.User.username}}  </p>
+                            <p class="name">username {{ user.username}}  </p>
                         </div>
                     <div class="media-time">
                     <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} jours </P> 
@@ -31,9 +31,9 @@
                             <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    class ="dropdown-icon"
-                                    color="red"
+                                    class ="dropdown-icon icon"
                                     icon
+                                    v-if="!toggle"
                                     v-bind="attrs"
                                     v-on="on">
                                     <v-icon>mdi-dots-vertical</v-icon>
@@ -41,12 +41,15 @@
                             </template>
                             <v-list>
                                 <v-list-item d-flex flex-column>
-                                    <router-link :to="{name:'EditPost',params:{id:post.id}}"> <v-icon>mdi-update</v-icon>Modifier</router-link>
-
-                                    <!-- <v-list-item-title class="click-menu" @click="updatePost(post.id)">Modifier</v-list-item-title> -->
-                                    
-                                    <v-list-item-title class="click-menu" @click="delatePost(post.id)"><v-icon>mdi-close</v-icon>Supprimer</v-list-item-title>
-                                </v-list-item>    
+                                    <router-link :to="{name:'EditPost',params:{id:post.id}}"> 
+                                        <v-icon class="icon">mdi-playlist-edit</v-icon >Modifier
+                                    </router-link> 
+                               </v-list-item> 
+                              <v-list-item d-flex flex-column>
+                                  <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                              </v-list-item>  
+                                
+                              
                             </v-list>
                             </v-menu>
                         </div>
@@ -58,6 +61,7 @@
                 Titre  {{post.title}} 
                 </v-card-subtitle>
                 <v-img 
+                v-if="post.media "
                 class="mb-3"
                 height="225" 
                 aspect-ratio="2"
@@ -98,6 +102,21 @@
                 </ul> 
             </div>
         </v-card>
+        <!-- box pagination -->         
+        <div class="Post-pagination text-center">
+        <v-container>
+            <v-row justify="center">
+            <v-col cols="8">
+                <v-container class="max-width">
+                <v-pagination
+                    class="my-4"
+                    :length="10"
+                ></v-pagination>
+                </v-container>
+            </v-col>
+            </v-row>
+        </v-container>
+        </div>
     </div>
 </template>
 <script>
@@ -193,7 +212,7 @@ export default {
     ul {
         padding: 10PX 0 0 0;
     }
-    .like-icon {
+    .icon {
     cursor: pointer;
     background-color:lightcoral;
     border-radius: 50%;
@@ -213,6 +232,16 @@ export default {
         color: rgb(250, 237, 237);
         vertical-align: middle;   
     }
+    .icon {
+    cursor: pointer;
+    background-color:lightcoral;
+    border-radius: 50%;
+    padding: 6px;
+    margin: 5px;
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
+    list-style-type : none;
+    
+    }
     .post-media{
     display: flex;
     flex-direction: row;
@@ -231,6 +260,14 @@ export default {
     .v-btn > .v-btn__content .v-icon{
         color: black;
     }
+    .a {
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: underline;
+
+
+}
+
     .click-menu{
         cursor: pointer;
     }

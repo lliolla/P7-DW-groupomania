@@ -35,7 +35,7 @@
                             <div class="user-title">
                                 <p class="name">{{user.username}} </p>
                             </div>
-                        <div class="media-time">
+                        <div class="media-time">u
                         <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} {{publishedDaysAgo}} jours </P> 
                         </div>
                         </div>
@@ -102,6 +102,7 @@
                 Titre  {{post.title}} {{post.id_users}}
                 </v-card-subtitle>
                 <v-img 
+                 v-if ="post.media"
                 class="mb-3"
                 height="225" 
                 aspect-ratio="2"
@@ -147,9 +148,8 @@
             <v-col cols="8">
                 <v-container class="max-width">
                 <v-pagination
-                
                     class="my-4"
-                    :length="15"
+                    :length="10"
                 ></v-pagination>
                 </v-container>
             </v-col>
