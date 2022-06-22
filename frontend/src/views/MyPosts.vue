@@ -69,10 +69,7 @@
             this.toggle= true
         },
     },
-    mounted (){
-     // get allposts and dispaly them 
-      this.$store.dispatch('getAllPosts');
-    }
+  
   }
 
  </script>

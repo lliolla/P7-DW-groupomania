@@ -13,6 +13,8 @@ const multer = require ('../middleware/multer.js')
  router.delete('/:id',multer,userCtrl.delateUser )
  router.put('/:id',multer,userCtrl.updateUser ) 
 
+ 
+
 
 module.exports = router
 

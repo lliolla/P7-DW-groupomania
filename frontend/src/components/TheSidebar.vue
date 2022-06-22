@@ -50,7 +50,7 @@ import {mapState} from 'vuex';
 
 export default {
   name : "TheSidebar",
-
+  props : ['drawer'],
   data: () => ({
       selectedItem: 0,
       items: [
@@ -64,7 +64,8 @@ export default {
       ],
         username:localStorage.getItem('username'),
         email :localStorage.getItem('email'),
-        userId :localStorage.getItem('userId')
+        userId :localStorage.getItem('userId'),
+        drawer :"false"
     }),
     
  computed:{

@@ -21,9 +21,10 @@
               mdi-close
             </v-icon>
          </v-btn> 
-       </div> 
-          
+       </div>  
+        
       <v-divider></v-divider>
+
       <v-form class="form" >
         <v-text-field
           v-model="userInfos.username"
@@ -83,7 +84,6 @@
           Supprimer le profil
         </v-btn>
       </v-form>
-    
     </v-card>
      
 </template>
@@ -121,7 +121,7 @@ export default {
     // get user connect infos
     let userConnect = JSON.parse(localStorage.getItem('user')) 
     let userConnectId =userConnect.userId
-    console.log("userConnectId",userConnectId);
+    console.log("userConnectId  1",userConnectId);
 
     axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
     .then(res=>{
@@ -172,7 +172,7 @@ export default {
         console.log("Profil pres pour suppression en db",idUser);
         axios.delete("http://localhost:3000/api/v1/user/"+idUser,{headers: {Authorization: 'Bearer ' + localStorage.token}})
         .then(()=>{ 
-          this.mode = 'register'
+         // this.mode = 'register'
         
           localStorage.clear();
           this.$router.push("/")

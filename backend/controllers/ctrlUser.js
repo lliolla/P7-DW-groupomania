@@ -65,5 +65,4 @@ exports.updateUser= (req,res, next) =>{
       .catch(error => res.status(404).json({ error: "le profil n'a pas pu etre mis a jour"}))
   };
  
-
- 
+  

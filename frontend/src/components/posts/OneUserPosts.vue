@@ -1,6 +1,5 @@
 <template>
     <div class="posts">
-        
 <!-- box see My Posts -->
         <v-card 
             class="d-flex flex-column post-card"
@@ -132,7 +131,7 @@ export default {
         axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}}) 
             .then(res=>{ this.userPosts =res.data
         })
-            .catch(err=>{ console.log("err",err); })
+            .catch(err=>{ console.log("err axios get oune user",err); })
         },
      computed:{
       ...mapState(['user']),

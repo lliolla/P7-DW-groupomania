@@ -1,7 +1,7 @@
 <template>
-    <div class="posts">
-     <h1>Mon mur</h1>   
-<!-- btn create post -->
+    <div class="posts d-flex flex-column post-card">
+ 
+    <!-- btn create post -->
         <div class="create-post-btn">
             <v-btn 
                 color="red"
@@ -16,146 +16,146 @@
                 <CreatePost></CreatePost>  
             </v-dialog>
         </div>
-<!-- box see forum -->
-        <v-card 
-            class="d-flex flex-column post-card"
-            v-for='post in posts'
-            :key='post.id'>
-            <div class="post-header"> 
-                <div class="post-avatar">
-                    <v-avatar
-                        color="teal"
-                        size="49"
-                        class="mx-3">
-                        <v-img
-                        :src="user.avatar">
-                        </v-img>
-                    </v-avatar>
-                    <div class="media-body">
-                        <div class="user-title">
-                            <p class="name">{{user.username}} </p>
+    <!-- box see forum -->
+            <v-card 
+                class="post-card"
+                v-for='post in posts'
+                :key='post.id'>
+                <div class="post-header"> 
+                    <div class="post-avatar">
+                        <v-avatar
+                            color="teal"
+                            size="49"
+                            class="mx-3">
+                            <v-img
+                            :src="user.avatar">
+                            </v-img>
+                        </v-avatar>
+                        <div class="media-body">
+                            <div class="user-title">
+                                <p class="name">{{user.username}} </p>
+                            </div>
+                        <div class="media-time">
+                        <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} {{publishedDaysAgo}} jours </P> 
                         </div>
-                    <div class="media-time">
-                    <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} {{publishedDaysAgo}} jours </P> 
+                        </div>
                     </div>
-                    </div>
-                </div>
-                <div class="post-dropdown">
-        <!-- box menu modifier supprimer -->
-                    <template>
-                        <div class="text-center">
-                            <v-menu offset-y>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                    class ="dropdown-icon icon"
-                                    color="red"
-                                    icon
-                                    v-if="!toggle"
-                                    v-bind="attrs"
-                                    v-on="on">
-                                    <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                            </template>
-                            <v-list>
-                                <v-list-item d-flex flex-column>
-                                    <router-link :to="{name:'EditPost',params:{id:post.id}}"> <v-icon class="icon">mdi-playlist-edit</v-icon>Modifier</router-link>
-                                </v-list-item> 
-                                <v-list-item d-flex flex-column>
-                                    <v-list-item-title
-                                        class=" a"
-                                        @click="toggleDropddown()" >
-                                            <v-icon 
-                                            class="icon" >mdi-close
-                                            </v-icon>
-                                        Supprimer
-                                    </v-list-item-title>
-                                </v-list-item>
-                            </v-list>
-                              
-                            </v-menu>
-                            <!-- box modal confirmation de supression -->
-                                <v-alert 
-                                    :value="alert"
-                                    type="warning"
-                                    transition="scale-transition"
-                                   >
-                                    Etes-vous sûr de vouloir supprimer cet article?
-                                    <div class="btn"> 
-                                        <v-btn
-                                        color="info"
-                                        @click="delatePost(post.id)">
-                                        Oui
-                                        </v-btn>
-                                        <v-btn
-                                        color="info"
-                                        @click="alert = false">
-                                        Non
+                    <div class="post-dropdown">
+            <!-- box menu modifier supprimer -->
+                        <template>
+                            <div class="text-center">
+                                <v-menu offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        class ="dropdown-icon icon"
+                                        color="red"
+                                        icon
+                                        v-if="!toggle"
+                                        v-bind="attrs"
+                                        v-on="on">
+                                        <v-icon>mdi-dots-vertical</v-icon>
                                     </v-btn>
-                                    </div>
-                                </v-alert>  
-                        </div>
-                    </template>
+                                </template>
+                                <v-list>
+                                    <v-list-item d-flex flex-column>
+                                        <router-link :to="{name:'EditPost',params:{id:post.id}}"> <v-icon class="icon">mdi-playlist-edit</v-icon>Modifier</router-link>
+                                    </v-list-item> 
+                                    <v-list-item d-flex flex-column>
+                                        <v-list-item-title
+                                            class=" a"
+                                            @click="toggleDropddown()" >
+                                                <v-icon 
+                                                class="icon" >mdi-close
+                                                </v-icon>
+                                            Supprimer
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                                
+                                </v-menu>
+                                <!-- box modal confirmation de supression -->
+                                    <v-alert 
+                                        :value="alert"
+                                        type="warning"
+                                        transition="scale-transition"
+                                    >
+                                        Etes-vous sûr de vouloir supprimer cet article?
+                                        <div class="btn"> 
+                                            <v-btn
+                                            color="info"
+                                            @click="delatePost(post.id)">
+                                            Oui
+                                            </v-btn>
+                                            <v-btn
+                                            color="info"
+                                            @click="alert = false">
+                                            Non
+                                        </v-btn>
+                                        </div>
+                                    </v-alert>  
+                            </div>
+                        </template>
+                    </div>
+                </div> 
+                <div class="post-body">
+                    <v-card-subtitle >
+                Titre  {{post.title}} {{post.id_users}}
+                </v-card-subtitle>
+                <v-img 
+                class="mb-3"
+                height="225" 
+                aspect-ratio="2"
+                :src="post.media"
+                ></v-img>
+                <v-chip
+                color="orange"
+                >loisir</v-chip>
+                <div >
+                    <v-icon class="blog-date"> mdi-calendar-month</v-icon>
+                <p>le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} </p> 
                 </div>
-            </div> 
-            <div class="post-body">
-                <v-card-subtitle >
-            Titre  {{post.title}} 
-            </v-card-subtitle>
-            <v-img 
-            class="mb-3"
-            height="225" 
-            aspect-ratio="2"
-            :src="post.media"
-            ></v-img>
-            <v-chip
-            color="orange"
-            >loisir</v-chip>
-            <div >
-                <v-icon class="blog-date"> mdi-calendar-month</v-icon>
-             <p>le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} </p> 
-            </div>
-            <v-card-text>
-                {{post.content}} 
-                <a href="" @click="seePost()">Voir plus</a>
-            </v-card-text>
-            </div>   
-            <v-divider></v-divider>
-            <div class="blog-meta ">
-                <ul class="d-flex flex-row d-flex justify-space-between ">
-                    <li class="blog-like ">
-                        <div >
-                            <v-icon class="icon"
-                            @click="postLike()">
-                                mdi-thumb-up-outline
-                            </v-icon>
-                            {{like}}
-                           
-                        </div>
-                    </li>
-                    <li class="blog-comments">
-                        <v-icon
-                        class="icon">mdi-comment-text-outline</v-icon>
-                        {{post.comments}}
-                    </li>
-                </ul> 
-            </div>
-        </v-card>
- <!-- box pagination -->         
-                <div class="Post-pagination text-center">
-                <v-container>
-                  <v-row justify="center">
-                    <v-col cols="8">
-                      <v-container class="max-width">
-                        <v-pagination
-                      
-                          class="my-4"
-                          :length="15"
-                        ></v-pagination>
-                      </v-container>
-                    </v-col>
-                  </v-row>
+                <v-card-text>
+                    {{post.content}} 
+                    <a href="" @click="seePost()">Voir plus</a>
+                </v-card-text>
+                </div>   
+                <v-divider></v-divider>
+                <div class="blog-meta ">
+                    <ul class="d-flex flex-row d-flex justify-space-between ">
+                        <li class="blog-like ">
+                            <div >
+                                <v-icon class="icon"
+                                @click="postLike()">
+                                    mdi-thumb-up-outline
+                                </v-icon>
+                                {{like}}
+                            
+                            </div>
+                        </li>
+                        <li class="blog-comments">
+                            <v-icon
+                            class="icon">mdi-comment-text-outline</v-icon>
+                            {{post.comments}}
+                        </li>
+                    </ul> 
+                </div>
+            </v-card>
+    <!-- box pagination -->         
+        <div class="Post-pagination text-center">
+        <v-container>
+            <v-row justify="center">
+            <v-col cols="8">
+                <v-container class="max-width">
+                <v-pagination
+                
+                    class="my-4"
+                    :length="15"
+                ></v-pagination>
                 </v-container>
-                </div>
+            </v-col>
+            </v-row>
+        </v-container>
+        </div>
     </div>
 </template>
 <script>
@@ -177,8 +177,6 @@ export default {
         open:false,
         alert: false,//alerte pour confirmer la suppression d'un post
         toggle :false,//faire disparaitre le btn des modif une fois l'alert de suppression lancer et le faire rapararitree a la fermeture
-        
-        
         //todo : ramener l'image avatar des quue multer ok
         
         }
@@ -234,13 +232,10 @@ export default {
 <style scoped>
     .posts{
     background-color:  rgb(226, 225, 223);
-    
-    
     }
     .post-card{
-        width: 70%;
         margin:15px 5px;
-        padding:  5px;
+        padding:  px;
     } 
     .post-header{
         display: flex;

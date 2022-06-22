@@ -8,8 +8,13 @@
   
     </v-navigation-drawer>
     <TheNavbar></TheNavbar>
-    <v-main>
-        <AllPosts></AllPosts>
+    <v-main class ="main-block d-flex justify-center ">
+      <div class="card-box"> 
+        <AllPosts></AllPosts> 
+        </div>
+
+       
+        
         
 <!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
     </v-main>
@@ -46,10 +51,12 @@
 </script>
 <style>
 
-main{
+.main-block{
   background-color: rgb(226, 225, 223);
-  display: flex;
-  flex-direction: row;
-}
 
+}
+.card-box{
+  padding: 20px 0px;
+  width: 70%;
+}
 </style>

@@ -10,8 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Post.belongsTo(models.User,{foreignKey: 'id_users', allowNull: false,})
-      models.Post.hasMany(models.Comment,{foreignKey :'id_messages', allowNull: false,});//manque clef etrengere
+      models.Post.belongsTo(models.User,
+        {
+          foreignKey: 'id_users', 
+          allowNull: false,
+        })
+      models.Post.hasMany(models.Comment,
+        {foreignKey :'id_messages', 
+        allowNull: false,
+        });//manque clef etrengere
     }
 
   };

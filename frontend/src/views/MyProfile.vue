@@ -4,11 +4,11 @@
     <v-navigation-drawer
       v-model="drawer"
       app >
-    <TheSidebar></TheSidebar>
+    <TheSidebar drawer="false" ></TheSidebar>
     </v-navigation-drawer>
 
     <TheNavbar></TheNavbar>
-   <main  class ="main-block d-flex justify-center ">
+   <main  class =" d-flex justify-center ">
       <div class="card-box">
         <Profil> </Profil>
       </div> 
