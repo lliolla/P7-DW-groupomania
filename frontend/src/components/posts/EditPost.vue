@@ -90,7 +90,7 @@ export default {
             //on recupere le user qui a ecrit le post
             let id_users=this.onePost.id_users
             //on recuperer l'id du post a modifier
-            this.idPost = this.$route.params.id
+             this.idPost = this.getIdPost
             //on test si le media a ete changer ou pas pour ne pas envoyer un fichier vide 
             if(!this.media){
                 this.media=media  
