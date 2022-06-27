@@ -10,7 +10,7 @@
                         <img :src="user.avatar" alt="alt">
                     </v-avatar>
                     <v-card-title>
-                        Modifier le post {{iduser}} {{getIdUser}}
+                        Modifier le post 
                     </v-card-title >
                 </div>
                 <div class="post-content">
@@ -55,7 +55,7 @@ import { mapState } from 'vuex';
 
 export default {
     name : "EditPost",
-    props:['iduser'],
+    props:['idPost'],
     data(){
         return {
             dialog :"true",
@@ -69,7 +69,7 @@ export default {
         }
     } ,
    mounted () {
-    this.idPost = this.getIdUser
+    this.idPost = this.getIdPost
     console.log("this.idPost");
            axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(res =>{
@@ -81,8 +81,8 @@ export default {
    },
    computed: {
        ...mapState(['user']),
-       getIdUser (){
-        return this.iduser
+       getIdPost (){
+        return this.idPost
        }
    },
     methods: {

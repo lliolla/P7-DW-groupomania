@@ -56,7 +56,7 @@
                                                     mdi-playlist-edit
                                                     </v-icon >Modifier
                                                 </template>
-                                            <EditPost :iduser=post.id></EditPost>
+                                            <EditPost :idPost=post.id></EditPost>
                                             </v-dialog>
                                     </template>
                                     </v-list-item-title> 
@@ -147,7 +147,7 @@ export default {
     },
     data: ()=>{
         return {
-        iduser:"",
+        idPost:"",
         dialog:"",
         like:"0",
         dislike:"0",
