@@ -61,14 +61,14 @@
                                         <router-link :to="{name:'EditPost',params:{id:post.id}}"> <v-icon class="icon">mdi-playlist-edit</v-icon>Modifier</router-link>
                                     </v-list-item> 
                                     <v-list-item d-flex flex-column>
-                                        <v-list-item-title
+                                    <v-list-item-title
                                             class=" a"
                                             @click="toggleDropddown()" >
                                                 <v-icon 
                                                 class="icon" >mdi-close
                                                 </v-icon>
                                             Supprimer
-                                        </v-list-item-title>
+                                    </v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                                 

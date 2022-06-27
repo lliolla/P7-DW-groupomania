@@ -42,34 +42,24 @@
                             </template>
                             <v-list>
                                 <v-list-item d-flex flex-column>
+                                   <v-list-item-title class="a">
                                     <template>
-                                        <v-row justify=center>
                                             <v-dialog
                                             v-model="dialog"
                                             persistent
                                             max-width="600px">
                                                 <template v-slot:activator="{ on, attrs }">
-                                                    <v-btn
-                                                    color="primary"
-                                                    dark
+                                                    <v-icon   
                                                     v-bind="attrs"
                                                     v-on="on"
-                                                    >le new button
-                                                        <!-- <router-link :to="{name:'EditPost',params:{id:post.id}}"> 
-                                                            <v-icon class="icon">mdi-playlist-edit</v-icon >Modifier
-                                                        </router-link>  -->
-                                                    </v-btn>
+                                                    class="icon">
+                                                    mdi-playlist-edit
+                                                    </v-icon >Modifier
                                                 </template>
-                                            <!-- composant oneuser post  vaec props id post-->
-                                            <EditPost ></EditPost>
+                                            <EditPost :iduser=post.id></EditPost>
                                             </v-dialog>
-
-                                        </v-row>
                                     </template>
-
-
-                                    
-
+                                    </v-list-item-title> 
                                </v-list-item> 
                               <v-list-item d-flex flex-column>
                                   <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
@@ -157,6 +147,7 @@ export default {
     },
     data: ()=>{
         return {
+        iduser:"",
         dialog:"",
         like:"0",
         dislike:"0",
@@ -190,7 +181,7 @@ export default {
             localStorage.setItem('idPost',idPost)
             let id = localStorage.getItem('idPost')
             console.log('recuperer idpost pour modif post',id)
-           this.$router.push({name:'EditPost', params: {id: id}})
+            this.$router.push({name:'EditPost', params: {id: id}})
         },
         delatePost(idpost){
         //on récupère le token ds le storage et on extrait l'ID

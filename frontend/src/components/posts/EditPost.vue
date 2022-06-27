@@ -10,7 +10,7 @@
                         <img :src="user.avatar" alt="alt">
                     </v-avatar>
                     <v-card-title>
-                        Modifier le post
+                        Modifier le post {{iduser}} {{getIdUser}}
                     </v-card-title >
                 </div>
                 <div class="post-content">
@@ -55,11 +55,10 @@ import { mapState } from 'vuex';
 
 export default {
     name : "EditPost",
-    props:['id'],
-    components: {},
+    props:['iduser'],
     data(){
         return {
-            dialog :"false",
+            dialog :"true",
             media:"",
             onePost:{
                 id:"",
@@ -70,8 +69,8 @@ export default {
         }
     } ,
    mounted () {
-    this.idPost = this.$route.params.id
-    console.log("this.idPost",this.idPost);
+    this.idPost = this.getIdUser
+    console.log("this.idPost");
            axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(res =>{
                 this.onePost=res.data
@@ -82,6 +81,9 @@ export default {
    },
    computed: {
        ...mapState(['user']),
+       getIdUser (){
+        return this.iduser
+       }
    },
     methods: {
         editDataPost (media){
@@ -106,14 +108,15 @@ export default {
             .then(response=>{
              console.log("post envoyé",response)
                this.dialog=false
-                this.$router.push({ name: 'Wall'})
+                this.$router.push({ name: 'MyPost'})
+                //essayer this router back
              })
              .catch(err =>{
                 console.log(err);
              });
         },
         closePost(){
-            this.$router.push({ name: 'Wall'})
+               this.dialog=false
         }
 
     }
