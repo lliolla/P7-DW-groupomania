@@ -1,5 +1,6 @@
 <template>
     <div class="posts">
+        <h1>Mes publications</h1>
 <!-- box see My Posts -->
         <v-card 
             class="d-flex flex-column post-card"
@@ -41,9 +42,34 @@
                             </template>
                             <v-list>
                                 <v-list-item d-flex flex-column>
-                                    <router-link :to="{name:'EditPost',params:{id:post.id}}"> 
-                                        <v-icon class="icon">mdi-playlist-edit</v-icon >Modifier
-                                    </router-link> 
+                                    <template>
+                                        <v-row justify=center>
+                                            <v-dialog
+                                            v-model="dialog"
+                                            persistent
+                                            max-width="600px">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn
+                                                    color="primary"
+                                                    dark
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    >le new button
+                                                        <!-- <router-link :to="{name:'EditPost',params:{id:post.id}}"> 
+                                                            <v-icon class="icon">mdi-playlist-edit</v-icon >Modifier
+                                                        </router-link>  -->
+                                                    </v-btn>
+                                                </template>
+                                            <!-- composant oneuser post  vaec props id post-->
+                                            <EditPost ></EditPost>
+                                            </v-dialog>
+
+                                        </v-row>
+                                    </template>
+
+
+                                    
+
                                </v-list-item> 
                               <v-list-item d-flex flex-column>
                                   <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
@@ -122,10 +148,13 @@
 <script>
 import { mapState } from 'vuex';
 import axios from "axios"
+import EditPost from'../posts/EditPost.vue'
 
 export default {
     name : "MyPosts",
-   
+    components :{
+        EditPost,
+    },
     data: ()=>{
         return {
         dialog:"",
@@ -193,10 +222,7 @@ export default {
 </script>
 
 <style scoped>
-.posts{
-  background-color:  rgb(226, 225, 223);
- 
-}
+
 .post-card{
     width: 70%;
     margin:15px 5px;

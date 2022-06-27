@@ -1,6 +1,6 @@
 <template>
-    <div class="posts d-flex flex-column post-card">
- 
+    <div class="posts d-flex flex-column post-card justify-center">
+ <h1>Mon mur</h1>
     <!-- btn create post -->
         <div class="create-post-btn">
             <v-btn 

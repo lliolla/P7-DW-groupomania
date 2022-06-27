@@ -1,8 +1,6 @@
 <template>
-
-    <div class="edit-post" width="70%">
-        <div class="card-overlay">
-        </div>
+    <div class="edit-post"  >
+        
         <v-card
             class="card ">
                 <div class="post-media">
@@ -122,34 +120,11 @@ export default {
 }
 </script>
 <style scoped>
-.edit-post{
-    position: fixed;
-/* on prend tt l'espace dispo ds la navigateur */
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  
-/* on centre le modal en X et Y */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-}
-.card-overlay{
-    background: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-
-}
 .card{
-  position: fixed;
   padding: 20px;
 }
+
 .post-footer{
     margin: 15px 0px;
     padding: 5px 0px;
