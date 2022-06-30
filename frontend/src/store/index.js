@@ -141,7 +141,9 @@ export default new Vuex.Store({
     },
     //la fonction n'est pas asynchrone car lee se met a jour toute seule avec les mutations
     getUserInfo:( {commit} )=>{
-       axios .get("http://localhost:3000/api/v1/user", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+      let userConnect = JSON.parse(localStorage.getItem('user')) 
+       let userConnectId =userConnect.userId
+       axios .get("http://localhost:3000/api/v1/user"+userConnectId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
         .then(res =>{
         commit;
           console.log('LOG_USER',res.data)

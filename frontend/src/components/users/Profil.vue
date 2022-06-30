@@ -24,11 +24,11 @@
        </div>  
         
       <v-divider></v-divider>
-
+{{user}}
       <v-form class="form" >
         <v-text-field
           v-model="userInfos.username"
-          label="Nom d'utilisateur"
+          label="Nom d'utilisateur   "
           name="username"
           required
         ></v-text-field>

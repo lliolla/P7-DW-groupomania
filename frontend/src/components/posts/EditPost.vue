@@ -1,6 +1,8 @@
 <template>
-    <div class="edit-post"  >
-        
+
+    <v-dialog 
+    max-width="600px"
+    v-model="dialog">
         <v-card
             class="card ">
                 <div class="post-media">
@@ -37,7 +39,7 @@
                     <template>
 
                         <v-btn color="warning"
-                        @click="closePost()"
+                        @click=" closePost()"
                         >Fermer</v-btn>
 
                         <v-btn color="success"
@@ -46,7 +48,17 @@
                     </template>
                 </div>
         </v-card>
-    </div>
+        <template v-slot:activator="{ on, attrs }">
+            <v-icon   
+            v-bind="attrs"
+            v-on="on"
+            class="icon">
+            mdi-playlist-edit
+            </v-icon >Modifier
+        </template>
+           
+    </v-dialog>
+  
 </template>
 
 <script>
@@ -55,10 +67,12 @@ import { mapState } from 'vuex';
 
 export default {
     name : "EditPost",
-    props:['idPost'],
+    props:{
+        idPost :String,
+    },
     data(){
         return {
-            dialog :"true",
+            dialog: false,
             media:"",
             onePost:{
                 id:"",
@@ -87,7 +101,7 @@ export default {
    },
     methods: {
         editDataPost (media){
-            //on recupere le user qui a ecrit le post
+            //get user'id who wrote the post
             let id_users=this.onePost.id_users
             //on recuperer l'id du post a modifier
              this.idPost = this.getIdPost
@@ -106,10 +120,11 @@ export default {
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             console.log("post envoyé",response)
-               this.dialog=false
-                this.$router.push({ name: 'MyPost'})
-                //essayer this router back
+             console.log("post envoyé",response,this.dialog)
+            this.dialog=false
+              console.log("dialog",this.dialog) 
+               
+                
              })
              .catch(err =>{
                 console.log(err);
@@ -139,10 +154,21 @@ export default {
     display: flex;
 
 }
-.v-icon.v-icon{
-    font-size:27px;
-    padding-left: 20px;
-}
+ .icon {
+    cursor: pointer;
+    background-color:lightcoral;
+    border-radius: 50%;
+    padding: 4px;
+    margin: 5px;
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
+    list-style-type : none;
+    
+    }
+  .v-icon.v-icon {
+        font-size: 20px;
+        color: rgb(250, 237, 237);
+        vertical-align: middle;   
+    }
 .update-media{
     display: flex;
 }

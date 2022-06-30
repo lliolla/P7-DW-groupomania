@@ -1,123 +1,115 @@
 <template>
     <div class="posts">
-        <h1>Mes publications</h1>
-<!-- box see My Posts -->
-        <v-card 
-            class="d-flex flex-column post-card"
-            v-for='post in userPosts'
-            :key='post.id'>
-            <div class="post-header"> 
-                <div class="post-media">
-                    <v-avatar
-                        color="teal"
-                        size="49"
-                        class="mx-3">
-                        <v-img
-                        src="user.avatar">
-                        </v-img>
-                    </v-avatar>
-                    <div class="media-body">
-                        <div class="user-title">
-                            <p class="name">username {{ user.username}}  </p>
-                        </div>
-                    <div class="media-time">
-                    <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} jours </P> 
-                    </div>
-                    </div>
-                </div>
-                <div class="post-dropdown">
-                    <!-- box menu modifier supprimer -->
-                    <template>
-                        <div class="text-center">
-                            <v-menu offset-y>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                    class ="dropdown-icon icon"
-                                    icon
-                                    v-if="!toggle"
-                                    v-bind="attrs"
-                                    v-on="on">
-                                    <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                            </template>
-                            <v-list>
-                                <v-list-item d-flex flex-column>
-                                   <v-list-item-title class="a">
-                                    <template>
-                                            <v-dialog
-                                            v-model="dialog"
-                                            persistent
-                                            max-width="600px">
-                                                <template v-slot:activator="{ on, attrs }">
-                                                    <v-icon   
-                                                    v-bind="attrs"
-                                                    v-on="on"
-                                                    class="icon">
-                                                    mdi-playlist-edit
-                                                    </v-icon >Modifier
-                                                </template>
-                                            <EditPost :idPost=post.id></EditPost>
-                                            </v-dialog>
-                                    </template>
-                                    </v-list-item-title> 
-                               </v-list-item> 
-                              <v-list-item d-flex flex-column>
-                                  <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
-                              </v-list-item>  
-                                
-                              
-                            </v-list>
-                            </v-menu>
-                        </div>
-                    </template>
-                </div>
-            </div> 
-            <div class="post-body">
-                <v-card-subtitle >
-                Titre  {{post.title}} 
-                </v-card-subtitle>
-                <v-img 
-                v-if="post.media "
-                class="mb-3"
-                height="225" 
-                aspect-ratio="2"
-                :src="post.media"
-                ></v-img>
-                <v-chip
-                color="orange"
-                >loisir</v-chip>
-            <div >
-                <v-icon class="blog-date"> mdi-calendar-month</v-icon>
-             <p>le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} </p> 
-            </div>
-            <v-card-text>
-                {{post.content}} 
-                <a href="" @click="seePost()">Voir plus</a>
-            </v-card-text>
-            </div>   
-            <!--  -->
+       
+ <h1 class="d-flex justify-center my-8" >Mes publications</h1>
+        <v-row justify="center"> 
             
-            <v-divider></v-divider>
-            <div class="blog-meta ">
-                <ul class="d-flex flex-row d-flex justify-space-between ">
-                    <li class="blog-like ">
-                        <div >
-                            <v-icon class="like-icon"
-                            @click="postLike()">
-                                mdi-thumb-up-outline
-                            </v-icon>
-                            {{like}}
+             <!-- box see My Posts -->
+            <v-card 
+                class="d-flex flex-column post-card"
+                v-for='post in userPosts'
+                :key='post.id'>
+                <div class="post-header"> 
+                    <div class="post-media">
+                        <v-avatar
+                            color="teal"
+                            size="49"
+                            class="mx-3">
+                            <v-img
+                            :src="user.avatar">
                            
+                            </v-img>
+                     
+                        </v-avatar>
+                        <div class="media-body">
+                            <div class="user-title">
+                                <p class="name">username {{ user.username}}  </p>
+                            </div>
+                        <div class="media-time">
+                        <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} jours </P> 
                         </div>
-                    </li>
-                    <li class="blog-comments">
-                        <v-icon
-                        class="like-icon">mdi-comment-text-outline</v-icon>
-                        {{post.comments}}
-                    </li>
-                </ul> 
-            </div>
-        </v-card>
+                        </div>
+                    </div>
+                    <div class="post-dropdown">
+                        <!-- box menu modifier supprimer -->
+                        <template>
+                            <div class="text-center">
+                                <v-menu offset-y>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                        class ="dropdown-icon icon"
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on">
+                                        <v-icon>mdi-dots-vertical</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item d-flex flex-column>
+                                    <v-list-item-title class="a">
+                                        <template>
+                                            <EditPost :idPost=post.id></EditPost>
+                                        </template>
+                                        </v-list-item-title> 
+                                </v-list-item> 
+                                <v-list-item d-flex flex-column>
+                                    <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                                </v-list-item>  
+                                    
+                                
+                                </v-list>
+                                </v-menu>
+                            </div>
+                        </template>
+                    </div>
+                </div> 
+                <div class="post-body">
+                    <v-card-subtitle >
+                    Titre  {{post.title}} 
+                    </v-card-subtitle>
+                    <v-img 
+                    v-if="post.media "
+                    class="mb-3"
+                    height="225" 
+                    aspect-ratio="2"
+                    :src="post.media"
+                    ></v-img>
+                    <v-card-text  >
+                    <v-chip 
+                    class="my-2"
+                    color="orange">
+                    loisir</v-chip>
+                <div class="blog-date my-2">
+                    <v-icon class="icon ma-0"> mdi-calendar-month </v-icon>
+                    <p class="ma-2" > le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}}</p> 
+                </div>
+                   <p > {{post.content}} </p> 
+                    <a href="" @click="seePost()">Voir plus</a>
+                </v-card-text>
+                </div>   
+                <!--  -->
+                <v-divider></v-divider>
+                <div class="blog-meta ">
+                    <ul class="d-flex flex-row d-flex justify-space-between ">
+                        <li class="blog-like ">
+                            <div >
+                                <v-icon class="icon"
+                                @click="postLike()">
+                                    mdi-thumb-up-outline
+                                </v-icon>
+                                {{like}}
+                            </div>
+                        </li>
+                        <li class="blog-comments">
+                            <v-icon
+                            class="icon">mdi-comment-text-outline</v-icon>{{comments}}
+                            <p> {{post.comments}}</p>
+                           
+                        </li>
+                    </ul> 
+                </div>
+            </v-card>
+        </v-row>
         <!-- box pagination -->         
         <div class="Post-pagination text-center">
         <v-container>
@@ -126,7 +118,7 @@
                 <v-container class="max-width">
                 <v-pagination
                     class="my-4"
-                    :length="10"
+                    :length="5"
                 ></v-pagination>
                 </v-container>
             </v-col>
@@ -148,7 +140,7 @@ export default {
     data: ()=>{
         return {
         idPost:"",
-        dialog:"",
+        dialog: false,
         like:"0",
         dislike:"0",
         comments:"10",
@@ -176,8 +168,10 @@ export default {
       ...mapState(['user']),
      },
     methods: {
+       
         updatePost(idPost){
             this.dialog = false
+            console.log('dialog',this.dialog);
             localStorage.setItem('idPost',idPost)
             let id = localStorage.getItem('idPost')
             console.log('recuperer idpost pour modif post',id)
@@ -214,12 +208,11 @@ export default {
 
 <style scoped>
 
-.post-card{
-    width: 70%;
-    margin:15px 5px;
-    padding:  5px;
-}
- 
+    .post-card{
+        width: 70%;
+        margin:15px 5px;
+        padding:  5px;
+    }
     .post-header{
         display: flex;
         justify-content: space-between;
@@ -244,7 +237,7 @@ export default {
         margin: 5px;
     }
      
-    .v-icon.v-icon {
+    .v-icon.v-icon{
         font-size: 20px;
         color: rgb(250, 237, 237);
         vertical-align: middle;   
@@ -275,16 +268,17 @@ export default {
     font-size: 12px;
     }
     .v-btn > .v-btn__content .v-icon{
-        color: black;
+    color: black;
     }
     .a {
-  color: #1976d2;
-  cursor: pointer;
-  text-decoration: underline;
-
-
-}
-
+     color: #1976d2;
+    text-decoration: underline;
+    }
+    .blog-date{
+    display: flex;
+    flex-direction: row;  
+    align-items: center;
+    }
     .click-menu{
         cursor: pointer;
     }
