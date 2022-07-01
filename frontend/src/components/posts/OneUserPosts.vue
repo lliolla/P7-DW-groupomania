@@ -1,9 +1,7 @@
 <template>
     <div class="posts">
-       
- <h1 class="d-flex justify-center my-8" >Mes publications</h1>
+         <h1 class="d-flex justify-center my-8" >Mes publications</h1>
         <v-row justify="center"> 
-            
              <!-- box see My Posts -->
             <v-card 
                 class="d-flex flex-column post-card"
@@ -17,9 +15,7 @@
                             class="mx-3">
                             <v-img
                             :src="user.avatar">
-                           
                             </v-img>
-                     
                         </v-avatar>
                         <div class="media-body">
                             <div class="user-title">
@@ -104,9 +100,36 @@
                             <v-icon
                             class="icon">mdi-comment-text-outline</v-icon>{{comments}}
                             <p> {{post.comments}}</p>
-                           
+    
                         </li>
                     </ul> 
+                     <v-divider></v-divider>
+                     <v-list >
+                        <v-list-item-avatar>
+                            <img  :src="user.avatar">
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title>titre commentaire</v-list-item-title>
+                            <v-list-item-subtitle>Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem.</v-list-item-subtitle>
+                        </v-list-item-content>
+                     </v-list>
+                     <v-divider></v-divider>
+                     <div class="createComment d-flex justify-center mt-2 mr-2"> 
+                        <v-avatar
+                            color="teal"
+                            size="30"
+                            class="mx-3">
+                            <v-img
+                            :src="user.avatar">
+                            </v-img>
+                        </v-avatar>
+                        <v-textarea
+                        outlined
+                         rows="1"
+                            row-height="15"
+                        value="ecrivez votre réponse"
+                        ></v-textarea>
+                    </div> 
                 </div>
             </v-card>
         </v-row>
@@ -144,9 +167,9 @@ export default {
         like:"0",
         dislike:"0",
         comments:"10",
+        vue: "500",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[]
-        //todo : ramener l'image avatar des quue multer ok
     }
     },
     mounted (){
@@ -164,11 +187,10 @@ export default {
         })
             .catch(err=>{ console.log("err axios get oune user",err); })
         },
-     computed:{
+    computed:{
       ...mapState(['user']),
      },
     methods: {
-       
         updatePost(idPost){
             this.dialog = false
             console.log('dialog',this.dialog);
@@ -197,12 +219,8 @@ export default {
        },
         postLike(){
             this.like++
-        },
-        
-    },
-   
-    
-   
+        },  
+    },  
 }
 </script>
 
