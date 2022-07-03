@@ -22,7 +22,7 @@
                                 <p class="name">username {{ user.username}}  </p>
                             </div>
                         <div class="media-time">
-                        <P>Publié il y a {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}} jours </P> 
+                        <p>Publié {{ dateDaysAgo(post.updatedAt)}}</p> 
                         </div>
                         </div>
                     </div>
@@ -59,6 +59,7 @@
                         </template>
                     </div>
                 </div> 
+               
                 <div class="post-body">
                     <v-card-subtitle >
                     Titre  {{post.title}} 
@@ -75,11 +76,7 @@
                     class="my-2"
                     color="orange">
                     loisir</v-chip>
-                <div class="blog-date my-2">
-                    <v-icon class="icon ma-0"
-                   > mdi-calendar-month </v-icon>
-                    <p class="ma-2" > le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}}</p> 
-                </div>
+               
                    <p > {{post.content}} </p> 
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
@@ -173,6 +170,9 @@
 import { mapState } from 'vuex';
 import axios from "axios"
 import EditPost from'../posts/EditPost.vue'
+var moment = require('moment')
+import 'moment/locale/fr'  // without this line it didn't work
+moment.locale('fr')
 
 export default {
     name : "MyPosts",
@@ -193,12 +193,11 @@ export default {
     }
     },
     mounted (){
-    //récupèrer tous les posts pour un user
-
-    //on récupère le token ds le storage et on extrait l'ID
+    //Get all user's posts
+    //get token in storage and extract ID
     let user=JSON.parse(localStorage.getItem('user')) 
     let token = user.token
-    // on récupere l'id du user connecté
+    // get user conected
     let userConnect = JSON.parse(localStorage.getItem('user')) 
     let userConnectId =userConnect.userId
     console.log("userConnectId",userConnectId);
@@ -208,9 +207,13 @@ export default {
             .catch(err=>{ console.log("err axios get oune user",err); })
         },
     computed:{
-      ...mapState(['user']),
+      ...mapState(['user']), 
      },
     methods: {
+
+         dateDaysAgo(date) {
+            return moment(date).startOf('day').fromNow(); 
+            },
         updatePost(idPost){
             this.dialog = false
             console.log('dialog',this.dialog);
@@ -220,15 +223,15 @@ export default {
             this.$router.push({name:'EditPost', params: {id: id}})
         },
         delatePost(idpost){
-        //on récupère le token ds le storage et on extrait l'ID
+       //get token in storage and extract ID
         let user=JSON.parse(localStorage.getItem('user')) 
         let token=user.token
-        // on recupere l'id du post
+        // get post's ID
         localStorage.setItem('idpost',idpost)
         let idPost = localStorage.getItem('idpost')
         console.log("post a supprimer",idPost,token)
 
-        // afficher un message de confirmationde supression qui devclanche le delate
+        // afficher un message de confirmation de supression qui declanche le delate
             axios.delete("http://localhost:3000/api/v1/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
             .then(response=>{ console.log("post suprimé",response)})
             .catch(err=>{console.log("err",err)})
@@ -241,7 +244,7 @@ export default {
             this.like++
         },  
     },  
-}
+}   
 </script>
 
 <style scoped>
