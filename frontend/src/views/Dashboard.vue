@@ -9,7 +9,7 @@
     <TheNavbar></TheNavbar>
   
     <v-main class="main d-flex justify-center pa-4" >  
-    <AllProfils v-if="isAdmin"  ></AllProfils>
+    <AllProfils v-if="OnePosts"  ></AllProfils>
     <User v-else ></User>
 
     </v-main>
@@ -46,6 +46,7 @@
       password:"",
       userId:"",
       isAdmin :true,
+      OnePosts:true,
     }),
       
    

@@ -76,7 +76,8 @@
                     color="orange">
                     loisir</v-chip>
                 <div class="blog-date my-2">
-                    <v-icon class="icon ma-0"> mdi-calendar-month </v-icon>
+                    <v-icon class="icon ma-0"
+                   > mdi-calendar-month </v-icon>
                     <p class="ma-2" > le: {{post.updatedAt.slice(0,10).split('-').reverse().join('.')}}</p> 
                 </div>
                    <p > {{post.content}} </p> 
@@ -84,8 +85,9 @@
                 </v-card-text>
                 </div>   
                 <!--  -->
+                
                 <v-divider></v-divider>
-                <div class="blog-meta ">
+                <div class="post-meta ">
                     <ul class="d-flex flex-row d-flex justify-space-between ">
                         <li class="blog-like ">
                             <div >
@@ -98,21 +100,34 @@
                         </li>
                         <li class="blog-comments">
                             <v-icon
+                              @click="show = !show"
                             class="icon">mdi-comment-text-outline</v-icon>{{comments}}
                             <p> {{post.comments}}</p>
     
                         </li>
                     </ul> 
+                    <v-expand-transition> <div v-show="show">
                      <v-divider></v-divider>
-                     <v-list >
-                        <v-list-item-avatar>
-                            <img  :src="user.avatar">
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title>titre commentaire</v-list-item-title>
-                            <v-list-item-subtitle>Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem.</v-list-item-subtitle>
-                        </v-list-item-content>
-                     </v-list>
+                     <v-timeline
+                        align-top
+                        dense>
+                        <v-timeline-item>
+                              <template v-slot:icon>
+                                <v-avatar    size="30" class="red lighten-3">
+                                <img src="https://i.pravatar.cc/64">
+                                </v-avatar>
+                            </template>
+                            <v-card class="red lighten-5 ">
+                                    <v-card-title class="overline">
+                                        Avatar hang publié il ya - heure
+                                    </v-card-title>
+                                    <v-card-text>
+                                        Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem
+                                    </v-card-text>
+                            </v-card>
+                        </v-timeline-item>
+                     </v-timeline>
+                    
                      <v-divider></v-divider>
                      <div class="createComment d-flex justify-center mt-2 mr-2"> 
                         <v-avatar
@@ -129,8 +144,12 @@
                             row-height="15"
                         value="ecrivez votre réponse"
                         ></v-textarea>
+                   
+                    </div >
                     </div> 
+                    </v-expand-transition>
                 </div>
+               
             </v-card>
         </v-row>
         <!-- box pagination -->         
@@ -164,6 +183,7 @@ export default {
         return {
         idPost:"",
         dialog: false,
+        show: false,
         like:"0",
         dislike:"0",
         comments:"10",
