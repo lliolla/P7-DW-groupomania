@@ -51,15 +51,12 @@
                                 <v-list-item d-flex flex-column>
                                     <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
                                 </v-list-item>  
-                                    
-                                
                                 </v-list>
                                 </v-menu>
                             </div>
                         </template>
                     </div>
                 </div> 
-               
                 <div class="post-body">
                     <v-card-subtitle >
                     Titre  {{post.title}} 
@@ -76,13 +73,10 @@
                     class="my-2"
                     color="orange">
                     loisir</v-chip>
-               
                    <p > {{post.content}} </p> 
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
                 </div>   
-                <!--  -->
-                
                 <v-divider></v-divider>
                 <div class="post-meta ">
                     <ul class="d-flex flex-row d-flex justify-space-between ">
@@ -100,7 +94,6 @@
                               @click="show = !show"
                             class="icon">mdi-comment-text-outline</v-icon>{{comments}}
                             <p> {{post.comments}}</p>
-    
                         </li>
                     </ul> 
                     <v-expand-transition> <div v-show="show">
@@ -124,7 +117,6 @@
                             </v-card>
                         </v-timeline-item>
                      </v-timeline>
-                    
                      <v-divider></v-divider>
                      <div class="createComment d-flex justify-center mt-2 mr-2"> 
                         <v-avatar
@@ -146,7 +138,6 @@
                     </div> 
                     </v-expand-transition>
                 </div>
-               
             </v-card>
         </v-row>
         <!-- box pagination -->         
@@ -204,7 +195,7 @@ export default {
         axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}}) 
             .then(res=>{ this.userPosts =res.data
         })
-            .catch(err=>{ console.log("err axios get oune user",err); })
+            .catch(err=>{ console.log("err axios getouneuser",err); })
         },
     computed:{
       ...mapState(['user']), 

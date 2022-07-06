@@ -1,5 +1,9 @@
 <template>
-    <div class="create-post" width="70%">
+    <v-dialog
+        v-model="dialog"
+        max-width="600px"
+        transition="dialog-transition"
+    >
         <v-card class="card d-flex flex-column ">
             <div class="post-media">
                  <v-avatar
@@ -42,8 +46,18 @@
                 </template>
                 
             </div>
-        </v-card> 
-    </div>
+        </v-card>
+         <template v-slot:activator="{ on, attrs }">
+           <v-btn 
+            color="red"
+            fab top
+            v-bind="attrs"
+            v-on="on"
+            >
+                <v-icon>mdi-plus</v-icon>
+            </v-btn> 
+        </template>   
+    </v-dialog>
 </template>
 
 <script>
@@ -57,7 +71,7 @@ export default {
             title : "",
             content:"",
             media:null,
-            dialog :"",
+            dialog :false,
         }
     } ,
     computed:{
@@ -87,17 +101,15 @@ export default {
                 // voir pour faire fonctionner this.dialog=false qui devrait close le modal
                 //fais en sorte que le nouveau post soit ajouté dans la liste des posts à afficher, et ensuite tu ferme le formulaire.
                  this.dialog=false
-                 this.$router.push({ name: 'Wall'})
+                
             })
             .catch(err =>{
                 console.log(err);
             });
-            this.dialog=false
-           console.log("dialog",this.dialog )
         },
         closePost(){
-          
-         this.$router.push({ name: 'Wall'})
+         this.dialog=false 
+        //  this.$router.push({ name: 'Wall'})
          
         }
 

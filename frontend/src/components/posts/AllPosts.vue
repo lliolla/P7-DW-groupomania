@@ -3,18 +3,7 @@
  <h1>Mon mur</h1>
     <!-- btn create post -->
         <div class="create-post-btn">
-            <v-btn 
-                color="red"
-                fab top
-                @click.prevent="dialog = true">
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
-            <v-dialog
-                v-model="dialog"
-                max-width="600px"
-                transition="dialog-transition">
                 <CreatePost></CreatePost>  
-            </v-dialog>
         </div>
     <!-- box see forum -->
             <v-card 

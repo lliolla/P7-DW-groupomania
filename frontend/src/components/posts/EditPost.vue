@@ -1,8 +1,9 @@
 <template>
-
     <v-dialog 
-    max-width="600px"
-    v-model="dialog">
+        transition="dialog-transition"
+        max-width="600px"
+        v-model="dialog"
+    >
         <v-card
             class="card ">
                 <div class="post-media">

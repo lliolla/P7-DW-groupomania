@@ -108,20 +108,7 @@ exports.delatePost = (req,res,next)=>{
  exports.getOneUserPosts = (req,res,next)=>{
   let idUser = req.params.id
   console.log('getOneUserPostsid-user',idUser);
-  // voir pour tester si il y des articles a afficher
-  // Model.Post.findAll({ 
-  //   where: { id_users : idUser}, 
-  //   include: [ Model.User] ,
-  //   //mettre les attributs a recuperer pb avec userID?
-  //   order: [["id", "DESC"]],
-  // })
-  // .then((userArticles) => res.status(200).json(userArticles ) )
-  // .catch(error => res.status(404).json({ error }));
-    // Model.User.findOne({
-    //  where : {id : idUser} ,
-    //  attributes:['id']
-    // })
-    // .then(() => 
+ 
       Model.Post.findAll({
       where : {id_users : idUser},
       attributes :['id', 'title','content','like', 'id_users', 'media','updatedAt'],
@@ -130,8 +117,7 @@ exports.delatePost = (req,res,next)=>{
       })
       .then((userPosts) => res.status(200).json(userPosts))
       .catch((error)=>res.status(404).json({error: "aucun posts trouvé pour cet utilisateur"}))
-     //)
-    // .catch((error)=> res.status(404).json( { error: "aucun utilisateur trouvé pour cet id"} ))
+    
 
 }
 
