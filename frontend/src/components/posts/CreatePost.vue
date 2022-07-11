@@ -131,9 +131,10 @@ export default {
 .card{
   padding: 10px;
 }
-.v-icon.v-icon{
-    font-size:27px;
-    padding-left: 20px;
+.v-icon.v-icon {
+  font-size: 30px;
+  color: rgb(250, 237, 237);
+  vertical-align: middle;   
 }
 
 .files-text {
