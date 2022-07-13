@@ -101,7 +101,7 @@ export default {
                 // voir pour faire fonctionner this.dialog=false qui devrait close le modal
                 //fais en sorte que le nouveau post soit ajouté dans la liste des posts à afficher, et ensuite tu ferme le formulaire.
                  this.dialog=false
-                
+                document.location.reload();
             })
             .catch(err =>{
                 console.log(err);

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         })
       models.Post.hasMany(models.Comment,
-        {foreignKey :'id_messages', 
+        {foreignKey :'id_posts', 
         allowNull: false,
         });//manque clef etrengere
     }
