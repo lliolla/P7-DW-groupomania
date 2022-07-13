@@ -135,7 +135,7 @@
                             rows="1"
                             auto-grow
                             label="Commentez ce post"
-                            @keyup.enter="submitCom()"
+                            @keyup.enter="submitCom"
                             v-model="content">
                         </v-textarea>
 
@@ -213,19 +213,21 @@ export default {
             localStorage.setItem('idPost',idPost)
         },
         
-        submitCom(event){
+        submitCom(e){
         //get user connect and  his ID in local storage
             let user=JSON.parse(localStorage.getItem('user'))
             let userId=user.userId
         //get id of post who want create coments
            
         //create form to send comment datas
-            this.content=event.target.value
+            this.content=e.target.value
             const newDataCmt = new FormData;
             // newDataCmt.append('id_posts',postId)
             newDataCmt.append('id_users',userId)
             newDataCmt.append('content',this.content)
             console.log('submitCom',newDataCmt);
+
+          
         },
          dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();

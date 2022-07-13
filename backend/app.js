@@ -5,7 +5,7 @@ const express = require('express');// on ajoute express au projet
 const userRoutes = require('./routes/routeUser'); // import du router
 const authRoutes = require('./routes/routeAuth'); // import du router
 const postRoutes = require('./routes/routePost'); // import du router
-const cmtRoutes = require('./routes/routePost'); // import du router
+const cmtRoutes = require('./routes/routeCmt'); // import du router
 
 //gerer les erreurs de cors avec le front end
 const cors = require('cors');
@@ -35,7 +35,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));   // middlew
 app.use('/api/v1/auth', authRoutes);// pointer vers les fonctions assignées à la route d'autentification
 app.use('/api/v1/user', userRoutes);// pointer vers les fonctions assignées à la route de gestion des users
 app.use('/api/v1/post', postRoutes);// pointer vers les fonctions assignées à la route de gestion des posts
-app.use('/api/v1/post', cmtRoutes);// pointer vers les fonctions assignées à la route de gestion des commentaires
+app.use('/api/v1/cmt', cmtRoutes);// pointer vers les fonctions assignées à la route de gestion des commentaires
 
 module.exports = app;// Export de l'application
 
