@@ -2,18 +2,20 @@
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
 
-exports.getAllCmtsByUser = (req,res,next)=>{
+exports.getAllCmts = (req,res,next)=>{
 console.log('getAllCmts',getAllCmts);
 }
 
-exports.getOneCmtsByUser = (req,res,next)=>{
-    console.log('getOneCmtsByUser',getOneCmtsByUser);
+exports.getOneCmts = (req,res,next)=>{
+    console.log('getOneCmtsByUser',getOneCmts);
     }
 
-exports.updateCmtsByUser = (req,res,next)=>{
+exports.updateCmts = (req,res,next)=>{
     console.log('updateCmts',updateCmts);
     }
-
-exports.delateCmtsByUser = (req,res,next)=>{
-    console.log('delateCmtsByUser',delateCmtsByUser);
+exports.createCmts =(req, res,next)=>{
+    console.log('updateCmts',updateCmts);
+}
+exports.delateCmts = (req,res,next)=>{
+    console.log('delateCmts',delateCmts);
     }

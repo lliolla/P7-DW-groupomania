@@ -1,13 +1,13 @@
 <template>
     <div class="posts">
          <h1 class="d-flex justify-center my-8" >Mes publications</h1>
-        <v-row justify="center"> 
+        <v-row justify="center">
              <!-- box see My Posts -->
-            <v-card 
+            <v-card
                 class="d-flex flex-column post-card"
                 v-for='post in userPosts'
                 :key='post.id'>
-                <div class="post-header"> 
+                <div class="post-header">
                     <div class="post-media">
                         <v-avatar
                             color="teal"
@@ -22,7 +22,7 @@
                                 <p class="name">username {{ user.username}}  </p>
                             </div>
                         <div class="media-time">
-                        <p>Publié {{ dateDaysAgo(post.updatedAt)}}</p> 
+                        <p>Publié {{ dateDaysAgo(post.updatedAt)}}</p>
                         </div>
                         </div>
                     </div>
@@ -46,37 +46,37 @@
                                         <template>
                                             <EditPost :idPost=post.id></EditPost>
                                         </template>
-                                        </v-list-item-title> 
-                                </v-list-item> 
+                                        </v-list-item-title>
+                                </v-list-item>
                                 <v-list-item d-flex flex-column>
                                     <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
-                                </v-list-item>  
+                                </v-list-item>
                                 </v-list>
                                 </v-menu>
                             </div>
                         </template>
                     </div>
-                </div> 
+                </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                    Titre  {{post.title}} 
+                    Titre  {{post.title}}
                     </v-card-subtitle>
-                    <v-img 
+                    <v-img
                     v-if="post.media "
                     class="mb-3"
-                    height="225" 
+                    height="225"
                     aspect-ratio="2"
                     :src="post.media"
                     ></v-img>
                     <v-card-text  >
-                    <v-chip 
+                    <v-chip
                     class="my-2"
                     color="orange">
                     loisir</v-chip>
-                   <p > {{post.content}} </p> 
+                   <p > {{post.content}} </p>
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
-                </div>   
+                </div>
                 <v-divider></v-divider>
                 <div class="post-meta ">
                     <ul class="d-flex flex-row d-flex justify-space-between ">
@@ -90,13 +90,15 @@
                             </div>
                         </li>
                         <li class="blog-comments">
+                            id du post {{post.id}}
                             <v-icon
-                              @click="show = !show"
+                              @click.stop="showCmt(post.id)"
                             class="icon">mdi-comment-text-outline</v-icon>{{comments}}
                             <p> {{post.comments}}</p>
                         </li>
-                    </ul> 
-                    <v-expand-transition> <div v-show="show">
+                    </ul>
+                    <v-expand-transition> 
+                        <div v-show="show">
                      <v-divider></v-divider>
                      <v-timeline
                         align-top
@@ -118,7 +120,8 @@
                         </v-timeline-item>
                      </v-timeline>
                      <v-divider></v-divider>
-                     <div class="createComment d-flex justify-center mt-2 mr-2"> 
+
+                     <div class="createComment d-flex justify-center mt-2 mr-2">
                         <v-avatar
                             color="teal"
                             size="30"
@@ -128,19 +131,21 @@
                             </v-img>
                         </v-avatar>
                         <v-textarea
-                        outlined
-                         rows="1"
-                            row-height="15"
-                        value="ecrivez votre réponse"
-                        ></v-textarea>
-                   
+                            outlined
+                            rows="1"
+                            auto-grow
+                            label="Commentez ce post"
+                            @keyup.enter="submitCom()"
+                            v-model="content">
+                        </v-textarea>
+
                     </div >
-                    </div> 
+                        </div>
                     </v-expand-transition>
                 </div>
             </v-card>
         </v-row>
-        <!-- box pagination -->         
+        <!-- box pagination -->
         <div class="Post-pagination text-center">
         <v-container>
             <v-row justify="center">
@@ -172,7 +177,9 @@ export default {
     },
     data: ()=>{
         return {
-        idPost:"",
+        content:"",//form'S field comments
+        postId:"",//form'S field  comments 
+        userId:"",//form'S field comments
         dialog: false,
         show: false,
         like:"0",
@@ -186,24 +193,42 @@ export default {
     mounted (){
     //Get all user's posts
     //get token in storage and extract ID
-    let user=JSON.parse(localStorage.getItem('user')) 
+    let user=JSON.parse(localStorage.getItem('user'))
     let token = user.token
     // get user conected
-    let userConnect = JSON.parse(localStorage.getItem('user')) 
+    let userConnect = JSON.parse(localStorage.getItem('user'))
     let userConnectId =userConnect.userId
     console.log("userConnectId",userConnectId);
-        axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}}) 
+        axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
             .then(res=>{ this.userPosts =res.data
         })
             .catch(err=>{ console.log("err axios getouneuser",err); })
         },
     computed:{
-      ...mapState(['user']), 
+      ...mapState(['user']),
      },
     methods: {
-
+        showCmt(idPost){
+            this.show = !this.show
+            localStorage.setItem('idPost',idPost)
+        },
+        
+        submitCom(event){
+        //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+            let userId=user.userId
+        //get id of post who want create coments
+           
+        //create form to send comment datas
+            this.content=event.target.value
+            const newDataCmt = new FormData;
+            // newDataCmt.append('id_posts',postId)
+            newDataCmt.append('id_users',userId)
+            newDataCmt.append('content',this.content)
+            console.log('submitCom',newDataCmt);
+        },
          dateDaysAgo(date) {
-            return moment(date).startOf('day').fromNow(); 
+            return moment(date).startOf('day').fromNow();
             },
         updatePost(idPost){
             this.dialog = false
@@ -215,7 +240,7 @@ export default {
         },
         delatePost(idpost){
        //get token in storage and extract ID
-        let user=JSON.parse(localStorage.getItem('user')) 
+        let user=JSON.parse(localStorage.getItem('user'))
         let token=user.token
         // get post's ID
         localStorage.setItem('idpost',idpost)
@@ -229,13 +254,13 @@ export default {
             this.$router.go()
         },
        seePost(){
-           console.log("voir plus"); 
+           console.log("voir plus");
        },
         postLike(){
             this.like++
-        },  
-    },  
-}   
+        },
+    },
+}
 </script>
 
 <style scoped>
@@ -262,17 +287,17 @@ export default {
     margin: 5px;
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
     list-style-type : none;
-    
+
     }
     .blog-like, .blog-comments {
-        list-style-type : none; 
+        list-style-type : none;
         margin: 5px;
     }
-     
+
     .v-icon.v-icon{
         font-size: 20px;
         color: rgb(250, 237, 237);
-        vertical-align: middle;   
+        vertical-align: middle;
     }
     .icon {
     cursor: pointer;
@@ -282,7 +307,7 @@ export default {
     margin: 5px;
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
     list-style-type : none;
-    
+
     }
     .post-media{
     display: flex;
@@ -308,7 +333,7 @@ export default {
     }
     .blog-date{
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     align-items: center;
     }
     .click-menu{
