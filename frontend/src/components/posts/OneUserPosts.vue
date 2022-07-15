@@ -5,6 +5,7 @@
              <!-- box see My Posts -->
             <v-card
                 class="d-flex flex-column post-card"
+              
                 v-for='post in userPosts'
                 :key='post.id'>
                 <div class="post-header">
@@ -93,7 +94,7 @@
                             id du post {{post.id}}
                             <v-icon
                               @click.stop="showCmt(post.id)"
-                            class="icon">mdi-comment-text-outline</v-icon>{{comments}}
+                            class="icon">mdi-comment-text-outline</v-icon>{{userPosts.length}}
                             <p> {{post.comments}}</p>
                         </li>
                     </ul>
@@ -111,7 +112,7 @@
                             </template>
                             <v-card class="red lighten-5 ">
                                     <v-card-title class="overline">
-                                        Avatar hang publié il ya - heure
+                                        Avatar hang à répondu {{ dateDaysAgo(post.updatedAt)}}
                                     </v-card-title>
                                     <v-card-text>
                                         Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem
@@ -184,7 +185,7 @@ export default {
         show: false,
         like:"0",
         dislike:"0",
-        comments:"10",
+        Cmt : "10",
         vue: "500",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[]
@@ -206,6 +207,7 @@ export default {
         },
     computed:{
       ...mapState(['user']),
+     
      },
     methods: {
         showCmt(idPost){

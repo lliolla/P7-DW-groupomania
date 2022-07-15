@@ -36,7 +36,7 @@ db.Sequelize = Sequelize;
  
  
  // sync all models with database """A supprimer des que phase de dev terminee"
-//  sequelize.sync({ force: true });
+//sequelize.sync({ force: true });
 //  console.log("All models were synchronized successfully.");
 
 module.exports = db;

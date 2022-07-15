@@ -11,8 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Comment.belongsTo(models.Post,{foreignKey: 'id_users', allowNull: false})
-      models.Comment.belongsTo(models.User,{foreignKey:'id_messages', allowNull: false})
+      models.Comment.belongsTo(models.Post,
+        {
+          foreignKey: 'id_users', 
+          allowNull: false
+        })
+      models.Comment.belongsTo(models.User,
+        {
+          foreignKey:'id_posts', 
+          allowNull: false
+        })
       //on precise que la relation de la clef etrangere ne doit pas etre egale a null
     }
   };
