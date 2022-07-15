@@ -38,7 +38,10 @@
                                         icon
                                         v-bind="attrs"
                                         v-on="on">
-                                        <v-icon>mdi-dots-vertical</v-icon>
+                                        <v-icon 
+                                            class=" white--text">
+                                            mdi-dots-vertical
+                                        </v-icon>
                                     </v-btn>
                                 </template>
                                 <v-list>
@@ -83,18 +86,39 @@
                     <ul class="d-flex flex-row d-flex justify-space-between ">
                         <li class="blog-like ">
                             <div >
-                                <v-icon class="icon"
-                                @click="postLike()">
-                                    mdi-thumb-up-outline
-                                </v-icon>
-                                {{like}}
+                                <v-btn 
+                                class="icon"
+                                icon>
+                                    <v-badge 
+                                    bordered
+                                    offset-x="5"
+                                    offset-y="5">
+                                        <span slot="badge">  {{like}} </span> <!--slot can be any component-->
+                                        <v-icon
+                                         class=" white--text"
+                                        dark
+                                         @click="postLike()">
+                                        mdi-thumb-up-outline</v-icon>
+                                    </v-badge>
+                            </v-btn>
                             </div>
                         </li>
                         <li class="blog-comments">
                             id du post {{post.id}}
-                            <v-icon
-                              @click.stop="showCmt(post.id)"
-                            class="icon">mdi-comment-text-outline</v-icon>{{userPosts.length}}
+                            <v-btn 
+                            class="icon"
+                            icon>
+                                <v-badge 
+                                bordered
+                                offset-x="5"
+                                offset-y="5">
+                                    <span slot="badge">   {{userPosts.length}} </span> <!--slot can be any component-->
+                                    <v-icon
+                                    class=" white--text"
+                                     @click.stop="showCmt(post.id)">
+                                    mdi-comment-text-outline</v-icon>
+                                </v-badge>
+                            </v-btn>
                             <p> {{post.comments}}</p>
                         </li>
                     </ul>
@@ -297,8 +321,12 @@ export default {
         list-style-type : none;
         margin: 5px;
     }
-
-    .v-icon.v-icon{
+    .v-btn > .v-btn__content{
+        font-size: 20px;
+        color: rgb(250, 237, 237);
+        vertical-align: middle;
+    }
+    .v-icon{
         font-size: 20px;
         color: rgb(250, 237, 237);
         vertical-align: middle;
