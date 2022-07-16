@@ -59,7 +59,6 @@ exports.getAllPosts = (req,res,next)=>{
         attributes :['id', 'title','content','like', 'id_users', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
         include: [ Model.User] ,
         order: [["id", "DESC"]],
-
       },)
       .then(post=> res.status(200).json(post))
       .catch(error => res.status(404).json({error : "aucun post trouvé" }))
@@ -72,7 +71,7 @@ exports.getOnePost = (req,res,next)=>{
         where : {id : req.params.id}
      })
      .then(displayPost=> res.status(200).json(displayPost ))// on affiche l'utilisateur
-     .catch ((error)=> res.status(404).json( { error: "aucun post trouvé pour cet id"} ))
+     .catch ((error)=> res.status(404).json( { error: "aucun post trouvé pour cet utilisateur"} ))
 }
 
 
@@ -108,7 +107,7 @@ exports.delatePost = (req,res,next)=>{
 
  exports.getOneUserPosts = (req,res,next)=>{
   let idUser = req.params.id
-  console.log('getOneUserPostsid-user',idUser);
+  console.log('getOneUserPost',idUser);
  
       Model.Post.findAll({
       where : {id_users : idUser},

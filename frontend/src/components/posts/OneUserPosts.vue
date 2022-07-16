@@ -209,8 +209,6 @@ export default {
         show: false,
         like:"0",
         dislike:"0",
-        Cmt : "10",
-        vue: "500",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[]
     }
@@ -238,7 +236,6 @@ export default {
             this.show = !this.show
             localStorage.setItem('idPost',idPost)
         },
-        
         submitCom(e){
         //get user connect and  his ID in local storage
             let user=JSON.parse(localStorage.getItem('user'))
@@ -252,12 +249,10 @@ export default {
             newDataCmt.append('id_users',userId)
             newDataCmt.append('content',this.content)
             console.log('submitCom',newDataCmt);
-
-          
         },
          dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
-            },
+        },
         updatePost(idPost){
             this.dialog = false
             console.log('dialog',this.dialog);

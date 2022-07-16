@@ -5,20 +5,27 @@ const jwt = require("jsonwebtoken");
 exports.getAllCmt = (req,res,next)=>{
 console.log('getAllCmts');
 Model.Comment.findAll({
-    attributes :['id', 'content', 'id_users', 'id_posts','updatedAt'],
-    include: {
-        Model:User,
-        attributes:['id']
-    } ,
+    attributes :['id', 'content','updatedAt'],
+    include: [ Model.Post] ,
     order: [["id", "DESC"]],
 })
-.then(comts=> console.log('comts',comts)  )
-.catch()
+.then(cmt=> res.status(200).json(cmt))
+.catch(error => res.status(404).json({error : "aucun commentaires pour cette publication" }))
 }
 
 exports.getOneCmt = (req,res,next)=>{
-    console.log('getOneCmts');
-
+    console.log('getOneCmts',req.params.id);
+    Model.Comment.findOne({
+        where : {id : req.params.id}, 
+        attributes :[
+        'id',
+        'id_users',
+        'id_posts',
+        'content',
+        'updatedAt',]   
+    })
+    .then(OneCmt=>res.status(200).json(OneCmt) )
+    .catch(error =>res.status(404).json({error:"aucun commentaire pour ce post"}))
 }
 
 exports.updateCmt = (req,res,next)=>{

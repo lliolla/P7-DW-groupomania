@@ -13,12 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Comment.belongsTo(models.Post,
         {
-          foreignKey: 'id_users', 
+          foreignKey: {
+            name: "id_posts",
+            allowNull: false,
+          },
+          onDelete: "cascade", 
           allowNull: false
         })
       models.Comment.belongsTo(models.User,
         {
-          foreignKey:'id_posts', 
+          foreignKey:{
+            name: "id_users",
+            allowNull: false,
+          }, 
+          onDelete: "cascade",
           allowNull: false
         })
       //on precise que la relation de la clef etrangere ne doit pas etre egale a null
