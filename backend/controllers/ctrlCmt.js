@@ -12,7 +12,7 @@ Model.Comment.findAll({
 .then(cmt=> res.status(200).json(cmt))
 .catch(error => res.status(404).json({error : "aucun commentaires pour cette publication" }))
 }
-
+// ajouter une condition pour tester si les commentaire existe et renvoye un message d'erreure si la table est vide
 exports.getOneCmt = (req,res,next)=>{
     console.log('getOneCmts',req.params.id);
     Model.Comment.findOne({
@@ -29,39 +29,41 @@ exports.getOneCmt = (req,res,next)=>{
 }
 
 exports.updateCmt = (req,res,next)=>{
-    console.log('updateCmts');
+    
+    let content = req.body.content;
+    console.log('updateCmts',content);
+   
+   Model.Comment.update(
+    content,
+    {where :{id :req.params.id}}
+   )
+   .then(updateCmt=>res.status(200).json(updateCmt))
+
     }
 exports.createCmt =(req, res,next)=>{
    
-    // Test datas comming Frontend and empty field
-let content = req.body.content
-console.log('content',content)
+// Test datas comming Frontend and empty field
 
+// find user who send message
+    //  const token = req.headers.authorization.split(' ')[1];
+    //  const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    //  const id_users = decodedToken.userId;
 // find post who want to wright comment
-let id_posts= req.body.id_posts
 
- Model.Post.findOne({
-    attributes :['id'],
-     where :{id:id_posts}
- })
- .then(postFound =>{
-    if(postFound){
-        let  id_users = postFound.id
-        let newCmt ={ id_users,content,id_posts}
-        console.log('newCmt',id_posts,id_users,content,);
-        Model.Comment.create(newCmt)
-        .then(newCmt=>res.status(200).json({message: "commentaire publié"}))
-        .catch(error =>res.status(401).json({error:"impossible de créer le commentaire"}))
-    }else{
-        return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})  
-    }
+let newCmt =(req.body)
+console.log('content',newCmt)
+ Model.Comment.create(newCmt )
+ .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
 
- 
- } )
- .catch(error => res.status(400).json ({error: "requette impossible"}))
+.catch(error => res.status(400).json ({error: "requette impossible"}))
 
 
 }
 exports.delateCmt = (req,res,next)=>{
     console.log('delateCmts');
+    Model.Comment.destroy({
+        where : {id : req.params.id}
+    })
+    .then(delateCmt=>{res.status(200).json(delateCmt)})
+    .catch(error=>res.status(404).json({ error: "un problème a eu lieu lors de la suppression du commentaire"}))
     }
