@@ -2,15 +2,28 @@
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
 
+
 exports.getAllCmt = (req,res,next)=>{
 console.log('getAllCmts');
 Model.Comment.findAll({
-    attributes :['id', 'content','updatedAt'],
-    include: [ Model.Post] ,
+    attributes :['id', 'content','updatedAt','id_users','id_posts'],  
     order: [["id", "DESC"]],
 })
 .then(cmt=> res.status(200).json(cmt))
 .catch(error => res.status(404).json({error : "aucun commentaires pour cette publication" }))
+}
+
+exports.getOnePostCmts = (req,res,next)=>{
+    console.log('getOneCmts',req.params.id, req.body);
+    Model.Comment.findAll({
+      where : {id_posts : req.params.id},
+      attributes :['id','content', 'id_posts','updatedAt'],
+    
+      order: [["id", "DESC"]],
+    })
+    .then(OnePostCmts=> res.status(200).json(OnePostCmts))
+    .catch(error => res.status(400).json ({error : 'il n y a pas de commentaires pour ce posts'}))
+
 }
 // ajouter une condition pour tester si les commentaire existe et renvoye un message d'erreure si la table est vide
 exports.getOneCmt = (req,res,next)=>{
@@ -24,8 +37,16 @@ exports.getOneCmt = (req,res,next)=>{
         'content',
         'updatedAt',]   
     })
-    .then(OneCmt=>res.status(200).json(OneCmt) )
-    .catch(error =>res.status(404).json({error:"aucun commentaire pour ce post"}))
+    .then(OneCmt=>{
+        if(OneCmt){
+            res.status(200).json(OneCmt)
+            console.log("post pret a envoyé en bd",OneCmt)
+        }else{
+            return res.stauts(404).json(error=>{error:"il n'y a pas de commentaires pour cette publication"})
+        }
+     
+    })   
+    .catch(error =>res.status(500).json({error:"aucun commentaire existant"}))
 }
 
 exports.updateCmt = (req,res,next)=>{

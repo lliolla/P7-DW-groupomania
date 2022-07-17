@@ -41,6 +41,7 @@ export default new Vuex.Store({
     idPost : 2,
     posts:[],
     users:[],
+    cmts:[],
     errMsg:"",
     status:"",
     user:user,//user chargé depuis le local storage
@@ -65,10 +66,16 @@ export default new Vuex.Store({
     },
     user:(state)=>{
       return state.user
+    },
+    cmts :(state)=>{
+      return state.cmts
     }
   
   },
   mutations: {
+   SET_CMTS(state,cmts){
+    state.cmts=cmts
+   },
    SET_POSTS (state,posts){
      state.posts=posts
    },
@@ -87,6 +94,11 @@ export default new Vuex.Store({
    
   },
   actions: {
+    getAllCmts({commit}){
+      axios.get("http://localhost:3000/api/v1/cmts", {headers: {Authorization: 'Bearer' + localStorage.token}})
+            .then(res=>commit('SET_CMTS',res.data))
+            .catch(error=>console.log(error))
+    },
     getAllPosts({commit}){
       axios
       .get("http://localhost:3000/api/v1/post", {headers: {Authorization: 'Bearer' + localStorage.token}})

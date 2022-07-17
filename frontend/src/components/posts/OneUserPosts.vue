@@ -112,7 +112,7 @@
                                 bordered
                                 offset-x="5"
                                 offset-y="5">
-                                    <span slot="badge">   {{userPosts.length}} </span> <!--slot can be any component-->
+                                    <span slot="badge">   {{userPosts.length}} </span> <!--TODO mettre la loguer de tableaux de commentaires-->
                                     <v-icon
                                     class=" white--text"
                                      @click.stop="showCmt(post.id)">
@@ -131,14 +131,16 @@
                         <v-timeline-item>
                               <template v-slot:icon>
                                 <v-avatar    size="30" class="red lighten-3">
-                                <img src="https://i.pravatar.cc/64">
+                                <img :src=user.avatar>
                                 </v-avatar>
                             </template>
                             <v-card class="red lighten-5 ">
                                     <v-card-title class="overline">
-                                        Avatar hang à répondu {{ dateDaysAgo(post.updatedAt)}}
+                                  <!-- todo recupere le nom du user qui a ecrit le post -->      
+                                  {{user.username}}  à répondu {{ dateDaysAgo(post.updatedAt)}}
                                     </v-card-title>
                                     <v-card-text>
+                                        {{cmts}}
                                         Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem
                                     </v-card-text>
                             </v-card>
@@ -162,6 +164,7 @@
                             label="Commentez ce post"
                             @keyup.enter="submitCom"
                             v-model="content">
+                           {{allCmts}}
                         </v-textarea>
 
                     </div >
@@ -210,7 +213,8 @@ export default {
         like:"0",
         dislike:"0",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-        userPosts:[]
+        userPosts:[],
+     
     }
     },
     mounted (){
@@ -226,9 +230,15 @@ export default {
             .then(res=>{ this.userPosts =res.data
         })
             .catch(err=>{ console.log("err axios getouneuser",err); })
+
+    
         },
+   
+    
+
     computed:{
-      ...mapState(['user']),
+        //get all comments 
+      ...mapState(['user','cmts']),
      
      },
     methods: {
