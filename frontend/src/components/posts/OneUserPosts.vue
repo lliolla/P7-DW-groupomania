@@ -125,9 +125,12 @@
                     <v-expand-transition> 
                         <div v-show="show">
                      <v-divider></v-divider>
+              
                      <v-timeline
                         align-top
-                        dense>
+                        dense
+                        v-for='cmt in postCmts'
+                            :key='cmt.id' >
                         <v-timeline-item>
                               <template v-slot:icon>
                                 <v-avatar    size="30" class="red lighten-3">
@@ -135,14 +138,14 @@
                                 </v-avatar>
                             </template>
                             <v-card class="red lighten-5 ">
-                                    <v-card-title class="overline">
-                                  <!-- todo recupere le nom du user qui a ecrit le post -->      
-                                  {{user.username}}  à répondu {{ dateDaysAgo(post.updatedAt)}}
-                                    </v-card-title>
-                                    <v-card-text>
-                                        {{cmts}}
-                                        Et harum quis aut magnam laboriosam ex molestiae repudiandae. Aut voluptas eius qui labore quos ad deleniti debitis sed eligendi obcaecati. Est veniam reiciendis non enim harum ut recusandae galisum eos porro mollitia ut error reprehenderit. In consequuntur impedit et vero labore eos accusantium voluptatem
-                                    </v-card-text>
+                                <v-card-title class="overline">
+                            <!-- todo recupere le nom du user qui a ecrit le post -->      
+                            {{cmt.User.username}}  à répondu {{ dateDaysAgo(post.updatedAt)}}
+                            
+                                </v-card-title>
+                                <v-card-text>
+                                    {{cmt.content}}
+                                </v-card-text>
                             </v-card>
                         </v-timeline-item>
                      </v-timeline>
@@ -164,7 +167,7 @@
                             label="Commentez ce post"
                             @keyup.enter="submitCom"
                             v-model="content">
-                           {{allCmts}}
+                         
                         </v-textarea>
 
                     </div >
@@ -214,11 +217,12 @@ export default {
         dislike:"0",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[],
+        postCmts:[],
      
     }
     },
     mounted (){
-    //Get all user's posts
+//Get all user's posts
     //get token in storage and extract ID
     let user=JSON.parse(localStorage.getItem('user'))
     let token = user.token
@@ -230,9 +234,14 @@ export default {
             .then(res=>{ this.userPosts =res.data
         })
             .catch(err=>{ console.log("err axios getouneuser",err); })
-
-    
+//Get all posts's cmts
+        let idPOst =  JSON.parse(localStorage.getItem('idPost'))
+        axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPOst,{headers: {Authorization: 'Bearer ' + token}})
+            .then(res=> {this.postCmts = res.data})
+            .catch(err=>{ console.log("err axios getPOstCmts",err); })
         },
+    
+        
    
     
 

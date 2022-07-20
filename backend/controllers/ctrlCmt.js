@@ -17,8 +17,12 @@ exports.getOnePostCmts = (req,res,next)=>{
     console.log('getOneCmts',req.params.id, req.body);
     Model.Comment.findAll({
       where : {id_posts : req.params.id},
-      attributes :['id','content', 'id_posts','updatedAt'],
-    
+      attributes :['id','content','id_users', 'id_posts','updatedAt'],
+      include: {
+        model: Model.User ,
+        attributes:['username']
+    } ,
+      
       order: [["id", "DESC"]],
     })
     .then(OnePostCmts=> res.status(200).json(OnePostCmts))
