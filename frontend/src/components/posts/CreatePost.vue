@@ -39,12 +39,10 @@
                     <v-btn color="warning"
                     @click="closePost()"
                     >Fermer</v-btn>
-               
                     <v-btn color="success"
                     @click="sendDataPost()"
                     >Envoyer</v-btn>
                 </template>
-                
             </div>
         </v-card>
          <template v-slot:activator="{ on, attrs }">

@@ -5,7 +5,6 @@
              <!-- box see My Posts -->
             <v-card
                 class="d-flex flex-column post-card"
-              
                 v-for='post in userPosts'
                 :key='post.id'>
                 <div class="post-header">
@@ -112,10 +111,10 @@
                                 bordered
                                 offset-x="5"
                                 offset-y="5">
-                                    <span slot="badge">   {{userPosts.length}} </span> <!--TODO mettre la loguer de tableaux de commentaires-->
+                                    <span slot="badge"> {{postCmts.length}} </span> <!--TODO mettre la loguer de tableaux de commentaires-->
                                     <v-icon
                                     class=" white--text"
-                                     @click.stop="showCmt(post.id)">
+                                     @click.self="showCmt(post.id)">
                                     mdi-comment-text-outline</v-icon>
                                 </v-badge>
                             </v-btn>
@@ -134,14 +133,15 @@
                         <v-timeline-item>
                               <template v-slot:icon>
                                 <v-avatar    size="30" class="red lighten-3">
-                                <img :src=user.avatar>
+                                <img :src=cmt.User.avatar>
                                 </v-avatar>
                             </template>
                             <v-card class="red lighten-5 ">
-                                <v-card-title class="overline">
+                                <v-card-title >
                             <!-- todo recupere le nom du user qui a ecrit le post -->      
-                            {{cmt.User.username}}  à répondu {{ dateDaysAgo(post.updatedAt)}}
-                            
+                            {{cmt.User.username}}
+                            <span class="media-time">à répondu {{ dateDaysAgo(post.updatedAt)}}</span> 
+                         
                                 </v-card-title>
                                 <v-card-text>
                                     {{cmt.content}}
@@ -165,10 +165,11 @@
                             rows="1"
                             auto-grow
                             label="Commentez ce post"
-                            @keyup.enter="submitCom"
                             v-model="content">
-                         
                         </v-textarea>
+                         <v-btn color="success"
+                        @click="submitCom(post.id)"
+                        >Envoyer</v-btn>
 
                     </div >
                         </div>
@@ -234,40 +235,46 @@ export default {
             .then(res=>{ this.userPosts =res.data
         })
             .catch(err=>{ console.log("err axios getouneuser",err); })
-//Get all posts's cmts
-        let idPOst =  JSON.parse(localStorage.getItem('idPost'))
-        axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPOst,{headers: {Authorization: 'Bearer ' + token}})
-            .then(res=> {this.postCmts = res.data})
-            .catch(err=>{ console.log("err axios getPOstCmts",err); })
         },
-    
         
-   
-    
-
     computed:{
-        //get all comments 
-      ...mapState(['user','cmts']),
+      ...mapState(['user']),
      
      },
     methods: {
         showCmt(idPost){
             this.show = !this.show
-            localStorage.setItem('idPost',idPost)
+            this.$router.go
+            //Get all posts's cmts
+            //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+            axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
+                .then(res=> {this.postCmts = res.data})
+                .catch(err=>{ console.log("err axios getPOstCmts",err); })
         },
-        submitCom(e){
+        submitCom(idPost){
         //get user connect and  his ID in local storage
             let user=JSON.parse(localStorage.getItem('user'))
             let userId=user.userId
+         //get token in storage and extract ID
+            let token=user.token
         //get id of post who want create coments
-           
+       
         //create form to send comment datas
-            this.content=e.target.value
             const newDataCmt = new FormData;
-            // newDataCmt.append('id_posts',postId)
+            newDataCmt.append('id_posts',idPost)
             newDataCmt.append('id_users',userId)
             newDataCmt.append('content',this.content)
-            console.log('submitCom',newDataCmt);
+            console.log('submitCom',newDataCmt)
+              axios.post("http://localhost:3000/api/v1/cmt",newDataCmt,{headers: {Authorization: 'Bearer ' + token}})
+             .then(response=>{
+                      console.log("nouveau com créer",response)
+             document.location.reload();
+                 })
+             .catch(err =>{
+                     console.log(err);
+                 });
         },
          dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();

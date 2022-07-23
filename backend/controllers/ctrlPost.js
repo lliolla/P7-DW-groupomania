@@ -36,18 +36,15 @@ const userId = decodedToken.userId;
   .then(userfound =>{
     if(userfound){
       let id_users = userfound.id
-
      let media = (req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null);
-
       let newPost ={title ,content ,media , id_users};
       console.log("post pret a envoyé en bd",newPost)
       Model.Post.create(newPost)
       .then(newPost=> res.status(200).json( {message:"post publié"}))
       .catch(error => res.status(400).json ({error: 'impossible de créer le post'}))
     }else{
-      return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})
-    }
-  })
+      return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})    }
+    })
   .catch(error => res.status(500).json({ error: "requette impossible"}))
 }
 

@@ -17,7 +17,7 @@ exports.register = (req,res,next) => {
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
-        const avatar ="../images/avatarDefault.jpg"
+        const avatar =`${req.protocol}://${req.get('host')}../images/john.png`
         const password = req.body.password;
 
     

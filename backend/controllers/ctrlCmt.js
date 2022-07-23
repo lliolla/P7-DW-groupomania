@@ -20,7 +20,7 @@ exports.getOnePostCmts = (req,res,next)=>{
       attributes :['id','content','id_users', 'id_posts','updatedAt'],
       include: {
         model: Model.User ,
-        attributes:['username']
+        attributes:['username','avatar']
     } ,
       
       order: [["id", "DESC"]],
@@ -68,19 +68,32 @@ exports.updateCmt = (req,res,next)=>{
 exports.createCmt =(req, res,next)=>{
    
 // Test datas comming Frontend and empty field
+let content = req.body.content
+let id_posts =req.body.id_posts
+let id_users =req.body.id_users
 
-// find user who send message
-    //  const token = req.headers.authorization.split(' ')[1];
-    //  const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    //  const id_users = decodedToken.userId;
-// find post who want to wright comment
+if ( content==null||content <= 0 ){
+    return res.status(400).json({ error: "le commentaire ne peut pas etre envoyé vide " });
+  }
 
-let newCmt =(req.body)
-console.log('content',newCmt)
- Model.Comment.create(newCmt )
- .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
+Model.Post.findOne({
+where : {id :id_posts}
+})
+.then(postFound =>{
+    if(postFound){
+    let id_posts =  postFound.id 
+    let newCmt = {content,id_users,id_posts}
+    console.log("commentaire pret a envoyé en bd",newCmt)
+    Model.Comment.create(newCmt)
+    .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
+    .catch(error => res.status(400).json ({error: "requette impossible"})) 
+    }else{
+        return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})
+    }
+})
+.catch(error => res.status(500).json({ error: "requette impossible"}))
 
-.catch(error => res.status(400).json ({error: "requette impossible"}))
+//  
 
 
 }
