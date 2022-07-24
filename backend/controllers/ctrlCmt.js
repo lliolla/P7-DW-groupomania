@@ -71,7 +71,7 @@ exports.createCmt =(req, res,next)=>{
 let content = req.body.content
 let id_posts =req.body.id_posts
 let id_users =req.body.id_users
-
+console.log('content',content);
 if ( content==null||content <= 0 ){
     return res.status(400).json({ error: "le commentaire ne peut pas etre envoyé vide " });
   }
