@@ -143,10 +143,8 @@ export default {
         
     computed:{
       ...mapState(['user']),
-     
      },
     methods: {
-        
          dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
         },

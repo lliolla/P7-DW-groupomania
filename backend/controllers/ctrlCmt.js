@@ -66,15 +66,14 @@ exports.updateCmt = (req,res,next)=>{
 
     }
 exports.createCmt =(req, res,next)=>{
-   
 // Test datas comming Frontend and empty field
 let content = req.body.content
 let id_posts =req.body.id_posts
 let id_users =req.body.id_users
-console.log('content',content);
+
 if ( content==null||content <= 0 ){
     return res.status(400).json({ error: "le commentaire ne peut pas etre envoyé vide " });
-  }
+}
 
 Model.Post.findOne({
 where : {id :id_posts}
@@ -86,7 +85,7 @@ where : {id :id_posts}
     console.log("commentaire pret a envoyé en bd",newCmt)
     Model.Comment.create(newCmt)
     .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
-    .catch(error => res.status(400).json ({error: "requette impossible"})) 
+    .catch(error => res.status(400).json ({error: "impossible de creer le commentaire"})) 
     }else{
         return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})
     }

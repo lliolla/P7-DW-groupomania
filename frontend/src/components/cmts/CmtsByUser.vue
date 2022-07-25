@@ -1,7 +1,7 @@
 <template>
   <div class="post-meta ">
        <ul class="d-flex flex-row d-flex justify-space-between ">
-                        <li class="blog-like ">
+             <li class="blog-like ">
                             <div >
                                 <v-btn 
                                 class="icon"
@@ -12,15 +12,15 @@
                                     offset-y="5">
                                         <span slot="badge">  {{like}} </span> <!--slot can be any component-->
                                         <v-icon
-                                         class=" white--text"
+                                        class=" white--text"
                                         dark
-                                         @click="postLike()">
+                                        @click="postLike()">
                                         mdi-thumb-up-outline</v-icon>
                                     </v-badge>
                             </v-btn>
                             </div>
-                        </li>
-                        <li class="blog-comments">
+             </li>
+             <li class="blog-comments">
                             id du post {{idPost}}
                             <v-btn 
                             class="icon"
@@ -37,16 +37,16 @@
                                 </v-badge>
                             </v-btn>
                              <!-- <p> {{userPosts.comments}}</p>  -->
-                        </li>
+             </li>
        </ul>
        <v-expand-transition> 
             <div v-show="show">
-                     <v-divider></v-divider>
-                     <v-timeline
+                 <v-divider></v-divider>
+                 <v-timeline
                         align-top
                         dense
                         v-for='cmt in postCmts'
-                            :key='cmt.id' >
+                        :key='cmt.id' >
                         <v-timeline-item>
                               <template v-slot:icon>
                                 <v-avatar    size="30" class="red lighten-3">
@@ -65,17 +65,16 @@
                                 </v-card-text>
                             </v-card>
                         </v-timeline-item>
-                     </v-timeline>
-                     <v-divider></v-divider>
-
-                     <div class="createComment d-flex justify-center mt-2 mr-2">
-                        <v-avatar
-                            color="teal"
-                            size="30"
-                            class="mx-3">
-                            <v-img
-                            :src="user.avatar">
-                            </v-img>
+                 </v-timeline>
+                 <v-divider></v-divider>
+                <div class="createComment d-flex justify-center mt-2 mr-2">
+                    <v-avatar
+                        color="teal"
+                        size="30"
+                        class="mx-3">
+                        <v-img
+                        :src="user.avatar">
+                        </v-img>
                         </v-avatar>
                         <v-textarea
                             outlined
@@ -104,7 +103,7 @@ moment.locale('fr')
 export default {
 name : "CmtsByUser",
 props :{
-    idPost : String
+    idPost : Number
 },
 data(){
     return{
@@ -115,19 +114,17 @@ data(){
         show: false,
         like:"0",
         dislike:"0",
-
     }
 },
 computed:{
       ...mapState(['user']),
-     
      },
 methods : {
 postLike(){
 this.like++ 
 },
- dateDaysAgo(date) {
-            return moment(date).startOf('day').fromNow();
+dateDaysAgo(date) {
+        return moment(date).startOf('day').fromNow();
         },
 showCmt(idPost){
     this.show = !this.show
@@ -148,22 +145,22 @@ submitCom(idPost){
 //get token in storage and extract ID
      let token=user.token
 //get id of post who want create coments
-
+console.log('idPost',idPost,userId,this.content);
 //create form to send comment datas
-     const newDataCmt = new FormData;
-     newDataCmt.append('id_posts',idPost)
-     newDataCmt.append('id_users',userId)
-     newDataCmt.append('content',this.content)
-     console.log('submitCom',newDataCmt)
-         axios.post("http:localhost:3000/api/v1/cmt",newDataCmt,{headers: {Authorization: 'Bearer ' + token}})
+    //   const newDataCmt = new FormData();
+    //   newDataCmt.append('id_posts',idPost)
+    //   newDataCmt.append('id_users',userId)
+    //   newDataCmt.append('content',this.content)
+     console.log('submitCom')
+         axios.post("http://localhost:3000/api/v1/cmt",{id_posts:idPost,id_users:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
          .then(response=>{
-                 console.log("nouveau com créer",response)
-         document.location.reload();
-             })
+            console.log("nouveau com créer",response)
+            document.location.reload();
+         })
          .catch(err =>{
-                 console.log(err);
-             });
-},
+            console.log(err);
+         });
+    },
 }
     
 }
