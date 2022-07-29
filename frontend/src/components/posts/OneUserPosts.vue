@@ -179,7 +179,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 
     .post-card{
         width: 70%;
