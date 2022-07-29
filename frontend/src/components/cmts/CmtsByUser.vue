@@ -3,10 +3,10 @@
        <ul class="d-flex flex-row d-flex justify-space-between ">
              <li class="blog-like ">
                             <div >
-                                <v-btn 
+                                <v-btn
                                 class="icon"
                                 icon>
-                                    <v-badge 
+                                    <v-badge
                                     bordered
                                     offset-x="5"
                                     offset-y="5">
@@ -22,10 +22,10 @@
              </li>
              <li class="blog-comments">
                             id du post {{idPost}}
-                            <v-btn 
+                            <v-btn
                             class="icon"
                             icon>
-                                <v-badge 
+                                <v-badge
                                 bordered
                                 offset-x="5"
                                 offset-y="5">
@@ -39,32 +39,63 @@
                              <!-- <p> {{userPosts.comments}}</p>  -->
              </li>
        </ul>
-       <v-expand-transition> 
+       <v-expand-transition>
             <div v-show="show">
                  <v-divider></v-divider>
                  <v-timeline
-                        align-top
-                        dense
-                        v-for='cmt in postCmts'
-                        :key='cmt.id' >
-                        <v-timeline-item>
-                              <template v-slot:icon>
-                                <v-avatar    size="30" class="red lighten-3">
-                                <img :src=cmt.User.avatar>
-                                </v-avatar>
-                            </template>
-                            <v-card class="red lighten-5 ">
-                                <v-card-title >
-                            <!-- todo recupere le nom du user qui a ecrit le post -->      
-                            {{cmt.User.username}}
-                            <!-- <span class="media-time">à répondu {{ dateDaysAgo(userPosts.updatedAt)}}</span>  -->
-                         
-                                </v-card-title>
-                                <v-card-text>
-                                    {{cmt.content}}
-                                </v-card-text>
-                            </v-card>
+                 class="d-flex"
+                    align-top
+                    dense
+                    v-for='cmt in postCmts'
+                    :key='cmt.id' >
+                        <v-timeline-item class="timeline-1"  >
+                                <template v-slot:icon>
+                                            <v-avatar size="30" class="red lighten-3">
+                                            <img :src=cmt.User.avatar>
+                                            </v-avatar>
+                                </template>
+                                <v-card class="red lighten-5 cmt-card">
+                                        <v-card-title >
+                                    <!-- todo recupere le nom du user qui a ecrit le post -->
+                                    {{cmt.User.username}} <span class="card-title__span">à répondu {{ dateDaysAgo(cmt.updatedAt)}}</span>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            {{cmt.content}}
+                                        </v-card-text>
+                                        <!-- box menu modifier supprimer -->
+                                </v-card> 
                         </v-timeline-item>
+                        <template  >
+                             <div >
+                                                <v-menu offset-y>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn
+                                                        class ="dropdown-icon icon"
+                                                        icon
+                                                        v-bind="attrs"
+                                                        v-on="on">
+                                                        <v-icon
+                                                            class=" white--text">
+                                                            mdi-dots-vertical
+                                                        </v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <v-list>
+                                                    <v-list-item d-flex flex-column>
+                                                    <v-list-item-title class="a">
+                                                        <template>
+                                                            <!-- <EditPost :idPost=post.id></EditPost> -->
+                                                        </template>
+                                                        </v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item d-flex flex-column>
+                                                    <v-list-item-title class="a" @click="delateCmt()"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                                                </v-list-item>
+                                                </v-list>
+                                                </v-menu>
+                              </div>
+                        </template> 
+                
                  </v-timeline>
                  <v-divider></v-divider>
                 <div class="createComment d-flex justify-center mt-2 mr-2">
@@ -75,24 +106,27 @@
                         <v-img
                         :src="user.avatar">
                         </v-img>
-                        </v-avatar>
-                        <v-textarea
+                    </v-avatar>
+                    <v-textarea
                             outlined
                             rows="1"
                             auto-grow
                             label="Commentez ce post"
                             v-model="content">
-                        </v-textarea>
-                         <v-btn color="success"
-                        @click="submitCom(idPost)"
-                        >Envoyer</v-btn>
-                    </div >
+                    </v-textarea>
+                    <v-btn
+                    class="send-Cmt_Btn"
+                     color="success"
+                     @click="submitCom(idPost)">
+                     Envoyer
+                    </v-btn>
+                </div >
             </div>
        </v-expand-transition>
   </div>
 </template>
 
-<script>    
+<script>
 import axios from "axios"
 import { mapState } from 'vuex';
 
@@ -108,7 +142,7 @@ props :{
 data(){
     return{
         content:"",//form'S field comments
-        postId:"",//form'S field  comments 
+        postId:"",//form'S field  comments
         userId:"",//form'S field comments
         postCmts:[],
         show: false,
@@ -121,7 +155,7 @@ computed:{
      },
 methods : {
 postLike(){
-this.like++ 
+this.like++
 },
 dateDaysAgo(date) {
         return moment(date).startOf('day').fromNow();
@@ -160,15 +194,16 @@ console.log('idPost',idPost,userId,this.content);
          .catch(err =>{
             console.log(err);
          });
+
     },
 }
-    
+
 }
 
 </script>
 
 <style>
-.icon {
+    .icon {
     cursor: pointer;
     background-color:lightcoral;
     border-radius: 50%;
@@ -176,7 +211,6 @@ console.log('idPost',idPost,userId,this.content);
     margin: 5px;
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
     list-style-type : none;
-
     }
     .blog-like, .blog-comments {
         list-style-type : none;
@@ -209,5 +243,23 @@ console.log('idPost',idPost,userId,this.content);
     .v-btn > .v-btn__content .v-icon{
     color: black;
     }
-    
+    .v-card__title {
+        font-size: 15px;
+    }
+    .card-title__span{
+       color: #9e9faf;
+       font-size: 12px;
+    }
+    .send-Cmt_Btn{
+     margin: 0px 5px;
+    }
+    .v-timeline-item{
+       width: 90%;
+    }
+    div.v-timeline:nth-child(2) > div:nth-child(2) {
+    margin-left: 5px;
+}
+
+ 
+
 </style>
