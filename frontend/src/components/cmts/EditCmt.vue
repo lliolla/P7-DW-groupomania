@@ -5,7 +5,7 @@
         v-model="dialog"
     >
         <v-card
-            class="card ">
+        class="card ">
                 <div class="post-content">
                     <v-textarea
                         label="Modifier le commentaire"
@@ -14,7 +14,6 @@
                     </v-textarea>
                 </div>
                 <v-divider></v-divider>
-              
                 <div class="post-footer">
                     <template>
 
@@ -50,6 +49,7 @@ export default {
     data(){
         return {
             dialog: false,
+            
             media:"",
             oneCmt:{
                 id:"",         
@@ -66,12 +66,11 @@ export default {
                 console.log("err",err);
             })
     },
-   
     methods: {
         editDataPost (){
             //get user'id who wrote the post
-          
-            //on recuperer l'id du post a modifier
+      
+            //get comment's id
             
             //on creer un formdata pour envoyer les données
             // const updateDataPost = new FormData;

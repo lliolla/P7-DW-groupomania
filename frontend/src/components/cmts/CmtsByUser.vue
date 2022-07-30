@@ -32,7 +32,7 @@
                             <span slot="badge"> {{postCmts.length}} </span> 
                              <v-icon
                                 class=" white--text"
-                                @click.self="showCmt(idPost)">
+                                @click="showCmt(idPost)">
                                 mdi-comment-text-outline
                             </v-icon>
                     </v-badge>
@@ -51,9 +51,9 @@
                     :key='cmt.id' >
                         <v-timeline-item class="timeline-1"  >
                                 <template v-slot:icon>
-                                            <v-avatar size="30" class="red lighten-3">
-                                            <img :src=cmt.User.avatar>
-                                            </v-avatar>
+                                    <v-avatar size="30" class="red lighten-3">
+                                    <img :src=cmt.User.avatar>
+                                    </v-avatar>
                                 </template>
                                 <v-card class="red lighten-5 cmt-card">
                                         <v-card-title >
@@ -85,7 +85,7 @@
                                          <v-list-item d-flex flex-column>
                                             <v-list-item-title class="a">
                                                <template>
-                                                 <EditCmt :idCmt="cmt.id" ></EditCmt> 
+                                                 <EditCmt :idCmt="cmt.id" :idPost="idPost" ></EditCmt> 
                                                 </template>
                                             </v-list-item-title>
                                          </v-list-item>
@@ -99,6 +99,11 @@
                 
                  </v-timeline>
                  <v-divider></v-divider>
+                 <v-alert 
+                    type= "error"
+                    v-if="err =='false'"
+                    >{{errMsg}} 
+                    </v-alert>
                 <div class="createComment d-flex justify-center mt-2 mr-2">
                     <v-avatar
                         color="teal"
@@ -108,12 +113,16 @@
                         :src="user.avatar">
                         </v-img>
                     </v-avatar>
+                    
                     <v-textarea
+                     clearable
+                    clear-icon="mdi-close-circle"
                             outlined
                             rows="1"
                             auto-grow
                             label="Commentez ce post"
-                            v-model="content">
+                            v-model="content"
+                            :rules ="rulesContent">
                     </v-textarea>
                     <v-btn
                     class="send-Cmt_Btn"
@@ -149,6 +158,11 @@ export default {
             content:"",//form'S field comments
             postId:"",//form'S field  comments
             userId:"",//form'S field comments
+            rulesContent:[
+                v => !!v || 'Le contenu ne doit pas être vide',
+            ],
+            errMsg :"",//error's field
+            err :"",//error's field
 
             postCmts:[],
             show: false,
@@ -198,7 +212,11 @@ export default {
                 document.location.reload();
             })
             .catch(err =>{
-                console.log(err);
+                if(err !== 200){
+                 this.err = 'false'
+                  this.errMsg =err.response.data.error  
+                }
+               
             });
 
         },
@@ -207,7 +225,7 @@ export default {
 
 </script>
 
-<style >
+<style scoped>
     .post-media{
     display: flex;
     flex-direction: row;
