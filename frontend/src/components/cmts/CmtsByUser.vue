@@ -1,7 +1,7 @@
 <template>
   <div class="post-meta ">
        <ul class="d-flex flex-row d-flex justify-space-between ">
-             <li class="blog-like ">
+             <li class="blog-like d-flex ">
                   <div >
                                 <v-btn
                                 class="icon"
@@ -19,7 +19,25 @@
                                     </v-badge>
                             </v-btn>
                   </div>
+                  <div >
+                     <v-btn
+                        class="icon"
+                        icon>
+                            <v-badge
+                            bordered
+                            offset-x="5"
+                            offset-y="5">
+                                <span slot="badge">  {{dislike}} </span> <!--slot can be any component-->
+                                <v-icon
+                                class=" white--text"
+                                dark
+                                @click="postLike()">
+                                mdi-thumb-down-outline</v-icon>
+                            </v-badge>
+                     </v-btn>
+                  </div>
              </li>
+
              <li class="blog-comments">
                  id du post {{idPost}}
                 <v-btn
@@ -166,8 +184,8 @@ export default {
 
             postCmts:[],
             show: false,
-            like:"0",
-            dislike:"0",
+            like:"10",
+            dislike:"3",
         }
     },
     computed:{
