@@ -24,9 +24,10 @@
        </div>  
         
       <v-divider></v-divider>
-{{user}}
+
       <v-form class="form" >
         <v-text-field
+         
           v-model="userInfos.username"
           label="Nom d'utilisateur   "
           name="username"
@@ -53,7 +54,9 @@
           label="E-mail"
           name="email" 
           required
-        ></v-text-field>
+        >
+       
+        </v-text-field>
 
       <!-- mettre des regles pour le format des images -->
         <div class="update-avatar">
@@ -63,24 +66,28 @@
                 label="Changer de photo de profil">
             </v-file-input>
         </div>
-
-
+      
+        <v-alert
+           outlined
+           type="success"
+           text
+           v-if=" update==true"
+        >{{message}} </v-alert>
         <v-btn 
+         v-if="update==false"
           block
           elevation="2"
           color="success"
-          class="mr-4 btn"
-          @click="updateProfil(userInfos.avatar)"
-        >
+          @click="updateProfil(userInfos.avatar)">
           Valider les changements 
         </v-btn>
+
           <v-btn 
+          v-if="update==false"
           block
           elevation="2"
-          color="red"
-          class="mr-4 btn"
-          @click="delateProfil(userInfos.id)"
-        >
+          color="error"
+          @click="delateProfil(userInfos.id)">
           Supprimer le profil
         </v-btn>
       </v-form>
@@ -97,20 +104,14 @@ export default {
    data:()=>{
        return {
          dialog :"",
+         update:false,
+         message:"",
          media:[],
+         lastname:"",
          userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-         userInfos:{ //User's info from database
-            id:"",
-            mode:"",
-            username:"",
-            lastname:"",
-            firstname:"",
-            email:"",
-            media:"",
-         },
+         userInfos:{ },//User's info from database
        }
    },
-  
    mounted : 
    function(){
      if(this.$store.state.user.userId == -1){
@@ -118,24 +119,40 @@ export default {
         this.$router.push('/')
         return;
      }
-    // get user connect infos
-    let userConnect = JSON.parse(localStorage.getItem('user')) 
-    let userConnectId =userConnect.userId
-    console.log("userConnectId  1",userConnectId);
+    console.log('update',this.update);
+    this.getProfil()
+   },
+    watch :{
+    update(newupdate, oldupdate){
+     if(newupdate !=oldupdate)
+     this.message ='Votre profil a bien ete modifié'
+     this.getProfil()
+     
+     setTimeout(() => {
+       this.closePost()
+      console.log("Retardée d'une seconde.");
+      }, 1000)
 
-    axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
-    .then(res=>{
-      this.userInfos= res.data
-    })
-    .catch(err=>{
-      console.log("err",err);
-    })
+       
+    }
    },
    computed :{
      ...mapState(['user']),// ramène les infos du user connecté: message,userId,username,token,avatar
      
    },
    methods :{
+     getProfil(){
+   // get user connect infos
+    let userConnect = JSON.parse(localStorage.getItem('user')) 
+    let userConnectId =userConnect.userId
+    axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
+          .then(res=>{
+            this.userInfos= res.data
+          })
+          .catch(err=>{
+            console.log("err",err);
+          })
+     },
      updateProfil(media){
     //get user ID connect
     let idUsers=this.userInfos.id  
@@ -152,20 +169,25 @@ export default {
     updateDataProfil.append('idUsers', idUsers),
  
  
-    console.log("post modifie pret a envoyer backend",updateDataProfil,idUsers,this.media)
     //axios put data to database
      axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             console.log("post envoyé",response)
-             this.dialog=false // close modal
-               document.location.reload();
-              //   this.$router.push({ name: 'Wall'})
+             console.log("profil envoyé",response)
+            
+             this.update = true
+              //  document.location.reload();
+             
+                // this.$router.go()
+              //   this.$router.push({ name: 'Wall'}) 
+              // this.updateProfil(media)
+              // this.$router.push({ path:'/user/:id'})
+              // this.$forceUpdate()
              })
              .catch(err =>{
                 console.log(err);
              });
      },
-    closePost(){
+     closePost(){
        this.$router.push({name: 'Wall'})
      },
      delateProfil(idUser){
@@ -193,3 +215,4 @@ export default {
   padding: 15px;
 }
 </style>
+
