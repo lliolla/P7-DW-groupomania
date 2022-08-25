@@ -58,37 +58,40 @@ export default {
         }
     } ,
     mounted () {
-           axios.get("http://localhost:3000/api/v1/cmt/"+this.idCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+         this.getCmts()  
+    },
+    methods: {
+        getCmts(){
+            axios.get("http://localhost:3000/api/v1/cmt/"+this.idCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
              .then(res =>{
                 this.oneCmt=res.data
             })
             .catch(err=>{
                 console.log("err",err);
             })
-    },
-    methods: {
+        },
         editDataPost (){
             //get user'id who wrote the post
-      
+                
             //get comment's id
             
             //on creer un formdata pour envoyer les données
-            // const updateDataPost = new FormData;
-            //     updateDataPost.append('content',this.onePost.content),
-            //     updateDataPost.append('id_posts', id_posts)
-            //     updateDataPost.append('id_users', id_users)
+             const updateDataPost = new FormData;
+                 updateDataPost.append('content',this.onePost.content),
+                 updateDataPost.append('id_posts', id_posts)
+                 updateDataPost.append('id_users', id_users)
 
-            // console.log("cmt modifie pret a envoyer backend",updateDataPost,this.media)
+             console.log("cmt modifie pret a envoyer backend",updateDataPost,this.media)
 
-        //      axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-        //     .then(response=>{
-        //      console.log("post envoyé",response,this.dialog)
-        //     this.dialog=false
-        //       console.log("dialog",this.dialog) 
-        //      })
-        //      .catch(err =>{
-        //         console.log(err);
-        //      });
+              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+             .then(response=>{
+              console.log("post envoyé",response,this.dialog)
+             this.dialog=false
+               console.log("dialog",this.dialog) 
+              })
+              .catch(err =>{
+                 console.log(err);
+              });
          },
         closePost(){
                this.dialog=false

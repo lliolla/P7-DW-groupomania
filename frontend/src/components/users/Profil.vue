@@ -55,9 +55,7 @@
           name="email" 
           required
         >
-       
         </v-text-field>
-
       <!-- mettre des regles pour le format des images -->
         <div class="update-avatar">
             <v-file-input
@@ -66,7 +64,6 @@
                 label="Changer de photo de profil">
             </v-file-input>
         </div>
-      
         <v-alert
            outlined
            type="success"
@@ -132,13 +129,10 @@ export default {
        this.closePost()
       console.log("Retardée d'une seconde.");
       }, 1000)
-
-       
     }
    },
    computed :{
      ...mapState(['user']),// ramène les infos du user connecté: message,userId,username,token,avatar
-     
    },
    methods :{
      getProfil(){
