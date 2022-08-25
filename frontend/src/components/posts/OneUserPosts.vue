@@ -81,7 +81,7 @@
                 </v-card-text>
                 </div>
                 <v-divider></v-divider>
-                <CmtsByUser :idPost="post.id" ></CmtsByUser>
+                <CmtsByUser  :idPost="post.id" ></CmtsByUser>
 
 
             </v-card>
@@ -124,6 +124,7 @@ export default {
         dialog: false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[],
+     
     }
     },
     mounted (){
@@ -144,7 +145,7 @@ export default {
     computed:{
       ...mapState(['user']),
      },
-    methods: {
+    methods: { 
          dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
         },

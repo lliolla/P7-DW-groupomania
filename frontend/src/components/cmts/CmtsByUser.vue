@@ -31,7 +31,7 @@
                                 <v-icon
                                 class=" white--text"
                                 dark
-                                @click="postLike()">
+                                @click="postDislike()">
                                 mdi-thumb-down-outline</v-icon>
                             </v-badge>
                      </v-btn>
@@ -39,7 +39,7 @@
              </li>
 
              <li class="blog-comments">
-                 id du post {{idPost}}
+                 id du post {{idPost}} 
                 <v-btn
                    class="icon"
                    icon>
@@ -47,15 +47,14 @@
                      bordered
                      offset-x="5"
                        offset-y="5">
-                            <span slot="badge"> {{postCmts.length}} </span> 
+                            <span slot="badge"> {{cmtLength}} </span> 
                              <v-icon
                                 class=" white--text"
                                 @click="showCmt(idPost)">
                                 mdi-comment-text-outline
                             </v-icon>
                     </v-badge>
-                </v-btn>
-                             <!-- <p> {{userPosts.comments}}</p>  -->
+                </v-btn>    
              </li>
        </ul>
        <v-expand-transition>
@@ -166,7 +165,8 @@ moment.locale('fr')
 export default {
     name : "CmtsByUser",
     props :{
-        idPost : Number
+        idPost : Number,
+       
     },
     components : { 
         EditCmt
@@ -181,64 +181,74 @@ export default {
             ],
             errMsg :"",//error's field
             err :"",//error's field
-
             postCmts:[],
             show: false,
             like:"10",
             dislike:"3",
         }
     },
+   
     computed:{
         ...mapState(['user']),
+        cmtLength(){
+            return this.postCmts.length
         },
-    methods : {
-    postLike(){
-    this.like++
+      
+        },
+    mounted(){
+        console.log('getCmts',this.cmtLength);
+    
     },
-    dateDaysAgo(date) {
-            return moment(date).startOf('day').fromNow();
-            },
-    showCmt(idPost){
-        this.show = !this.show
-        this.$router.go
-        //Get all posts's cmts
-        //get token in storage and extract ID
-        let user=JSON.parse(localStorage.getItem('user'))
-        let token = user.token
-        axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(res=> {this.postCmts = res.data})
-            .catch(err=>{ console.log("err axios getPOstCmts",err); })
-            },
-
-    submitCom(idPost){
-    //get user connect and  his ID in local storage
-        let user=JSON.parse(localStorage.getItem('user'))
-        let userId=user.userId
-    //get token in storage and extract ID
-        let token=user.token
-    //get id of post who want create coments
-    console.log('idPost',idPost,userId,this.content);
-    //create form to send comment datas
-        //   const newDataCmt = new FormData();
-        //   newDataCmt.append('id_posts',idPost)
-        //   newDataCmt.append('id_users',userId)
-        //   newDataCmt.append('content',this.content)
-        console.log('submitCom')
-            axios.post("http://localhost:3000/api/v1/cmt",{id_posts:idPost,id_users:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
-            .then(response=>{
-                console.log("nouveau com créer",response)
-                document.location.reload();
-            })
-            .catch(err =>{
-                if(err !== 200){
-                 this.err = 'false'
-                  this.errMsg =err.response.data.error  
-                }
-               
-            });
-
+    methods : {
+        postLike(){
+        this.like++
         },
-    }
+        postDislike(){
+        this.dislike++
+        },
+        dateDaysAgo(date) {
+                return moment(date).startOf('day').fromNow();
+                },
+        showCmt(idPost){
+            this.show = !this.show
+            //Get all posts's cmts
+            //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+            axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
+                .then(res=> {this.postCmts = res.data})
+                .catch(err=>{ console.log("err axios getPOstCmts",err); })
+                },
+        
+        submitCom(idPost){
+        //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+            let userId=user.userId
+        //get token in storage and extract ID
+            let token=user.token
+        //get id of post who want create coments
+        console.log('idPost',idPost,userId,this.content);
+        //create form to send comment datas
+            //   const newDataCmt = new FormData();
+            //   newDataCmt.append('id_posts',idPost)
+            //   newDataCmt.append('id_users',userId)
+            //   newDataCmt.append('content',this.content)
+            console.log('submitCom')
+                axios.post("http://localhost:3000/api/v1/cmt",{id_posts:idPost,id_users:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
+                .then(response=>{
+                    console.log("nouveau com créer",response)
+                    document.location.reload();
+                })
+                .catch(err =>{
+                    if(err !== 200){
+                    this.err = 'false'
+                    this.errMsg =err.response.data.error  
+                    }
+                
+                });
+
+            },
+        }
 }
 
 </script>
