@@ -13,6 +13,13 @@
                         v-model="oneCmt.content">
                     </v-textarea>
                 </div>
+                <v-alert
+                    outlined
+                    type="success"
+                    text
+                    v-if=" closeMessage==true">
+                    {{message}} 
+                    </v-alert>
                 <v-divider></v-divider>
                 <div class="post-footer">
                     <template>
@@ -22,7 +29,7 @@
                         >Fermer</v-btn>
 
                         <v-btn color="success"
-                        @click="editDataCmt()"
+                        @click=" updateCmt(idCmt)"
                         >Envoyer</v-btn>
                     </template>
                 </div>
@@ -49,7 +56,8 @@ export default {
     data(){
         return {
             dialog: false,
-            
+            closeMessage:false,
+            message:"",
             media:"",
             oneCmt:{
                 id:"",         
@@ -57,6 +65,19 @@ export default {
             },
         }
     } ,
+    watch:{
+        closeMessage(newcloseMessage,oldcloseMessage){
+            if(newcloseMessage != oldcloseMessage)
+            console.log('watchuCloseMessage',newcloseMessage,oldcloseMessage);
+            this.message ='Votre commentaire a bien ete modifié'
+            setTimeout(() => {
+            this.closeMessage = false
+            this.closePost()
+            console.log("Retardée d'une seconde = closeMessage", this.closeMessage);
+            }, 1000)
+        }
+        
+    },
     mounted () {
          this.getCmts()  
     },
@@ -70,29 +91,24 @@ export default {
                 console.log("err",err);
             })
         },
-        editDataPost (){
-            //get user'id who wrote the post
-                
+       updateCmt(idCmt){
+    
             //get comment's id
             
             //on creer un formdata pour envoyer les données
-             const updateDataPost = new FormData;
-                 updateDataPost.append('content',this.onePost.content),
-                 updateDataPost.append('id_posts', id_posts)
-                 updateDataPost.append('id_users', id_users)
-
-             console.log("cmt modifie pret a envoyer backend",updateDataPost,this.media)
-
-              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-             .then(response=>{
-              console.log("post envoyé",response,this.dialog)
-             this.dialog=false
-               console.log("dialog",this.dialog) 
+            const updateDataCmt = new FormData;
+            updateDataCmt.append('content',this.oneCmt.content),
+         
+            axios.put("http://localhost:3000/api/v1/post/"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response=>{
+             console.log("cmt envoyé",response,this.dialog)
+           this.closeMessage = true
               })
               .catch(err =>{
-                 console.log(err);
-              });
+                console.log(err);
+             });
          },
+
         closePost(){
                this.dialog=false
         }
