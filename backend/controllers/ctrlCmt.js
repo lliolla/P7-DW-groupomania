@@ -1,6 +1,5 @@
 // import models in table POSTS
 const Model = require('../models');
-const jwt = require("jsonwebtoken");
 
 
 exports.getAllCmt = (req,res,next)=>{
@@ -54,15 +53,19 @@ exports.getOneCmt = (req,res,next)=>{
 }
 
 exports.updateCmt = (req,res,next)=>{
-    
     let content = req.body.content;
-    console.log('updateCmts',content);
-   
+    let id_posts =req.body.id_posts
+    let id_users =req.body.id_users
+
+    let updateObject ={content,id_posts,id_users }
+    console.log('updateCmts back',updateObject);
+    
    Model.Comment.update(
-    content,
+    updateObject,
     {where :{id :req.params.id}}
    )
    .then(updateCmt=>res.status(200).json(updateCmt))
+   .catch (error => res.status(404).json({ error: "le commentaire n'a pas pu etre mis ajour"}))
 
     }
 exports.createCmt =(req, res,next)=>{

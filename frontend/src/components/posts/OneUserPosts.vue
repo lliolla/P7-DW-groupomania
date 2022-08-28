@@ -30,7 +30,10 @@
                         <!-- box menu modifier supprimer -->
                         <template>
                             <div class="text-center">
-                                <v-menu offset-y>
+                                <v-menu 
+                                offset-y
+                                :close-on-content-click="true"
+                                :close-cmt="closeCmt">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                         class ="dropdown-icon icon"
@@ -47,13 +50,14 @@
                                     <v-list-item d-flex flex-column>
                                     <v-list-item-title class="a">
                                         <template>
-                                            <EditPost :idPost=post.id></EditPost>
+                                            <EditPost :idPost=post.id
+                                            @update-cmt="setUpdate"></EditPost>
                                         </template>
-                                        </v-list-item-title>
-                                </v-list-item>
-                                <v-list-item d-flex flex-column>
-                                    <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
-                                </v-list-item>
+                                    </v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item d-flex flex-column>
+                                        <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                                    </v-list-item>
                                 </v-list>
                                 </v-menu>
                             </div>
@@ -81,7 +85,10 @@
                 </v-card-text>
                 </div>
                 <v-divider></v-divider>
-                <CmtsByUser  :idPost="post.id" ></CmtsByUser>
+                <CmtsByUser
+                :idPost="post.id" 
+                @update-cmt="setUpdate">
+                </CmtsByUser>
 
 
             </v-card>
@@ -122,32 +129,48 @@ export default {
     data: ()=>{
         return {
         dialog: false,
+        update:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:[],
      
     }
     },
+    watch:{
+        update(newupdate,oldupdate){
+            console.log('ParentWatchUpdateCmt',newupdate,oldupdate)
+        }
+    },
     mounted (){
-//Get all user's posts
-    //get token in storage and extract ID
-    let user=JSON.parse(localStorage.getItem('user'))
-    let token = user.token
-    // get user conected
-    let userConnect = JSON.parse(localStorage.getItem('user'))
-    let userConnectId =userConnect.userId
-    console.log("userConnectId",userConnectId);
-        axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
-            .then(res=>{ this.userPosts =res.data
-        })
-            .catch(err=>{ console.log("err axios getouneuser",err); })
+    this.getAllCmts()
+   
         },
         
     computed:{
       ...mapState(['user']),
      },
-    methods: { 
-         dateDaysAgo(date) {
+    methods: {
+
+        setUpdate(payload){
+            console.log('setUpdate',this.update);
+          this.update=payload.update 
+           console.log('setUpdate payload',payload);   
+        },
+        dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
+        },
+        getAllCmts(){
+            //Get all user's posts
+            //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+            // get user conected
+            let userConnect = JSON.parse(localStorage.getItem('user'))
+            let userConnectId =userConnect.userId
+            console.log("userConnectId",userConnectId,"closeCmt",this.closeCmt);
+                axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
+                    .then(res=>{ this.userPosts =res.data
+                })
+                    .catch(err=>{ console.log("err axios getouneuser",err); })
         },
         updatePost(idPost){
             this.dialog = false

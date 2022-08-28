@@ -17,7 +17,7 @@
                     outlined
                     type="success"
                     text
-                    v-if=" closeMessage==true">
+                    v-if="closeCmt==true">
                     {{message}} 
                     </v-alert>
                 <v-divider></v-divider>
@@ -56,7 +56,8 @@ export default {
     data(){
         return {
             dialog: false,
-            closeMessage:false,
+            closeCmt:false,
+            update:false,
             message:"",
             media:"",
             oneCmt:{
@@ -66,20 +67,18 @@ export default {
         }
     } ,
     watch:{
-        closeMessage(newcloseMessage,oldcloseMessage){
-            if(newcloseMessage != oldcloseMessage)
-            console.log('watchuCloseMessage',newcloseMessage,oldcloseMessage);
+        closeCmt(newcloseCmt,oldcloseCmt){
+            if(newcloseCmt != oldcloseCmt)
             this.message ='Votre commentaire a bien ete modifié'
             setTimeout(() => {
-            this.closeMessage = false
-            this.closePost()
-            console.log("Retardée d'une seconde = closeMessage", this.closeMessage);
+            this.closeCmt = false
+            this.closePostDialog()
             }, 1000)
-        }
-        
+        },
     },
     mounted () {
-         this.getCmts()  
+         this.getCmts() 
+    
     },
     methods: {
         getCmts(){
@@ -92,24 +91,26 @@ export default {
             })
         },
        updateCmt(idCmt){
-    
-            //get comment's id
-            
-            //on creer un formdata pour envoyer les données
             const updateDataCmt = new FormData;
             updateDataCmt.append('content',this.oneCmt.content),
-         
-            axios.put("http://localhost:3000/api/v1/post/"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+             updateDataCmt.append('id_users',this.oneCmt.id_users),
+              updateDataCmt.append('id_posts',this.oneCmt.id_posts),
+         console.log('updateDataCmt',updateDataCmt);
+            axios.put("http://localhost:3000/api/v1/cmt/:id"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             console.log("cmt envoyé",response,this.dialog)
-           this.closeMessage = true
-              })
-              .catch(err =>{
+            console.log();
+             this.closeCmt = true
+             this.update = true
+    
+              console.log("cmt envoyé update=",this.update,response)
+             this.$emit('update-cmt',this.update)
+             })
+             .catch(err =>{
                 console.log(err);
              });
          },
 
-        closePost(){
+        closePostDialog(){
                this.dialog=false
         }
 
