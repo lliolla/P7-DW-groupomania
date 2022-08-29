@@ -51,7 +51,7 @@
 export default {
     name : "EditCmt",
     props:{
-        idCmt :String,
+        idCmt: Number,
     },
     data(){
         return {
@@ -91,14 +91,17 @@ export default {
             })
         },
        updateCmt(idCmt){
+            let idPost=this.oneCmt.id_posts
+            let idUsers=this.oneCmt.id_users
+console.log('updateCmt',idPost,idUsers);
             const updateDataCmt = new FormData;
-            updateDataCmt.append('content',this.oneCmt.content),
-             updateDataCmt.append('id_users',this.oneCmt.id_users),
-              updateDataCmt.append('id_posts',this.oneCmt.id_posts),
-         console.log('updateDataCmt',updateDataCmt);
-            axios.put("http://localhost:3000/api/v1/cmt/:id"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+                updateDataCmt.append('content',this.oneCmt.content),
+                updateDataCmt.append('id_users',idUsers),
+                updateDataCmt.append('id_posts',idPost),
+            console.log('updateDataCmt',updateDataCmt);
+            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-            console.log();
+           
              this.closeCmt = true
              this.update = true
     

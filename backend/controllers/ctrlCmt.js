@@ -65,7 +65,7 @@ exports.updateCmt = (req,res,next)=>{
     {where :{id :req.params.id}}
    )
    .then(updateCmt=>res.status(200).json(updateCmt))
-   .catch (error => res.status(404).json({ error: "le commentaire n'a pas pu etre mis ajour"}))
+   .catch (error => res.status(404).json({ error: "le commentaire n'a pas pu etre mis a jour"}))
 
     }
 exports.createCmt =(req, res,next)=>{

@@ -166,6 +166,7 @@ export default {
     name : "CmtsByUser",
     props :{
         idPost : Number,
+        
        
     },
     components : { 
@@ -195,10 +196,7 @@ export default {
         },
       
         },
-    mounted(){
-        console.log('getCmts',this.cmtLength);
-    
-    },
+   
     methods : {
         postLike(){
         this.like++
