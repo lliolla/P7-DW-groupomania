@@ -59,6 +59,7 @@
        </ul>
        <v-expand-transition>
             <div v-show="show">
+               SHOW {{show}}
                  <v-divider></v-divider>
                  <v-timeline
                  class="d-flex"
@@ -87,16 +88,16 @@
                              <div >
                                  <v-menu offset-y>
                                      <template v-slot:activator="{ on, attrs }">
-                                                    <v-btn
-                                                        class ="dropdown-icon icon"
-                                                        icon
-                                                        v-bind="attrs"
-                                                        v-on="on">
-                                                        <v-icon
-                                                            class=" white--text">
-                                                            mdi-dots-vertical
-                                                        </v-icon>
-                                                    </v-btn>
+                                        <v-btn
+                                            class ="dropdown-icon icon"
+                                            icon
+                                            v-bind="attrs"
+                                            v-on="on">
+                                            <v-icon
+                                                class=" white--text">
+                                                mdi-dots-vertical
+                                            </v-icon>
+                                        </v-btn>
                                      </template>
                                      <v-list>
                                          <v-list-item d-flex flex-column>
@@ -107,7 +108,7 @@
                                             </v-list-item-title>
                                          </v-list-item>
                                          <v-list-item d-flex flex-column>
-                                           <v-list-item-title class="a" @click="delateCmt()"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                                           <v-list-item-title class="a" @click="deleteCmt(cmt.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
                                                 </v-list-item>
                                      </v-list>
                                  </v-menu>
@@ -195,8 +196,7 @@ export default {
             return this.postCmts.length
         },
       
-        },
-   
+    },
     methods : {
         postLike(){
         this.like++
@@ -246,6 +246,15 @@ export default {
                 });
 
             },
+        deleteCmt(idcmt){
+        //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token=user.token
+            
+            axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
+                 .then( response=>{this.showCmt()})
+                 .catch(err=>{console.log("err",err);})
+         },
         }
 }
 

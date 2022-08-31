@@ -90,29 +90,28 @@ export default {
                 console.log("err",err);
             })
         },
-       updateCmt(idCmt){
-            let idPost=this.oneCmt.id_posts
-            let idUsers=this.oneCmt.id_users
-console.log('updateCmt',idPost,idUsers);
-            const updateDataCmt = new FormData;
-                updateDataCmt.append('content',this.oneCmt.content),
-                updateDataCmt.append('id_users',idUsers),
-                updateDataCmt.append('id_posts',idPost),
-            console.log('updateDataCmt',updateDataCmt);
-            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,updateDataCmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(response=>{
+        updateCmt(idCmt){
+            // let idPost=this.oneCmt.id_posts
+            // let idUsers=this.oneCmt.id_users
+            let content =this.oneCmt.content
            
-             this.closeCmt = true
-             this.update = true
-    
-              console.log("cmt envoyé update=",this.update,response)
+            // const updateDataCmt = new FormData;
+                // updateDataCmt.append('content',content),
+                // updateDataCmt.append('id_users',idUsers),
+                // updateDataCmt.append('id_posts',idPost),
+            console.log('updateDataCmt',idCmt,content);
+            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,content,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(response=>{
+                this.closeCmt = true
+                this.update = true
+              console.log("cmt envoyé update=",this.update,response.data)
              this.$emit('update-cmt',this.update)
              })
              .catch(err =>{
                 console.log(err);
              });
          },
-
+         
         closePostDialog(){
                this.dialog=false
         }

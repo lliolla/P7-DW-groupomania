@@ -33,7 +33,8 @@
                                 <v-menu 
                                 offset-y
                                 :close-on-content-click="true"
-                                :close-cmt="closeCmt">
+                               
+                                > <!-- @close-cmt="closeCmt" -->
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                         class ="dropdown-icon icon"
@@ -166,7 +167,7 @@ export default {
             // get user conected
             let userConnect = JSON.parse(localStorage.getItem('user'))
             let userConnectId =userConnect.userId
-            console.log("userConnectId",userConnectId,"closeCmt",this.closeCmt);
+            console.log("userConnectId",userConnectId,"closeCmt");
                 axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
                     .then(res=>{ this.userPosts =res.data
                 })
