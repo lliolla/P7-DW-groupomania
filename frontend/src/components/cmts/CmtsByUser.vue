@@ -235,7 +235,7 @@ export default {
                 axios.post("http://localhost:3000/api/v1/cmt",{id_posts:idPost,id_users:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
                 .then(response=>{
                     console.log("nouveau com créer",response)
-                    document.location.reload();
+                    this.showCmt(idPost)
                 })
                 .catch(err =>{
                     if(err !== 200){
@@ -252,7 +252,8 @@ export default {
             let token=user.token
             
             axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
-                 .then( response=>{this.showCmt()})
+                 .then( response=>{this.showCmt()
+                 console.log("response",response);})
                  .catch(err=>{console.log("err",err);})
          },
         }
