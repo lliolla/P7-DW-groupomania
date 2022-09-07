@@ -127,8 +127,7 @@ export default {
      
      setTimeout(() => {
        this.closePost()
-      console.log("Retardée d'une seconde.");
-      }, 1000)
+      }, 1500)
     }
    },
    computed :{
@@ -167,15 +166,8 @@ export default {
      axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
              console.log("profil envoyé",response)
-            
+
              this.update = true
-              //  document.location.reload();
-             
-                // this.$router.go()
-              //   this.$router.push({ name: 'Wall'}) 
-              // this.updateProfil(media)
-              // this.$router.push({ path:'/user/:id'})
-              // this.$forceUpdate()
              })
              .catch(err =>{
                 console.log(err);

@@ -16,6 +16,7 @@
                         Modifier le post 
                     </v-card-title >
                 </div>
+                
                 <div class="post-content">
                     <v-text-field
                         prepend-icon="mdi-pen"
@@ -33,7 +34,12 @@
                             label="Changer de fichier">
                         </v-file-input>
                     </div>
-
+<v-alert
+           outlined
+           type="success"
+           text
+           v-if=" update==true"
+        >{{message}} </v-alert>
                 </div>
                 <v-divider></v-divider>
                 <div class="post-footer">
@@ -45,9 +51,10 @@
 
                         <v-btn color="success"
                         @click="editDataPost(onePost.media)"
-                        >Envoyer</v-btn>
+                        > Valider</v-btn>
                     </template>
                 </div>
+                
         </v-card>
         <template v-slot:activator="{ on, attrs }">
             <v-icon   
@@ -74,6 +81,8 @@ export default {
     data(){
         return {
             dialog: false,
+            update:false,
+            message:"",
             media:"",
             onePost:{
                 id:"",
@@ -85,14 +94,22 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
-    console.log("this.idPost");
-           axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(res =>{
-                this.onePost=res.data
-            })
-            .catch(err=>{
-                console.log("err",err);
-            })
+    console.log("this.idPost")
+    this.getPost()
+           
+   },
+   watch: {
+    update (newValue, oldValue){
+     console.log("newValue",newValue,oldValue); 
+     if(newValue, oldValue) 
+     
+    this.getPost() 
+    //envoyer un message a one post pour metttre a jour qaund updateCmt est true
+      
+      setTimeout(() => {
+       this.closePost()
+      }, 1500)
+    }
    },
    computed: {
        ...mapState(['user']),
@@ -101,6 +118,15 @@ export default {
        }
    },
     methods: {
+         getPost(){
+          axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(res =>{
+                this.onePost=res.data
+            })
+            .catch(err=>{
+                console.log("err",err);
+            })
+         },
         editDataPost (media){
             //get user'id who wrote the post
             let id_users=this.onePost.id_users
@@ -122,7 +148,9 @@ export default {
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
              console.log("post envoyé",response,this.dialog)
-            this.dialog=false
+            // this.dialog=false
+            this.update = true
+            this.message ='Votre commentaire a bien ete modifié'
               console.log("dialog",this.dialog) 
                
                 
