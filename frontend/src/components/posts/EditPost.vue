@@ -29,6 +29,7 @@
                     <div class="update-media">
                         <img width="25%" :src="onePost.media" alt="">
                         <v-file-input
+                         type="file"
                             v-model="media"
                             ref="media"
                             label="Changer de fichier">
@@ -76,19 +77,20 @@ import { mapState } from 'vuex';
 export default {
     name : "EditPost",
     props:{
-        idPost :String,
+        idPost :Number,
     },
     data(){
         return {
             dialog: false,
             update:false,
+            updateCmt:false,
             message:"",
             media:"",
             onePost:{
                 id:"",
                 title:"",
                 content:"",
-                media:"",
+                media:[],
             },
         }
     } ,
@@ -99,16 +101,12 @@ export default {
            
    },
    watch: {
-    update (newValue, oldValue){
-     console.log("newValue",newValue,oldValue); 
+    updateCmt (newValue, oldValue){
      if(newValue, oldValue) 
-     
-    this.getPost() 
-    //envoyer un message a one post pour metttre a jour qaund updateCmt est true
-      
-      setTimeout(() => {
-       this.closePost()
-      }, 1500)
+     this.getPost() 
+        setTimeout(() => {
+         this.closePost()
+        }, 1500)
     }
    },
    computed: {
@@ -147,12 +145,14 @@ export default {
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             console.log("post envoyé",response,this.dialog)
+             
             // this.dialog=false
-            this.update = true
+            this.updateCmt = true
             this.message ='Votre commentaire a bien ete modifié'
-              console.log("dialog",this.dialog) 
-               
+            console.log("post envoyé this.update",this.updateCmt,response)
+                this.update=true
+            this.$emit('update-cmt',this.update)  
+            
                 
              })
              .catch(err =>{
@@ -161,6 +161,8 @@ export default {
         },
         closePost(){
                this.dialog=false
+                this.update=false
+                
         }
 
     }

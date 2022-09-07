@@ -132,13 +132,16 @@ export default {
         dialog: false,
         update:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-        userPosts:[],
+        userPosts:{
+
+        },
      
     }
     },
     watch:{
         update(newupdate,oldupdate){
             console.log('ParentWatchUpdateCmt',newupdate,oldupdate)
+
         }
     },
     mounted (){
@@ -152,9 +155,9 @@ export default {
     methods: {
 
         setUpdate(payload){
-            console.log('setUpdate',this.update);
+            
           this.update=payload.update 
-           console.log('setUpdate payload',payload);   
+         console.log('setUpdate payload',this.update);  
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
