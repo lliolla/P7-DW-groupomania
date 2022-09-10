@@ -6,9 +6,9 @@
         app >
         <TheSidebar></TheSidebar>
         </v-navigation-drawer>
-        <TheNavbar></TheNavbar>
+        <TheNavbar ></TheNavbar>
              <main >
-      <OneUserPosts></OneUserPosts>
+        <OneUserPosts></OneUserPosts>
              </main> 
    </div>
    </v-app>

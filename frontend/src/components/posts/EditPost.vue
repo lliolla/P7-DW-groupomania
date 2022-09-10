@@ -29,18 +29,18 @@
                     <div class="update-media">
                         <img width="25%" :src="onePost.media" alt="">
                         <v-file-input
-                         type="file"
                             v-model="media"
-                            ref="media"
                             label="Changer de fichier">
                         </v-file-input>
                     </div>
-<v-alert
-           outlined
-           type="success"
-           text
-           v-if=" update==true"
-        >{{message}} </v-alert>
+                    <v-alert
+                    outlined
+                    type="success"
+                    text
+                    v-if=" update==true"
+                    >
+                    {{message}} 
+                    </v-alert>
                 </div>
                 <v-divider></v-divider>
                 <div class="post-footer">
@@ -85,7 +85,7 @@ export default {
             update:false,
             updateCmt:false,
             message:"",
-            media:"",
+            media:[],
             onePost:{
                 id:"",
                 title:"",
@@ -96,7 +96,7 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
-    console.log("this.idPost")
+    console.log("PROPSidPost",this.idPost)
     this.getPost()
            
    },
@@ -145,15 +145,9 @@ export default {
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             
-            // this.dialog=false
-            this.updateCmt = true
-            this.message ='Votre commentaire a bien ete modifié'
-            console.log("post envoyé this.update",this.updateCmt,response)
-                this.update=true
-            this.$emit('update-cmt',this.update)  
-            
-                
+                this.message ='Votre commentaire a bien ete modifié'
+                this.$emit('updateCmt',this.update=true)  
+             console.log("post envoyé this.updateemit",this.update,response)
              })
              .catch(err =>{
                 console.log(err);

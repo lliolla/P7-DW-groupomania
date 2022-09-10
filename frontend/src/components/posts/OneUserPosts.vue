@@ -33,8 +33,7 @@
                                 <v-menu 
                                 offset-y
                                 :close-on-content-click="true"
-                               
-                                > <!-- @close-cmt="closeCmt" -->
+                                > 
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                         class ="dropdown-icon icon"
@@ -139,14 +138,13 @@ export default {
     }
     },
     watch:{
-        update(newupdate,oldupdate){
-            console.log('ParentWatchUpdateCmt',newupdate,oldupdate)
-
+        update(newupdate){
+            console.log('ParentWatchUpdateCmt',newupdate)
         }
     },
     mounted (){
     this.getAllCmts()
-    
+    console.log("udateparentcomponent",this.update)
         },
         
     computed:{
@@ -155,9 +153,9 @@ export default {
     methods: {
 
         setUpdate(payload){
-            
           this.update=payload.update 
-         console.log('setUpdate payload',this.update);  
+         console.log('setUpdate payload',this.update)
+
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
