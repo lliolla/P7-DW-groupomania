@@ -61,7 +61,8 @@
             <v-icon   
             v-bind="attrs"
             v-on="on"
-            class="icon">
+            class="icon"
+           >
             mdi-playlist-edit
             </v-icon >Modifier
         </template>
@@ -83,7 +84,6 @@ export default {
         return {
             dialog: false,
             update:false,
-            updateCmt:false,
             message:"",
             media:[],
             onePost:{
@@ -96,12 +96,12 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
-    console.log("PROPSidPost",this.idPost)
+    console.log("PROPSidPost et update",this.idPost,this.update)
     this.getPost()
            
    },
    watch: {
-    updateCmt (newValue, oldValue){
+    update(newValue, oldValue){
      if(newValue, oldValue) 
      this.getPost() 
         setTimeout(() => {
@@ -145,17 +145,19 @@ export default {
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
+                this.update=true
+                this.dialog=false
                 this.message ='Votre commentaire a bien ete modifié'
-                this.$emit('updateCmt',this.update=true)  
-             console.log("post envoyé this.updateemit",this.update,response)
+                this.$emit('updateCmt',this.updateCmt=true)  
+             console.log("post envoyé this.updateemit",this.updateCmt,response)
              })
              .catch(err =>{
                 console.log(err);
              });
         },
         closePost(){
-               this.dialog=false
-                this.update=false
+            this.dialog=false
+            this.update=false
                 
         }
 

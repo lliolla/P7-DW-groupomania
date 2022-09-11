@@ -14,7 +14,7 @@
                     <div class="post-avatar">
                         <v-avatar
                             color="teal"
-                            size="49"
+                            size="48"
                             class="mx-3">
                             <v-img
                             :src="user.avatar">
@@ -237,7 +237,7 @@ export default {
     }
     .icon {
     cursor: pointer;
-    background-color:lightcoral;
+    background-color:#f08080;
     border-radius: 50%;
     padding: 6px;
     margin: 5px;

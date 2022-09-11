@@ -1,9 +1,47 @@
 <template>
     <div class="table-reponsive">
-        <h2>Liste des utilisateurs userid: {{userId}} token: {{token}} </h2>
+          <h2>Liste des utilisateurs </h2>
+
+         <div class="create-post-btn">
+            
+        </div>
         <template>
+    <v-card-title>
+     <v-dialog
+          v-model="dialog"
+          max-width="500px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+            >
+              Créer un utilisateur
+            </v-btn>
+          </template>
+      </v-dialog>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+          </v-card-title>     
   <v-simple-table >
     <template v-slot:default>
+      <v-alert
+                    outlined
+                    type="success"
+                    text
+                    v-if=" update==true"
+                    >
+                    {{message}} 
+                    </v-alert>
       <thead >
         <tr class="text-left">
          <th>Avatar</th>
@@ -19,16 +57,24 @@
          <tr
           v-for="user in users"
           :key="user.id">
-            <td>{{ user.avatar }}</td>
+            <td> 
+              <v-avatar
+                size="38"
+              >
+                <v-img
+                    :src="user.avatar">
+                </v-img>
+               </v-avatar>
+            </td>
             <td>{{ user.username}}</td>
             <td>{{ user.email}}</td>
             <td>
                 <v-chip
-                color="green">utilisateur
+                color="#f08080">{{user.isAdmin ?'Administrateur':'Utilisateur'}}
                 </v-chip>
             </td>
-            <td>{{ user.postsQte}}</td>
-            <td>{{ user.comQte}}</td>
+            <td>{{ postsLgt}}</td>
+            <td>{{ cmtsLgt}}</td>
             <td class="d-flex">
                 <v-btn
                 elevation="2"
@@ -60,6 +106,7 @@
 <script>
 let user = JSON.parse(localStorage.getItem('user'))
 import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
    name:"AllProfils",
@@ -68,67 +115,41 @@ export default {
     data:()=> {
         return{
            userId :user.userId,// on recupere l'id du userconnecté
-            // users:[
-            //     // {
-            //     // id:1,
-            //     // avatar:"  ",
-            //     // username:"gandalf",
-            //     // email:"gandalf@gmail",
-            //     // isadmin:"true",
-            //     // postsQte:"5",
-            //     // comQte:"10"
-            //     // },
-            //     // {
-            //     //  id:2,
-            //     // avatar:" ",
-            //     // username:"harry",
-            //     // email:"harry@gmail",
-            //     // isadmin:"false",
-            //     // postsQte:"5",
-            //     // comQte:"10"
-            //     // },
-            //     // {
-            //     //  id:3,
-            //     // avatar:"  ",
-            //     // username:"bilbon",
-            //     // email:"bilbon@gmail",
-            //     // isadmin:"false",
-            //     // postsQte:"5",
-            //     // comQte:"10"
-            //     // },
-            //     // {
-            //     // id:4,
-            //     // avatar:"  ",
-            //     // username:"geraltdeRiv",
-            //     // email:"geraltdeRiv@gmail",
-            //     // isadmin:"false",
-            //     // postsQte:"5",
-            //     // comQte:"10"
-            //     // },
-            //     // {
-            //     // id:5,
-            //     // avatar:"  ",
-            //     // username:"jasquier",
-            //     // email:"jasquier@gmail",
-            //     // isadmin:"false",
-            //     // postsQte:"5",
-            //     // comQte:"5"
-            //     // }
-            // ],
-           
+           postsLgt:1,
+           cmtsLgt:10,
+           message:"",
+           update:false
         }
 
     },
+     watch: {
+    update(newValue, oldValue){
+     if(newValue, oldValue) 
+      this.$store.dispatch('getAllUsers');
+ 
+    }
+   },
     mounted(){
        this.$store.dispatch('getAllUsers');
+       
     },
      computed:{
-      ...mapState(['users','token'])
+      ...mapState(['users','token']),
+    
     },
 
     methods:{
+        
         delateUser(id){
         console.log('supprimer utilisateur =>',id)
+         axios.delete("http://localhost:3000/api/v1/user/"+id,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+                .then(res=>{ 
+                  this.update=true
+                  this.message ='utilisateur`supprimé'
+            
+                  console.log("post supprimé res",this.update,res.data)})
+
+                .catch(err=>{ console.log("err",err); })
         },
         editUser(id){
         console.log('modifier utilisateur =>',id,'user connecté =>', user.userId  )

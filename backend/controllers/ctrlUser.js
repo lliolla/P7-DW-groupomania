@@ -5,7 +5,7 @@ const Model = require('../models');
 
 exports.getAllUsers =(req,res,next)=>{
    Model.User.findAll({ 
-     attributes :['id', 'email','username','avatar'],// on precise les attributs que l'on veux recup)
+     attributes :['id', 'email','username','avatar','isAdmin'],// on precise les attributs que l'on veux recup)
    })
    .then(getAllUsers=> res.status(200).json(getAllUsers))
    .catch(error => res.status(404).json({error: "aucun utilisateur trouvé" }))

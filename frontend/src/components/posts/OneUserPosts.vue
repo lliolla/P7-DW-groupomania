@@ -32,7 +32,6 @@
                             <div class="text-center">
                                 <v-menu 
                                 offset-y
-                                :close-on-content-click="true"
                                 > 
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -56,7 +55,7 @@
                                     </v-list-item-title>
                                     </v-list-item>
                                     <v-list-item d-flex flex-column>
-                                        <v-list-item-title class="a" @click="delatePost(post.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
+                                        <v-list-item-title class="a" ><v-icon class="icon" @click="delatePost(post.id)">mdi-close</v-icon>Supprimer</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                                 </v-menu>
@@ -129,7 +128,7 @@ export default {
     data: ()=>{
         return {
         dialog: false,
-        update:false,
+        updateCmt:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{
 
@@ -138,13 +137,13 @@ export default {
     }
     },
     watch:{
-        update(newupdate){
-            console.log('ParentWatchUpdateCmt',newupdate)
+        updateCmt(newValue){
+           console.log("newValue",newValue);
         }
     },
     mounted (){
     this.getAllCmts()
-    console.log("udateparentcomponent",this.update)
+    console.log("monted ComponentParent update",this.updateCmt)
         },
         
     computed:{
@@ -152,9 +151,9 @@ export default {
      },
     methods: {
 
-        setUpdate(payload){
-          this.update=payload.update 
-         console.log('setUpdate payload',this.update)
+        setUpdate(updateCmt){
+          this.updateCmt=updateCmt 
+         console.log('setUpdate payload',this.updateCmt)
 
         },
         dateDaysAgo(date) {
@@ -193,7 +192,9 @@ export default {
 
         // afficher un message de confirmation de supression qui declanche le delate
             axios.delete("http://localhost:3000/api/v1/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(response=>{ console.log("post suprimé",response)})
+            .then(response=> { 
+               
+                console.log("post suprimé",response)})
             .catch(err=>{console.log("err",err)})
             this.$router.go()
         },
