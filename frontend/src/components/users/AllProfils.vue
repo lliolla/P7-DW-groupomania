@@ -1,19 +1,16 @@
 <template>
     <div class="table-reponsive">
           <h2>Liste des utilisateurs </h2>
-
-         <div class="create-post-btn">
-            
-        </div>
         <template>
     <v-card-title>
      <v-dialog
           v-model="dialog"
-          max-width="500px"
+          max-width="450px"
+           scrollable
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="primary"
+              color="#f08080"
               dark
               class="mb-2"
               v-bind="attrs"
@@ -22,10 +19,10 @@
               Créer un utilisateur
             </v-btn>
           </template>
+          <UserForm :newUser="true"></UserForm>
       </v-dialog>
       <v-spacer></v-spacer>
       <v-text-field
-        v-model="search"
         append-icon="mdi-magnify"
         label="Search"
         single-line
@@ -108,17 +105,22 @@ let user = JSON.parse(localStorage.getItem('user'))
 import { mapState } from 'vuex';
 import axios from 'axios';
 
+import UserForm from '@/components/users/UserForm.vue'
+
 export default {
    name:"AllProfils",
    props:['idUser'],
-
-    data:()=> {
+   components:{
+      UserForm,
+   },
+   data:()=> {
         return{
            userId :user.userId,// on recupere l'id du userconnecté
            postsLgt:1,
            cmtsLgt:10,
            message:"",
-           update:false
+           update:false,
+           dialog: false,
         }
 
     },
