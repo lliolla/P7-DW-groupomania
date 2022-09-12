@@ -17,7 +17,7 @@ exports.register = (req,res,next) => {
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
-        const avatar =`${req.protocol}://${req.get('host')}../images/john.png`
+        const avatar =`${req.protocol}://${req.get('host')}/images/avatar.jpg`
         const password = req.body.password;
 
     
@@ -60,7 +60,7 @@ exports.register = (req,res,next) => {
             .catch(error =>res.status(400).json({ 'error': 'impossible de trouver cet utilisateur', newUser}));    
 
         } else{     
-              return res.status(409).json({ 'error': 'Le mot de passe est erroné',userfound })
+              return res.status(409).json({ 'error': 'Ce mail est déja utilisé par un autre utilisateur',userfound })
              
 
         }  })

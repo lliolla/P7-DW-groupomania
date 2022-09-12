@@ -23,7 +23,6 @@
           text
           v-if=" errMsg==true"
           width="90%"
-
           >
           {{message}} 
       </v-alert>
@@ -41,21 +40,19 @@
            name="firstname" 
           label="Prénom"
         ></v-text-field>
-
-        <v-text-field
-          v-model="email"
-          label="E-mail *"
-          name="email" 
-          required
-        >
-          
-        </v-text-field>
-        <v-text-field label="Saisissez votre identifiant *"
+  <v-text-field label="Saisissez votre identifiant *"
           type="username" 
           name="username" 
           id="username" 
           v-model="username"
           ></v-text-field>
+        <v-text-field
+          v-model="email"
+          label="E-mail *"
+          name="email" 
+          required>  
+        </v-text-field>
+      
         <v-text-field 
            required
         label="Mot de passe *"
@@ -215,7 +212,9 @@ export default {
            message:"",
          })
            .then(res=>{
-            this.dialog="false"
+            this.dialog=false
+             this.errMsg=true
+             this.$emit('user-created',this.update)
              console.log('response',res.data);
            })
            .catch(err =>{

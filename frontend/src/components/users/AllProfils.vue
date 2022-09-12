@@ -19,7 +19,9 @@
               Créer un utilisateur
             </v-btn>
           </template>
-          <UserForm :newUser="true"></UserForm>
+          <UserForm 
+            :newUser="true"
+            @userCreated ='setUser'></UserForm>
       </v-dialog>
       <v-spacer></v-spacer>
       <v-text-field
@@ -28,17 +30,16 @@
         single-line
         hide-details
       ></v-text-field>
-          </v-card-title>     
+          </v-card-title> 
+        <v-alert
+        type="success"
+        v-if=" update==true"
+        >
+        {{message}} 
+       </v-alert>    
   <v-simple-table >
     <template v-slot:default>
-      <v-alert
-                    outlined
-                    type="success"
-                    text
-                    v-if=" update==true"
-                    >
-                    {{message}} 
-                    </v-alert>
+      
       <thead >
         <tr class="text-left">
          <th>Avatar</th>
@@ -126,15 +127,16 @@ export default {
     },
      watch: {
     update(newValue, oldValue){
-     if(newValue, oldValue) 
-      this.$store.dispatch('getAllUsers');
- 
+     if(newValue != oldValue){
+     this.$store.dispatch('getAllUsers')
+     setTimeout(()=>{this.update=false},1000)
+     }
     }
    },
     mounted(){
-       this.$store.dispatch('getAllUsers');
-       
+       this.$store.dispatch('getAllUsers')
     },
+
      computed:{
       ...mapState(['users','token']),
     
@@ -142,13 +144,17 @@ export default {
 
     methods:{
         
+        setUser(up){
+          this.update=up
+          console.log("up",this.up, this.update);
+        },
+
         delateUser(id){
         console.log('supprimer utilisateur =>',id)
          axios.delete("http://localhost:3000/api/v1/user/"+id,{headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(res=>{ 
                   this.update=true
-                  this.message ='utilisateur`supprimé'
-            
+                  this.message ='L\'utilisateur a été supprimé'
                   console.log("post supprimé res",this.update,res.data)})
 
                 .catch(err=>{ console.log("err",err); })
