@@ -3,26 +3,9 @@
           <h2>Liste des utilisateurs </h2>
         <template>
     <v-card-title>
-     <v-dialog
-          v-model="dialog"
-          max-width="450px"
-           scrollable
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="#f08080"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              Créer un utilisateur
-            </v-btn>
-          </template>
           <UserForm 
             :newUser="true"
-            @userCreated ='setUser'></UserForm>
-      </v-dialog>
+            @user-created ='setUser'></UserForm>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="mdi-magnify"
@@ -127,10 +110,11 @@ export default {
     },
      watch: {
     update(newValue, oldValue){
-     if(newValue != oldValue){
-     this.$store.dispatch('getAllUsers')
-     setTimeout(()=>{this.update=false},1000)
-     }
+      console.log("newValue, oldValue",newValue, oldValue);
+      if(newValue != oldValue){
+       this.$store.dispatch('getAllUsers')
+      setTimeout(()=>{this.update=false},1000)
+    }
     }
    },
     mounted(){
@@ -142,11 +126,10 @@ export default {
     
     },
 
-    methods:{
-        
-        setUser(up){
-          this.update=up
-          console.log("up",this.up, this.update);
+    methods:{ 
+        setUser(payload){
+          this.update=payload
+          console.log("payload",this.update);
         },
 
         delateUser(id){

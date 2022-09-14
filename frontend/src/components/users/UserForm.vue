@@ -1,5 +1,21 @@
 <template>
-
+     <v-dialog
+          v-model="dialog"
+          max-width="450px"
+          persistent
+           scrollable
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="#f08080"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+            >
+              Créer un utilisateur
+            </v-btn>
+          </template>
     <v-card class="new-user" v-if="newUser" >
        <div class="post-avatar d-flex justify-space-around align-center">
           <v-card-title >
@@ -72,6 +88,7 @@
         </v-btn>
       </v-form>
     </v-card>
+    
     <v-card class="update-user" v-else >
        <div class="post-avatar d-flex justify-space-between align-center">
           <v-card-title >
@@ -142,7 +159,7 @@
         </v-btn>
       </v-form>
     </v-card>
-     
+</v-dialog> 
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -198,7 +215,6 @@ export default {
           })
      },
     register(){
-    console.log('register');
      // call API in the Store
      this.$store.dispatch('register',{
         //on passe les variables
@@ -212,10 +228,9 @@ export default {
            message:"",
          })
            .then(res=>{
-            this.dialog=false
-             this.errMsg=true
-             this.$emit('user-created',this.update)
-             console.log('response',res.data);
+             this.$emit('user-created',this.update=true)
+             this.dialog=false
+             console.log(res);
            })
            .catch(err =>{
               this.errMsg=true
