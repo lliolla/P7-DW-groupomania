@@ -45,11 +45,9 @@
                 <v-divider></v-divider>
                 <div class="post-footer">
                     <template>
-
                         <v-btn color="warning"
                         @click=" closePost()"
                         >Fermer</v-btn>
-
                         <v-btn color="success"
                         @click="editDataPost(onePost.media)"
                         > Valider</v-btn>

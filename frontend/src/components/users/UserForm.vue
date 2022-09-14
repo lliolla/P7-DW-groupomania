@@ -16,7 +16,7 @@
               Créer un utilisateur
             </v-btn>
           </template>
-    <v-card class="new-user" v-if="newUser" >
+    <v-card class="new-user" >
        <div class="post-avatar d-flex justify-space-around align-center">
           <v-card-title >
             Créer un nouvel utilisateur
@@ -44,8 +44,6 @@
       </v-alert>
       <v-divider></v-divider>
       <v-form class="form" >
-       
-        <!-- :rules="nameRules" -->
         <v-text-field
           v-model="lastname"
           name="lastname" 
@@ -68,10 +66,9 @@
           name="email" 
           required>  
         </v-text-field>
-      
         <v-text-field 
            required
-        label="Mot de passe *"
+           label="Mot de passe *"
           type="password" 
           name="password" 
           id="password" 
@@ -79,7 +76,6 @@
           ></v-text-field>
       <!-- mettre des regles pour le format des images -->
         <v-btn 
-        v-if="newUser"
           block
           elevation="2"
           color="success"
@@ -89,81 +85,12 @@
       </v-form>
     </v-card>
     
-    <v-card class="update-user" v-else >
-       <div class="post-avatar d-flex justify-space-between align-center">
-          <v-card-title >
-           Modifier votre profil
-          </v-card-title >
-          <v-btn
-          icon
-          color="red"   
-          outlined
-          x-small
-          @click="closePost()"
-         >
-            <v-icon >
-              mdi-close
-            </v-icon>
-         </v-btn> 
-       </div>  
-       <v-alert
-          outlined
-          type="warning"
-          text
-          v-if=" errMsg==true"
-          >
-          {{message}} 
-      </v-alert>
-      <v-divider></v-divider>
-      <v-form class="form" >
-       
-        <!-- :rules="nameRules" -->
-        <v-text-field
-          v-model="userInfos.lastname"
-          name="lastname" 
-          label="Nom"
-        ></v-text-field>
-        <v-text-field
-          v-model="userInfos.firstname"
-           name="firstname" 
-          label="Prénom"
-        ></v-text-field>
-        <v-text-field
-          v-model="email"
-          label="E-mail *"
-          name="email" 
-          required>  
-        </v-text-field>
-        <v-text-field 
-        label="Saisissez votre identifiant *"
-          type="username" 
-          name="username" 
-          id="username" 
-          v-model="userInfos.username"
-          ></v-text-field>
-          
-      <!-- mettre des regles pour le format des images -->
-        <div class="update-avatar">
-            <v-file-input
-                v-model="userInfos.avatar"
-                name="media"
-                label="Changer de photo de profil">
-            </v-file-input>
-        </div>
-        <v-btn 
-          block
-          elevation="2"
-          color="success"
-          @click="updateUser(userInfos.avatar)">
-          Modifier le profil 
-        </v-btn>
-      </v-form>
-    </v-card>
-</v-dialog> 
+   
+     </v-dialog> 
 </template>
 <script>
 import { mapState } from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
    name : 'Profil',
@@ -191,29 +118,13 @@ export default {
         this.$router.push('/')
         return;
      }
-    
-    if(this.newUser==false){
-      this.getProfil()
-    }
-
    },
  
    computed :{
      ...mapState(['user']),// ramène les infos du user connecté: message,userId,username,token,avatar
    },
    methods :{
-   getProfil(){
-   // get user connect infos
-    let userConnect = JSON.parse(localStorage.getItem('user')) 
-    let userConnectId =userConnect.userId
-    axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
-          .then(res=>{
-            this.userInfos= res.data
-          })
-          .catch(err=>{
-            console.log("err",err);
-          })
-     },
+   
     register(){
      // call API in the Store
      this.$store.dispatch('register',{

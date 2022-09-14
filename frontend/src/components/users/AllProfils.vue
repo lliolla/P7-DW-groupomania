@@ -2,10 +2,11 @@
     <div class="table-reponsive">
           <h2>Liste des utilisateurs </h2>
         <template>
+         
     <v-card-title>
           <UserForm 
-            :newUser="true"
-            @user-created ='setUser'></UserForm>
+            @user-created ='setUser'>
+          </UserForm>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="mdi-magnify"
@@ -21,8 +22,7 @@
         {{message}} 
        </v-alert>    
   <v-simple-table >
-    <template v-slot:default>
-      
+    <template v-slot:default> 
       <thead >
         <tr class="text-left">
          <th>Avatar</th>
@@ -57,20 +57,15 @@
             <td>{{ postsLgt}}</td>
             <td>{{ cmtsLgt}}</td>
             <td class="d-flex">
+               <UpdateUser 
+               :idUser=user.id
+               ></UpdateUser>
                 <v-btn
-                elevation="2"
-                small
-                color="success"
-                @click="editUser(user.id)"
-                class="ma-2">
-                <v-icon>mdi-pencil-outline  </v-icon>
-                </v-btn>
-                <v-btn
-                elevation="2"
-                small
-                color="warning"
-                class="ma-2 "
-                @click="delateUser(user.id)"  >
+                  elevation="2"
+                  small
+                  color="warning"
+                  class="ma-2 "
+                  @click="delateUser(user.id)"  >
                 <v-icon>mdi-close-circle-outline</v-icon>
                 </v-btn>
             </td>
@@ -90,12 +85,15 @@ import { mapState } from 'vuex';
 import axios from 'axios';
 
 import UserForm from '@/components/users/UserForm.vue'
+import UpdateUser from '@/components/users/UpdateUser.vue'
+
 
 export default {
    name:"AllProfils",
    props:['idUser'],
    components:{
       UserForm,
+      UpdateUser,
    },
    data:()=> {
         return{
@@ -142,12 +140,7 @@ export default {
 
                 .catch(err=>{ console.log("err",err); })
         },
-        editUser(id){
-        console.log('modifier utilisateur =>',id,'user connecté =>', user.userId  )
-        this.$router.push({name:'User',params:{id:id }})
-        // fonctionne mais voir pour recuperer les donnees dans le store. voir la route userID car ne s'afficvhe pas 
-
-        }
+        
     }
 }
 </script>

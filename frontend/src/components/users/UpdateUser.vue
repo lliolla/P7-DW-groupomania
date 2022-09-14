@@ -1,17 +1,35 @@
 <template>
-    <v-card class="cards-form d-flex flex-column " >
-       <div class="post-avatar d-flex justify-space-between align-center">
+    <v-dialog
+          v-model="dialog"
+          max-width="450px"
+          persistent
+           scrollable
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              elevation="2"
+                  small
+                  class="ma-2"
+                  color="success"
+              v-bind="attrs"
+              v-on="on"
+            >
+            <v-icon>mdi-pencil-outline  </v-icon>
+            </v-btn>
+          </template>
+    <v-card class="update-user">
+       <div class="post-avatar d-flex justify-space-around align-center">
           <v-avatar
               size="45"
               dark>
               <img :src="userInfos.avatar" alt="avatar">
           </v-avatar>
-          <v-card-title  >
-            Modifier mon profil
+          <v-card-title >
+           Modifier votre profil
           </v-card-title >
           <v-btn
             icon
-            color="red"
+            color="red"   
             outlined
             x-small
             @click="closePost()">
@@ -19,15 +37,18 @@
               mdi-close
             </v-icon>
          </v-btn> 
-       </div>   
+       </div>  
+       <v-alert
+          outlined
+          type="warning"
+          text
+          v-if=" errMsg==true"
+          >
+          {{message}} 
+      </v-alert>
       <v-divider></v-divider>
       <v-form class="form" >
-        <v-text-field
-          v-model="userInfos.username"
-          label="Nom d'utilisateur   "
-          name="username"
-          required
-        ></v-text-field>
+        <!-- :rules="nameRules" -->
         <v-text-field
           v-model="userInfos.lastname"
           name="lastname" 
@@ -40,44 +61,36 @@
         ></v-text-field>
         <v-text-field
           v-model="userInfos.email"
-          label="E-mail"
+          label="E-mail *"
           name="email" 
-          required>
+          required>  
         </v-text-field>
+        <v-text-field 
+        label="Saisissez votre identifiant *"
+          type="username" 
+          name="username" 
+          id="username" 
+          v-model="userInfos.username"
+          ></v-text-field>
       <!-- mettre des regles pour le format des images -->
-        <div class="update-avatar">
+        <div class="update-avatar d-flex">
+            
             <v-file-input
-                v-model="media"
+                v-model="userInfos.avatar"
                 name="media"
                 label="Changer de photo de profil">
             </v-file-input>
         </div>
-        <v-alert
-           outlined
-           type="success"
-           text
-           v-if=" update==true"
-        >{{message}} </v-alert>
         <v-btn 
-         v-if="update==false"
           block
           elevation="2"
           color="success"
-          @click="updateProfil(userInfos.avatar)">
-          Valider les changements 
-        </v-btn>
-
-          <v-btn 
-          v-if="update==false"
-          block
-          elevation="2"
-          color="error"
-          @click="delateProfil(userInfos.id)">
-          Supprimer le profil
+           @click="editUser(user.id)">
+          Modifier le profil 
         </v-btn>
       </v-form>
     </v-card>
-     
+    </v-dialog> 
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -85,16 +98,21 @@ import axios from 'axios'
 
 export default {
    name : 'Profil',
-   props:['id', 'mode'],
+   props:['idUser'],
    data:()=>{
        return {
          dialog :"",
          update:false,
+         errMsg:"",
          message:"",
-         media:[],
          lastname:"",
-         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-         userInfos:{ },//User's info from database
+        firstname:"",
+         email:"",
+        username: "",
+        password:"",
+         media:[],
+         userConnectId:JSON.parse(localStorage.getItem('user')),
+         userInfos:{ },
        }
    },
    mounted : 
@@ -104,26 +122,15 @@ export default {
         this.$router.push('/')
         return;
      }
-    console.log('update',this.update);
-    this.getProfil()
-   },
-    watch :{
-    update(newupdate, oldupdate){
-     if(newupdate !=oldupdate)
-     this.message ='Votre profil a bien ete modifié'
      this.getProfil()
-     
-     setTimeout(() => {
-       this.closePost()
-      }, 1500)
-    }
-   },
+     },
+ 
    computed :{
      ...mapState(['user']),// ramène les infos du user connecté: message,userId,username,token,avatar
    },
    methods :{
-     getProfil(){
-   // get user connect infos
+    getProfil(){
+        // get user connect infos
     let userConnect = JSON.parse(localStorage.getItem('user')) 
     let userConnectId =userConnect.userId
     axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
@@ -132,10 +139,10 @@ export default {
           })
           .catch(err=>{
             console.log("err",err);
-          })
+          })     
      },
-     updateProfil(media){
-    //get user ID connect
+    editUser(media){
+     //get user ID connect
     let idUsers=this.userInfos.id  
     if(!this.media){
       this.media=media  
@@ -154,32 +161,17 @@ export default {
      axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
              console.log("profil envoyé",response)
-
              this.update = true
              })
              .catch(err =>{
                 console.log(err);
              });
      },
-     closePost(){
-       this.$router.push({name: 'Wall'})
-     },
-     delateProfil(idUser){
-        console.log("Profil pres pour suppression en db",idUser);
-        axios.delete("http://localhost:3000/api/v1/user/"+idUser,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-        .then(()=>{ 
-         // this.mode = 'register'
-        
-          localStorage.clear();
-          this.$router.push("/")
-          }
-      
-        )
-        .catch(err=>{ console.log("err",err)} )
      
-        
-     }
-
+    closePost(){
+          this.dialog=false
+          this.update=false
+     },
    }
      
 }

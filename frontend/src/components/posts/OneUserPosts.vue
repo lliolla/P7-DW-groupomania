@@ -55,7 +55,11 @@
                                     </v-list-item-title>
                                     </v-list-item>
                                     <v-list-item d-flex flex-column>
-                                        <v-list-item-title class="a" ><v-icon class="icon" @click="delatePost(post.id)">mdi-close</v-icon>Supprimer</v-list-item-title>
+                                        <v-list-item-title class="a" >
+                                            <v-icon class="icon" @click="delatePost(post.id)">
+                                                mdi-close</v-icon>
+                                                Supprimer
+                                                </v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                                 </v-menu>
@@ -131,7 +135,6 @@ export default {
         updateCmt:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{
-
         },
      
     }
