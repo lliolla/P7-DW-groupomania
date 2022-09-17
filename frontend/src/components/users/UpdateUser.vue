@@ -48,7 +48,7 @@
           {{message}} 
       </v-alert>
       <v-divider></v-divider>
-       {{idUser }}
+
       <v-form class="form" >
         <!-- :rules="nameRules" -->
         <v-text-field
