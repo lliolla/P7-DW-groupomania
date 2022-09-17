@@ -16,6 +16,7 @@
             >
             <v-icon>mdi-pencil-outline  </v-icon>
             </v-btn>
+           
           </template>
     <v-card class="update-user">
        <div class="post-avatar d-flex justify-space-around align-center">
@@ -47,6 +48,7 @@
           {{message}} 
       </v-alert>
       <v-divider></v-divider>
+       {{idUser }}
       <v-form class="form" >
         <!-- :rules="nameRules" -->
         <v-text-field
@@ -59,24 +61,24 @@
            name="firstname" 
           label="Prénom"
         ></v-text-field>
-        <v-text-field
-          v-model="userInfos.email"
-          label="E-mail *"
-          name="email" 
-          required>  
-        </v-text-field>
-        <v-text-field 
+           <v-text-field 
         label="Saisissez votre identifiant *"
           type="username" 
           name="username" 
           id="username" 
           v-model="userInfos.username"
           ></v-text-field>
+        <v-text-field
+          v-model="userInfos.email"
+          label="E-mail *"
+          name="email" 
+          required>  
+        </v-text-field>
+     
       <!-- mettre des regles pour le format des images -->
         <div class="update-avatar d-flex">
-            
             <v-file-input
-                v-model="userInfos.avatar"
+                v-model="media"
                 name="media"
                 label="Changer de photo de profil">
             </v-file-input>
@@ -85,7 +87,7 @@
           block
           elevation="2"
           color="success"
-           @click="editUser(user.id)">
+           @click="editUser(userInfos.avatar)">
           Modifier le profil 
         </v-btn>
       </v-form>
@@ -105,14 +107,9 @@ export default {
          update:false,
          errMsg:"",
          message:"",
-         lastname:"",
-        firstname:"",
-         email:"",
-        username: "",
-        password:"",
          media:[],
          userConnectId:JSON.parse(localStorage.getItem('user')),
-         userInfos:{ },
+         userInfos:{},
        }
    },
    mounted : 
@@ -130,10 +127,7 @@ export default {
    },
    methods :{
     getProfil(){
-        // get user connect infos
-    let userConnect = JSON.parse(localStorage.getItem('user')) 
-    let userConnectId =userConnect.userId
-    axios.get("http://localhost:3000/api/v1/user/"+userConnectId +{headers: {Authorization: 'Bearer ' + localStorage.token}})
+    axios.get("http://localhost:3000/api/v1/user/"+this.idUser +{headers: {Authorization: 'Bearer ' + localStorage.token}})
           .then(res=>{
             this.userInfos= res.data
           })
@@ -142,11 +136,10 @@ export default {
           })     
      },
     editUser(media){
-     //get user ID connect
     let idUsers=this.userInfos.id  
-    if(!this.media){
-      this.media=media  
-            }
+
+     if(!this.media){
+      this.media=media }
     // create formdata to send data
     const updateDataProfil = new FormData;     
     updateDataProfil.append('username', this.userInfos.username),
@@ -155,13 +148,14 @@ export default {
     updateDataProfil.append('email', this.userInfos.email),
     updateDataProfil.append('media', this.media),
     updateDataProfil.append('idUsers', idUsers),
- 
- 
+ console.log("idUser",this.idUser);
     //axios put data to database
-     axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+     axios.put("http://localhost:3000/api/v1/user/"+idUsers,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
              console.log("profil envoyé",response)
-             this.update = true
+              this.$emit('user-created',this.update=true)
+             this.dialog=false
+          
              })
              .catch(err =>{
                 console.log(err);

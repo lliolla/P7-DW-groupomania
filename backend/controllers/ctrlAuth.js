@@ -19,8 +19,7 @@ exports.register = (req,res,next) => {
         const lastname = req.body.lastname;
         const avatar =`${req.protocol}://${req.get('host')}/images/avatar.jpg`
         const password = req.body.password;
-
-    
+        
         if(email==null || username==null || password==null){
             return res.status(400).json({ error: " un champ obligatoire est vide " });
         }

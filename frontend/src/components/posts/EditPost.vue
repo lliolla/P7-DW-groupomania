@@ -94,7 +94,7 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
-    console.log("PROPSidPost et update",this.idPost,this.update)
+   
     this.getPost()
            
    },

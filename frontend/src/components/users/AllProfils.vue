@@ -58,7 +58,8 @@
             <td>{{ cmtsLgt}}</td>
             <td class="d-flex">
                <UpdateUser 
-               :idUser=user.id
+                  @user-created ='setUser'
+                  :idUser="user.id"
                ></UpdateUser>
                 <v-btn
                   elevation="2"
@@ -70,8 +71,6 @@
                 </v-btn>
             </td>
          </tr>
-
-
       </tbody>
     </template>
   </v-simple-table>
