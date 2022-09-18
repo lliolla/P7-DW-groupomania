@@ -43,7 +43,7 @@
           {{message}} 
       </v-alert>
       <v-divider></v-divider>
-      <v-form class="form" >
+      <v-form ref="userForm" class="form" >
         <v-text-field
           v-model="lastname"
           name="lastname" 
@@ -140,6 +140,7 @@ export default {
          })
            .then(res=>{
              this.$emit('user-created',this.update=true)
+             this.$refs.userForm.reset();
              this.dialog=false
              console.log(res);
            })
