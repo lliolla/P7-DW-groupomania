@@ -59,6 +59,7 @@
             <td class="d-flex">
                <UpdateUser 
                   @user-created ='setUser'
+                  @crud-msg = 'setMsg'
                   :idUser="user.id"
                ></UpdateUser>
                 <v-btn
@@ -99,9 +100,12 @@ export default {
            userId :user.userId,// on recupere l'id du userconnecté
            postsLgt:1,
            cmtsLgt:10,
+ 
+           
            message:"",
            update:false,
            dialog: false,
+          
         }
 
     },
@@ -110,7 +114,7 @@ export default {
       console.log("newValue, oldValue",newValue, oldValue);
       if(newValue != oldValue){
        this.$store.dispatch('getAllUsers')
-      setTimeout(()=>{this.update=false},1000)
+      setTimeout(()=>{this.update=false},1500)
     }
     }
    },
@@ -119,11 +123,15 @@ export default {
     },
 
      computed:{
-      ...mapState(['users','token']),
+      ...mapState(['users','token'])
     
     },
 
     methods:{ 
+        setMsg(payload){
+          this.message=payload
+          console.log("payload",this.message);
+        },
         setUser(payload){
           this.update=payload
           console.log("payload",this.update);
@@ -134,7 +142,8 @@ export default {
          axios.delete("http://localhost:3000/api/v1/user/"+id,{headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(res=>{ 
                   this.update=true
-                  this.message ='L\'utilisateur a été supprimé'
+
+                  this.message ="l'utilisateur ainsi que tout son historique a bien été supprimé"
                   console.log("post supprimé res",this.update,res.data)})
 
                 .catch(err=>{ console.log("err",err); })
