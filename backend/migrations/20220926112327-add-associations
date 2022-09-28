@@ -1,0 +1,138 @@
+'use strict';
+
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**add column for foreignkey*/
+
+  //   return queryInterface.addColumn(
+  //  // Post belongsTo User
+  //       'posts', // name of Source model
+  //       'UserId', // name of the key we're adding
+  //         {
+  //           type: Sequelize.INTEGER,
+  //           references: {
+  //             model: 'Users', // name of Target model
+  //             key: 'id', // key in Target model that we're referencing
+  //           },
+  //         })
+  //     .then(()=>{
+  //       // User hasMany Post
+  //           return queryInterface.addColumn(
+  //             'posts', // name of Source model
+  //             'UserId', // name of the key we're adding
+  //             {
+  //               type: Sequelize.INTEGER,
+  //               references: {
+  //                 model: 'Users', // name of Target model
+  //                 key: 'id', // key in Target model that we're referencing
+  //               },
+  //             }
+  //           )
+  //         })
+        // .then(()=>{
+  // Post hasMany comment
+            return queryInterface.addColumn(
+              'comments', // name of Source model
+              'PostId', // name of the key we're adding
+              {
+                type: Sequelize.INTEGER,
+                references: {
+                  model: 'Posts', // name of Target model
+                  key: 'id', // key in Target model that we're referencing
+                },
+              }
+            )
+          // })
+      .then(()=>{
+        // Comment belongsTo Post
+        return queryInterface.addColumn(
+        'comments', // name of Source model
+        'PostId', // name of the key we're adding
+          {
+            type: Sequelize.INTEGER,
+            references: {
+              model: 'Posts', // name of Target model
+              key: 'id', // key in Target model that we're referencing
+            },
+            onDelete: 'CASCADE',
+          }
+        )
+      })
+      // .then(()=>{
+      //   // Comment belongsTo User
+      //   return queryInterface.addColumn(
+      //   'comments', // name of Source model
+      //   'UserId', // name of the key we're adding
+      //     {
+      //       type: Sequelize.INTEGER,
+      //       references: {
+      //         model: 'Users', // name of Target model
+      //         key: 'id', // key in Target model that we're referencing
+      //       },
+      //     }
+      //   )
+      // })
+
+      // .then(()=>{
+      //   // User hasMany comment
+      //       return queryInterface.addColumn(
+      //       'comments', // name of Source model
+      //       'UserId', // name of the key we're adding
+      //       {
+      //         type: Sequelize.INTEGER,
+      //         references: {
+      //           model: 'Users', // name of Target model
+      //           key: 'id', // key in Target model that we're referencing
+      //         },
+      //       }
+      //       )
+      //     })
+  },
+
+  async down (queryInterface, Sequelize) {
+        return queryInterface.removeColumn(
+          // remove Post belongsTo User
+          'posts', // name of Source model
+          'UserId' // key we want to remove
+        )
+     .then(()=>{
+          // remove User hasMany Post
+          return queryInterface.removeColumn(
+            // remove Post belongsTo User
+            'posts', // name of Source model
+            'UserId', // name of the key we're adding
+            )
+         })
+    .then(()=>{
+ // remove Comment belongsTo User
+        return queryInterface.removeColumn(
+          'comments', // name of Source model
+          'UserId', // name of the key we're adding
+          )
+        })
+    .then(()=>{
+        return queryInterface.removeColumn(
+         // remove Post belongsTo User
+          'comments', // name of Source model
+          'PostId', // name of the key we're adding
+      )
+    })
+
+     .then(()=>{
+       // remove User hasMany comment
+       return queryInterface.removeColumn(
+        // remove Post belongsTo User
+        'comments', // name of Source model
+        'UserId', // name of the key we're adding
+    )
+      })
+    .then(()=>{
+       // remove Post hasMany comment
+       return queryInterface.removeColumn(
+        // remove Post belongsTo User
+        'comments', // name of Source model
+        'PostId', // name of the key we're adding
+    )
+      })
+  }
+};

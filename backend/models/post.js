@@ -1,6 +1,8 @@
 'use strict';
-const { Model} = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
+const user = require('./user');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -12,19 +14,27 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Post.belongsTo(models.User,
         {
-          foreignKey: 'id_users', 
-          allowNull: false,
-        })
+          foreignKey:{
+            name: "UserId",
+            allowNull: false,
+          }, 
+          onDelete: "cascade",
+        });
+      models.Post.hasMany(models.Comment,{
+        foreignKey:{
+          name:"PostId",
+          allowNull:false
+        }
+      })
       
     }
-
-  };
+  }
   Post.init({
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    id_users: DataTypes.INTEGER,
     media: DataTypes.STRING,
-    like: DataTypes.INTEGER
+    like: DataTypes.INTEGER,
+    dislike: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Post',
