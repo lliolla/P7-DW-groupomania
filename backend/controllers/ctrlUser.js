@@ -49,7 +49,7 @@ exports.delateUser= (req,res, next) =>{
   };
 
 exports.updateUser= (req,res, next) =>{
-console.log("idUser",req.params.id,req.body.idUsers);
+console.log("image par defaut update",req.body.media);
   let username = req.body.username;
   let firstname = req.body.firstname;
   let lastname = req.body.lastname;

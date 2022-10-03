@@ -13,13 +13,13 @@ const passwordRegex = /^(?=.*\d).{4,8}$/ ;
 // function for register new user
 exports.register = (req,res,next) => {
     //params
+        const isAdmin =req.body.isAdmin;
         const email = req.body.email;
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
         const avatar =`${req.protocol}://${req.get('host')}/images/avatar.jpg`
         const password = req.body.password;
-        
         if(email==null || username==null || password==null){
             return res.status(400).json({ error: " un champ obligatoire est vide " });
         }
@@ -41,8 +41,9 @@ exports.register = (req,res,next) => {
             username : username,
             firstname : firstname,
             lastname : lastname,
-            avatar : avatar,
-            password : hash
+            password : hash,
+            media:avatar,
+            isAdmin:isAdmin
         };
       
     // verifiy if user exist in table user in db (compare attributes email and email in response)
@@ -73,7 +74,6 @@ exports.loging = (req,res, next) => {
  //params
  const email = req.body.email;
  const password = req.body.password;
- 
 
 //test empty field
 if(email==null || password==null){

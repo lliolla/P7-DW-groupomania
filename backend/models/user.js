@@ -32,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     media :DataTypes.STRING,
     lastname :DataTypes.STRING,
     firstname :DataTypes.STRING,
-    isAdmin : DataTypes.BOOLEAN
+    isAdmin :{
+      type:DataTypes.BOOLEAN,
+      defaultValue:false,
+    }
 
   }, {
     sequelize,

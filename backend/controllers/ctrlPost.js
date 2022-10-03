@@ -2,13 +2,19 @@
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
+const { log } = require('console');
 
 
 exports.createPost = (req,res,next)=>{
 
-// on test les données du front
+// specify params 
 let title = req.body.title;
 let content = req.body.content;
+let  media = (req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null)
+
+const token = req.headers.authorization.split(" ")[1];
+const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+const UserId = decodedToken.userId;
 
 ////test empty field
 if (title == null ||title <= 0 || content==null||content <= 0 ){
@@ -18,42 +24,24 @@ if (title == null ||title <= 0 || content==null||content <= 0 ){
 if(title.length >=50 || title.length <= 2 ){
   return res.status(400).json({ error: "Votre titre doit contenir entre 3 et 50 lettres " });
 }
-
 // // verify length 's content
 if(content.length <=2 ||content.length >= 500 ){
   return res.status(400).json({ error: "Votre contenu doit contenir entre 3 et 500 lettres "});
 }
 
-// find user who send message
-const token = req.headers.authorization.split(' ')[1];
-const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-const userId = decodedToken.userId;
-
-//create message with his ID
-  Model.User.findOne({
-    attributes :['id','username'],
-    where :{ id :userId} })
-  .then(userfound =>{
-    if(userfound){
-      let id_users = userfound.id
-     let media = (req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null);
-      let newPost ={title ,content ,media , id_users};
-      console.log("post pret a envoyé en bd",newPost)
-      Model.Post.create(newPost)
-      .then(newPost=> res.status(200).json( {message:"post publié"}))
-      .catch(error => res.status(400).json ({error: 'impossible de créer le post'}))
-    }else{
-      return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})    }
-    })
-  .catch(error => res.status(500).json({ error: "requette impossible"}))
+ let newPost ={UserId,title,content,media}
+ console.log("create post user id",newPost);
+ Model.Post.create(newPost)
+     .then((newPost)=> res.status(200).json(newPost))
+     .catch(error => res.status(400).json ({error: 'impossible de créer le post'}))
 }
 
-//limiter le nombre de post en faisant une pagination
-// on recupere tous les posts de tous les users
+
+// on recupere tous les posts de tous les users //limiter le nombre de post en faisant une pagination
 exports.getAllPosts = (req,res,next)=>{
     console.log('getAllPosts');
     Model.Post.findAll({
-        attributes :['id', 'title','content','like', 'id_users', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
+        attributes :['id', 'title','content','like', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
         include: [ Model.User] ,
         order: [["id", "DESC"]],
       },)
@@ -64,7 +52,7 @@ exports.getAllPosts = (req,res,next)=>{
 
 exports.getOnePost = (req,res,next)=>{
     Model.Post.findOne({
-        attributes :['id', 'title','content','like', 'id_users', 'media'],// on precise les attributs que l'on veux recup
+        attributes :['id', 'title','content','like', 'UserId', 'media'],// on precise les attributs que l'on veux recup
         where : {id : req.params.id}
      })
      .then(displayPost=> res.status(200).json(displayPost ))// on affiche l'utilisateur
@@ -87,34 +75,51 @@ exports.updatePost = (req,res,next)=>{
 
 exports.delatePost = (req,res,next)=>{
   Model.Post.findOne({
-    attributes :['id', 'title','content','like', 'id_users', 'media'],// on precise les attributs que l'on veux recup
+    attributes :['id', 'title','content','like', 'UserId', 'media'],// on precise les attributs que l'on veux recup
     where : {id : req.params.id}
  })
  .then(delatePost=> {
-  const filename = delatePost.media.split('/images/')[1]
-  console.log("filename",filename)
-  fs.unlink(`images/${filename}`,()=>{
-           Model.Post.destroy({
-             where : {id : req.params.id}
-           })
-           .then(() => res.status(200).json({ message: 'post supprimé !'}))
-           .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
- })
+  if(delatePost.media){
+      const filename = delatePost.media.split('/images/')[1]
+      console.log("filename",filename)
+      fs.unlink(`images/${filename}`,()=>{
+              Model.Post.destroy({
+                where : {id : req.params.id} 
+              })
+              .then(() => res.status(200).json({ message: 'post supprimé !'}))
+              .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+    })
+  }else{
+    Model.Post.destroy({
+      where : {id : req.params.id} 
+    })
+    .then(() => res.status(200).json({ message: 'post supprimé !'}))
+    .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+  }
+ 
 })
- .catch ( console.log("error")
- )}
+ .catch ( console.log("error"))}
 
  exports.getOneUserPosts = (req,res,next)=>{
   let idUser = req.params.id
   console.log('getOneUserPost',idUser);
  
       Model.Post.findAll({
-      where : {id_users : idUser},
-      attributes :['id', 'title','content','like', 'id_users', 'media','updatedAt'],
+      where : {UserId : idUser},
+      attributes :['id', 'title','content','like', 'UserId', 'media','updatedAt'],
       include: [ Model.User] ,
       order: [["id", "DESC"]],
       })
-      .then((userPosts) => res.status(200).json(userPosts))
+      .then(userPosts =>{
+        console.log("userPosts",userPosts);
+        if(userPosts.length <= 0){
+          return res.status(404).json({error: "Vous n'avez publié aucun article"})
+    
+        }else{
+          return res.status(200).json(userPosts)
+        }
+          
+      } )
       .catch((error)=>res.status(404).json({error: "aucun posts trouvé pour cet utilisateur"}))
     
 
