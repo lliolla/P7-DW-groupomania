@@ -25,22 +25,53 @@ exports.displayUser= (req,res, next) =>{
   }
 
 exports.delateUser= (req,res, next) =>{
-
   console.log("deleteUser",req.params.id)
-   Model.User.findOne({
-    attributes :['id','media'],// get media to deleate image in backend
+  Model.User.findOne({
+     attributes :['id','media'],// get media to deleate image in backend
    })
-   .then(delateUser=>{
-    console.log("deleteUser",delateUser.media)
-        Model.User.destroy({
-          where : {id : req.params.id}
-        })
-        .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
-        .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
+   .then(()=> {
+    Model.User.destroy({
+       where : {id : req.params.id}
+       })
+       .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
+       .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
    })
-   .catch(err => res.status(404).json({error: "un pb a eu lieu lors de la suppression de l'utilisateur"}))
+   .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
+  }
+  //  Model.User.findOne({
+  //   attributes :['id','media'],// get media to deleate image in backend
+  //  })
+  //  .then(delateUser=>{
+  //   console.log("deleteUser",delateUser.media)
+  //   if(delateUser.media){
+  //     const filename = delatePost.media.split('/images/')[1]
+  //     fs.unlink(`images/${filename}`,()=>{
+  //       Model.User.destroy({
+  //       where : {id : req.params.id}
+  //       })
+  //       .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
+  //       .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
+  //   })
+  //   }else{
+  //     Model.User.destroy({
+  //       where : {id : req.params.id}
+  //       })
+  //       .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
+  //       .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
+  //   }
 
-  };
+    // const filename = delatePost.media.split('/images/')[1]
+    // fs.unlink(`images/${filename}`,()=>{
+    //           Model.User.destroy({
+    //       where : {id : req.params.id}
+    //     })
+    //     .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
+    //     .catch(error=> res.status(404).json( { error: " 1 un pb a eu lieu lors de l a suppression du post"}))
+    // })
+
+ 
+  //  .catch(err => res.status(404).json({error: "un pb a eu lieu lors de la suppression de l'utilisateur"}))
+  // }
 
 exports.updateUser= (req,res, next) =>{
 console.log("image par defaut update",req.body.media);
