@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       models.Post.hasMany(models.Comment,{
         foreignKey:{
           name:"PostId",
-          allowNull:false
+          allowNull:false,
+          onDelete: "cascade",
         }
       })
       

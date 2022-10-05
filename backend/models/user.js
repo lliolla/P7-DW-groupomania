@@ -15,12 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         {foreignKey: 
           { name: "UserId",
             allowNull: false,
+            onDelete: "cascade",
           },
         });
       models.User.hasMany(models.Comment,{
         foreignKey: {
           name: "UserId",
           allowNull: false,
+          onDelete: "cascade",
         },
       });
     }

@@ -96,6 +96,7 @@ if(email==null || password==null){
                             userId: userExist.id,
                             avatar :userExist.avatar,
                             username:userExist.username,
+                            isAdmin:userExist.isAdmin,
                             token: jwt.sign(
                                 { userId: userExist.id },
                                 'RANDOM_TOKEN_SECRET',
