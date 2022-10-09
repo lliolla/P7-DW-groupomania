@@ -2,14 +2,13 @@
     <v-dialog
         v-model="dialog"
         max-width="600px"
-        transition="dialog-transition"
-    >
+        transition="dialog-transition">
         <v-card class="card d-flex flex-column ">
             <div class="post-media">
                  <v-avatar
                     size="45"
                     color="red">
-                        <img :src="user.avatar" alt="avatar">
+                        <img :src="user.media" alt="avatar">
                 </v-avatar>
                 <v-card-title>
                    CREER VOTRE POST 
