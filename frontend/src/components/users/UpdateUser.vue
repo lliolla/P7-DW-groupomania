@@ -166,7 +166,6 @@ export default {
     closePost(){
           this.dialog=false
           this.update=false
-          //test
      },
    }
      

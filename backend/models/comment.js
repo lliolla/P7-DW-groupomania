@@ -14,27 +14,23 @@ module.exports = (sequelize, DataTypes) => {
       models.Comment.belongsTo(models.Post,
         {
           foreignKey: {
-            name: "id_posts",
+            name: "PostId",
             allowNull: false,
           },
-          onDelete: "cascade", 
-          allowNull: false
-        })
+        
+        });
       models.Comment.belongsTo(models.User,
         {
           foreignKey:{
-            name: "id_users",
+             name: "UserId",
             allowNull: false,
-          }, 
-          onDelete: "cascade",
-          allowNull: false
+          }
         })
       //on precise que la relation de la clef etrangere ne doit pas etre egale a null
     }
   };
   Comment.init({
-    id_users: DataTypes.INTEGER,
-    id_posts: DataTypes.INTEGER,
+  
     content: DataTypes.STRING
   }, {
     sequelize,

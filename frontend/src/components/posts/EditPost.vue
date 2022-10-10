@@ -16,6 +16,7 @@
                         Modifier le post 
                     </v-card-title >
                 </div>
+                
                 <div class="post-content">
                     <v-text-field
                         prepend-icon="mdi-pen"
@@ -29,31 +30,37 @@
                         <img width="25%" :src="onePost.media" alt="">
                         <v-file-input
                             v-model="media"
-                            ref="media"
                             label="Changer de fichier">
                         </v-file-input>
                     </div>
-
+                    <v-alert
+                    outlined
+                    type="success"
+                    text
+                    v-if=" update==true"
+                    >
+                    {{message}} 
+                    </v-alert>
                 </div>
                 <v-divider></v-divider>
                 <div class="post-footer">
                     <template>
-
                         <v-btn color="warning"
                         @click=" closePost()"
                         >Fermer</v-btn>
-
                         <v-btn color="success"
                         @click="editDataPost(onePost.media)"
-                        >Envoyer</v-btn>
+                        > Valider</v-btn>
                     </template>
                 </div>
+                
         </v-card>
         <template v-slot:activator="{ on, attrs }">
             <v-icon   
             v-bind="attrs"
             v-on="on"
-            class="icon">
+            class="icon"
+           >
             mdi-playlist-edit
             </v-icon >Modifier
         </template>
@@ -69,30 +76,36 @@ import { mapState } from 'vuex';
 export default {
     name : "EditPost",
     props:{
-        idPost :String,
+        idPost :Number,
     },
     data(){
         return {
             dialog: false,
-            media:"",
+            update:false,
+            message:"",
+            media:[],
             onePost:{
                 id:"",
                 title:"",
                 content:"",
-                media:"",
+                media:[],
             },
         }
     } ,
    mounted () {
     this.idPost = this.getIdPost
-    console.log("this.idPost");
-           axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(res =>{
-                this.onePost=res.data
-            })
-            .catch(err=>{
-                console.log("err",err);
-            })
+   
+    this.getPost()
+           
+   },
+   watch: {
+    update(newValue, oldValue){
+     if(newValue, oldValue) 
+     this.getPost() 
+        setTimeout(() => {
+         this.closePost()
+        }, 1500)
+    }
    },
    computed: {
        ...mapState(['user']),
@@ -101,6 +114,15 @@ export default {
        }
    },
     methods: {
+         getPost(){
+          axios.get("http://localhost:3000/api/v1/post/"+this.idPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(res =>{
+                this.onePost=res.data
+            })
+            .catch(err=>{
+                console.log("err",err);
+            })
+         },
         editDataPost (media){
             //get user'id who wrote the post
             let id_users=this.onePost.id_users
@@ -121,18 +143,20 @@ export default {
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
-             console.log("post envoyé",response,this.dialog)
-            this.dialog=false
-              console.log("dialog",this.dialog) 
-               
-                
+                this.update=true
+                this.dialog=false
+                this.message ='Votre commentaire a bien ete modifié'
+                this.$emit('updateCmt',this.updateCmt=true)  
+             console.log("post envoyé this.updateemit",this.updateCmt,response)
              })
              .catch(err =>{
                 console.log(err);
              });
         },
         closePost(){
-               this.dialog=false
+            this.dialog=false
+            this.update=false
+                
         }
 
     }

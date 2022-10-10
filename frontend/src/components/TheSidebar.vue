@@ -65,7 +65,7 @@ export default {
         username:localStorage.getItem('username'),
         email :localStorage.getItem('email'),
         userId :localStorage.getItem('userId'),
-        drawer :"false"
+       
     }),
     
  computed:{

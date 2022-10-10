@@ -1,5 +1,4 @@
 <template>
-
     <v-card class="cards-form d-flex flex-column " >
        <div class="post-avatar d-flex justify-space-between align-center">
           <v-avatar
@@ -11,50 +10,39 @@
             Modifier mon profil
           </v-card-title >
           <v-btn
-          icon
-          color="red"
-          outlined
-          x-small
-          @click="closePost()"
-         >
+            icon
+            color="red"
+            outlined
+            x-small
+            @click="closePost()">
             <v-icon >
               mdi-close
             </v-icon>
          </v-btn> 
-       </div>  
-        
+       </div>   
       <v-divider></v-divider>
-
       <v-form class="form" >
         <v-text-field
-         
           v-model="userInfos.username"
           label="Nom d'utilisateur   "
           name="username"
           required
         ></v-text-field>
-        <!-- :rules="nameRules" -->
-
         <v-text-field
           v-model="userInfos.lastname"
           name="lastname" 
           label="Nom"
-         
         ></v-text-field>
-
         <v-text-field
           v-model="userInfos.firstname"
            name="firstname" 
           label="Prénom"
-        
         ></v-text-field>
-
         <v-text-field
           v-model="userInfos.email"
           label="E-mail"
           name="email" 
-          required
-        >
+          required>
         </v-text-field>
       <!-- mettre des regles pour le format des images -->
         <div class="update-avatar">
@@ -127,8 +115,7 @@ export default {
      
      setTimeout(() => {
        this.closePost()
-      console.log("Retardée d'une seconde.");
-      }, 1000)
+      }, 1500)
     }
    },
    computed :{
@@ -167,15 +154,8 @@ export default {
      axios.put("http://localhost:3000/api/v1/user/"+this.idPost,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
              console.log("profil envoyé",response)
-            
+
              this.update = true
-              //  document.location.reload();
-             
-                // this.$router.go()
-              //   this.$router.push({ name: 'Wall'}) 
-              // this.updateProfil(media)
-              // this.$router.push({ path:'/user/:id'})
-              // this.$forceUpdate()
              })
              .catch(err =>{
                 console.log(err);

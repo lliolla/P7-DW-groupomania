@@ -13,14 +13,13 @@ const passwordRegex = /^(?=.*\d).{4,8}$/ ;
 // function for register new user
 exports.register = (req,res,next) => {
     //params
+        const isAdmin =req.body.isAdmin;
         const email = req.body.email;
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
-        const avatar =`${req.protocol}://${req.get('host')}../images/john.png`
+        const avatar =`${req.protocol}://${req.get('host')}/images/avatar.jpg`
         const password = req.body.password;
-
-    
         if(email==null || username==null || password==null){
             return res.status(400).json({ error: " un champ obligatoire est vide " });
         }
@@ -42,8 +41,9 @@ exports.register = (req,res,next) => {
             username : username,
             firstname : firstname,
             lastname : lastname,
-            avatar : avatar,
-            password : hash
+            password : hash,
+            media:avatar,
+            isAdmin:isAdmin
         };
       
     // verifiy if user exist in table user in db (compare attributes email and email in response)
@@ -60,7 +60,7 @@ exports.register = (req,res,next) => {
             .catch(error =>res.status(400).json({ 'error': 'impossible de trouver cet utilisateur', newUser}));    
 
         } else{     
-              return res.status(409).json({ 'error': 'Le mot de passe est erroné',userfound })
+              return res.status(409).json({ 'error': 'Ce mail est déja utilisé par un autre utilisateur',userfound })
              
 
         }  })
@@ -74,7 +74,6 @@ exports.loging = (req,res, next) => {
  //params
  const email = req.body.email;
  const password = req.body.password;
- 
 
 //test empty field
 if(email==null || password==null){
@@ -95,8 +94,9 @@ if(email==null || password==null){
                         res.status(200).json({
                             message : 'utilisateur identifié',
                             userId: userExist.id,
-                            avatar :userExist.avatar,
+                            media :userExist.media,
                             username:userExist.username,
+                            isAdmin:userExist.isAdmin,
                             token: jwt.sign(
                                 { userId: userExist.id },
                                 'RANDOM_TOKEN_SECRET',

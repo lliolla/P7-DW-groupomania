@@ -1,6 +1,7 @@
 <template>
- <v-app id="dashboard">
-    <v-navigation-drawer
+ <v-app>
+  <div class="wall">
+ <v-navigation-drawer
       v-model="drawer"
       app
     >
@@ -8,16 +9,18 @@
   
     </v-navigation-drawer>
     <TheNavbar></TheNavbar>
-    <v-main class ="main-block d-flex justify-center ">
-      <div class="card-box"> 
-        <AllPosts></AllPosts> 
-        </div>
+    <main>
+    <AllPosts></AllPosts> 
+    </main>
+  </div>
+   
+
 
        
         
         
 <!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
-    </v-main>
+  
      <Footer></Footer>
   </v-app>
 </template>
@@ -51,12 +54,7 @@
 </script>
 <style>
 
-.main-block{
+.wall{
   background-color: rgb(226, 225, 223);
-
-}
-.card-box{
-  padding: 20px 0px;
-  width: 70%;
 }
 </style>

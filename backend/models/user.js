@@ -11,18 +11,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Post);
-      models.User.hasMany(models.Comment);
+      models.User.hasMany(models.Post,
+        {foreignKey: 
+          { name: "UserId",
+            allowNull: false,
+            onDelete: "cascade",
+          },
+        });
+      models.User.hasMany(models.Comment,{
+        foreignKey: {
+          name: "UserId",
+          allowNull: false,
+          onDelete: "cascade",
+        },
+      });
     }
   };
   User.init({
     email: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    avatar :DataTypes.STRING,
+    media :DataTypes.STRING,
     lastname :DataTypes.STRING,
     firstname :DataTypes.STRING,
-    isAdmin : DataTypes.BOOLEAN
+    isAdmin :{
+      type:DataTypes.BOOLEAN,
+      defaultValue:false,
+    }
 
   }, {
     sequelize,

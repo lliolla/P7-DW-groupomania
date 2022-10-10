@@ -5,7 +5,7 @@ const Model = require('../models');
 exports.getAllCmt = (req,res,next)=>{
 console.log('getAllCmts');
 Model.Comment.findAll({
-    attributes :['id', 'content','updatedAt','id_users','id_posts'],  
+    attributes :['id', 'content','updatedAt','UserId','PostId'],  
     order: [["id", "DESC"]],
 })
 .then(cmt=> res.status(200).json(cmt))
@@ -15,13 +15,12 @@ Model.Comment.findAll({
 exports.getOnePostCmts = (req,res,next)=>{
     console.log('getOneCmts',req.params.id, req.body);
     Model.Comment.findAll({
-      where : {id_posts : req.params.id},
-      attributes :['id','content','id_users', 'id_posts','updatedAt'],
+      where : {id : req.params.id},
+      attributes :['id','content','UserId', 'PostId','updatedAt'],
       include: {
         model: Model.User ,
         attributes:['username','avatar']
     } ,
-      
       order: [["id", "DESC"]],
     })
     .then(OnePostCmts=> res.status(200).json(OnePostCmts))
@@ -35,8 +34,8 @@ exports.getOneCmt = (req,res,next)=>{
         where : {id : req.params.id}, 
         attributes :[
         'id',
-        'id_users',
-        'id_posts',
+        'UserId',
+        'PostId',
         'content',
         'updatedAt',]   
     })
@@ -54,10 +53,10 @@ exports.getOneCmt = (req,res,next)=>{
 
 exports.updateCmt = (req,res,next)=>{
     let content = req.body.content;
-    let id_posts =req.body.id_posts
-    let id_users =req.body.id_users
+    let PostId =req.body.id_posts
+    let UserId =req.body.id_users
 
-    let updateObject ={content,id_posts,id_users }
+    let updateObject ={content,PostId,UserId }
     console.log('updateCmts back',updateObject);
     
    Model.Comment.update(
@@ -71,26 +70,24 @@ exports.updateCmt = (req,res,next)=>{
 exports.createCmt =(req, res,next)=>{
 // Test datas comming Frontend and empty field
 let content = req.body.content
-let id_posts =req.body.id_posts
-let id_users =req.body.id_users
+let PostId =req.body.PostId
 
 if ( content==null||content <= 0 ){
     return res.status(400).json({ error: "le commentaire ne peut pas etre envoyé vide " });
 }
-
 Model.Post.findOne({
-where : {id :id_posts}
+where : {id :PostId}
 })
 .then(postFound =>{
     if(postFound){
-    let id_posts =  postFound.id 
-    let newCmt = {content,id_users,id_posts}
+    let UserId = req.params.id 
+    let newCmt = {content,UserId,PostId}
     console.log("commentaire pret a envoyé en bd",newCmt)
     Model.Comment.create(newCmt)
     .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
     .catch(error => res.status(400).json ({error: "impossible de creer le commentaire"})) 
     }else{
-        return res.status(409).json({ error: 'aucun utilisateur correspondant au token dans la bd'})
+        return res.status(409).json({ error: 'aucun post trouvé impossible de créer le commentaire'})
     }
 })
 .catch(error => res.status(500).json({ error: "requette impossible"}))

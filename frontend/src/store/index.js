@@ -19,7 +19,7 @@ if(!user){
     //on parse le user ds LS
     user = JSON.parse(user)
   
-    console.log("userid oui",user)
+    console.log("user logged validity token =>",user)
    
   } catch (error) {
     //si pb avec le parse on definit parametre user par defaut
@@ -27,7 +27,7 @@ if(!user){
       userId: -1,
       token : "",
     } 
-    console.log("userid non")
+    console.log("user logged => non")
   }
  
 

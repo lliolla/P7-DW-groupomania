@@ -7,10 +7,13 @@
     </v-navigation-drawer>
 
     <TheNavbar></TheNavbar>
-  
+
+
     <v-main class="main d-flex justify-center pa-4" >  
-    <AllProfils v-if="OnePosts"  ></AllProfils>
-    <User v-else ></User>
+    <AllProfils v-if="isAdmin"  ></AllProfils>
+    <Profil v-else ></Profil>
+    
+
 
     </v-main>
     <Footer></Footer>
@@ -18,10 +21,13 @@
 </template>
 
 <script>
+  let user = JSON.parse(localStorage.getItem('user'))
+  import { mapState } from 'vuex';
+
   import TheSidebar from '@/components/TheSidebar'
   import TheNavbar from '@/components/TheNavbar.vue'
   import Footer from '@/components/Footer.vue'
-  import User from '@/components/users/User.vue'
+  import Profil from '@/components/users/Profil.vue'
   import AllProfils from '@/components/users/AllProfils.vue'
 
 
@@ -33,7 +39,7 @@
       TheSidebar,
       TheNavbar,
       Footer,  
-      User ,
+      Profil ,
       AllProfils,
       
     },
@@ -44,10 +50,14 @@
       firstname:"",
       email:"",
       password:"",
-      userId:"",
+      userId:user.userId,
       isAdmin :true,
       OnePosts:true,
     }),
+    computed:{
+      ...mapState(['users'])
+    },
+
       
    
   }
@@ -63,7 +73,7 @@
 }
 
 .main{
-  background-color: rgb(201, 26, 26);
+ background-color:rgb(226, 225, 223);
   display: flex;
   flex-direction: row;
 }
