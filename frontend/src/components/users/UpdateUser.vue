@@ -155,7 +155,6 @@ export default {
              console.log("profil envoyé",response)
               this.$emit('user-created',this.update=true)
               this.$emit('crud-msg',this.message="Mise a jour du profil réussie")
-
               this.dialog=false
           
              })

@@ -100,8 +100,6 @@ export default {
            userId :user.userId,// on recupere l'id du userconnecté
            postsLgt:1,
            cmtsLgt:10,
- 
-           
            message:"",
            update:false,
            dialog: false,

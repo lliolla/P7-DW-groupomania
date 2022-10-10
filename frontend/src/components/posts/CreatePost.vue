@@ -1,28 +1,34 @@
 <template>
     <v-dialog
         v-model="dialog"
-        max-width="600px"
-        transition="dialog-transition">
-        <v-card class="card d-flex flex-column ">
-            <div class="post-media">
-                 <v-avatar
-                    size="45"
-                    color="red">
-                        <img :src="user.media" alt="avatar">
-                </v-avatar>
+          max-width="450px"
+          persistent
+          scrollable>
+        <v-card class="new-post ">
+            <div class="post-media d-flex justify-space-around align-center">
                 <v-card-title>
-                   CREER VOTRE POST 
+                   NOUVEL ARTICLE 
                 </v-card-title >
- 
+                <v-btn
+                  fab
+                  dark
+                  x-small
+                  color="red darken-1"  
+              
+                @click="closePost()" >
+            <v-icon  color="white" >
+              mdi-close
+            </v-icon>
+         </v-btn>
             </div>
-            <div class="post-content">        
+            
+             <v-divider></v-divider>
+              <v-form ref="postForm" class="form" >       
                     <v-text-field 
-                    prepend-icon="mdi-pen"
                     label="Titre"
                     v-model="title">
                     </v-text-field>
                     <v-textarea
-                      prepend-icon="mdi-pen"
                         label="Ecrivez votre contenu"
                         v-model="content">
                     </v-textarea>
@@ -31,18 +37,19 @@
                     ref="media"
                     label="Ajouter un fichier">
                     </v-file-input>
-            </div>
+        
             <v-divider></v-divider>
             <div class="post-footer">
                 <template> 
-                    <v-btn color="warning"
-                    @click="closePost()"
-                    >Fermer</v-btn>
-                    <v-btn color="success"
+                    <v-btn 
+                    block
+                    elevation="2"
+                    color="success"
                     @click="sendDataPost()"
-                    >Envoyer</v-btn>
+                    >Créer l'article</v-btn>
                 </template>
             </div>
+             </v-form>
         </v-card>
          <template v-slot:activator="{ on, attrs }">
            <v-btn 
@@ -51,7 +58,7 @@
             v-bind="attrs"
             v-on="on"
             >
-                <v-icon>mdi-plus</v-icon>
+                <v-icon color="white">mdi-plus</v-icon>
             </v-btn> 
         </template>   
     </v-dialog>
@@ -67,8 +74,10 @@ export default {
         return {
             title : "",
             content:"",
-            media:null,
+            media:[],
             dialog :false,
+            update:false,
+            errMsg:"",
         }
     } ,
     computed:{
@@ -93,12 +102,10 @@ export default {
 
             console.log("post pret a envoye au back",newDataPost)
             axios.post("http://localhost:3000/api/v1/post",newDataPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(response=>{
-                    console.log("nouveau post créer",response)
-                // voir pour faire fonctionner this.dialog=false qui devrait close le modal
-                //fais en sorte que le nouveau post soit ajouté dans la liste des posts à afficher, et ensuite tu ferme le formulaire.
+            .then(()=>{
+                 this.$emit('post-created',this.update=true)
+                /this.$refs.postForm.reset();
                  this.dialog=false
-                document.location.reload();
             })
             .catch(err =>{
                 console.log(err);
@@ -106,7 +113,6 @@ export default {
         },
         closePost(){
          this.dialog=false 
-        //  this.$router.push({ name: 'Wall'})
          
         }
 

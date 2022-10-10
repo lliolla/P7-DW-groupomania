@@ -3,7 +3,8 @@
         <h1 class="d-flex justify-center my-8">Mon mur</h1>
          <!-- btn create post -->
         <v-row justify="center">
-                <CreatePost></CreatePost>  
+                <CreatePost 
+                @post-created='setPost'></CreatePost>  
         </v-row>
         <v-row justify="center">
     <!-- box see forum --> 
@@ -46,21 +47,20 @@
                 aspect-ratio="2"
                 :src="post.media"
                 ></v-img>
+                 <v-divider class="pa-2"></v-divider>
                 <v-chip
                 color="orange"
+                class="mr-2"
                 >loisir</v-chip>
-                <div >
-                    <v-icon class="blog-date"> mdi-calendar-month</v-icon>
-                </div>
-              
                     {{post.content}} 
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
+                   <v-divider></v-divider>
                 </div>   
-                <v-divider></v-divider>
+             
                 <CmtsByUser
                 :idPost="post.id" 
-                @update-cmt="setUpdate">
+                @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
         </v-row>
@@ -101,9 +101,8 @@ export default {
     data: ()=>{
         return {
         dialog: false,
+        update:false,
         updateCmt:false,
-        like:"0",
-        dislike:"0",
         comments:"10",
         open:false,
         alert: false,//alerte pour confirmer la suppression d'un post
@@ -114,10 +113,28 @@ export default {
     },
      computed:{
       ...mapState(['posts','user']),
-     
-    
      },
+     watch:{
+        update(newValue, oldValue){
+          console.log("newValue, oldValue",newValue, oldValue);
+          if(newValue != oldValue) {
+             this.$store.dispatch('getAllPosts')
+             setTimeout(()=>{this.update=false},1500)
+          } 
+        }
+
+     },
+
+    mounted (){
+     // get allposts and dispaly them 
+      this.$store.dispatch('getAllPosts');
+     
+    },
     methods: {
+         setPost(payload){
+          this.update=payload
+          console.log("payload",this.update);
+        },
         publishedDaysAgo (date){
         return moment(date).startOf('day').fromNow();
          
@@ -134,7 +151,7 @@ export default {
         },
      
         delatePost(idpost){
-         console.log("POst supprimé",idpost);
+         console.log("Post supprimé",idpost);
             axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(res=>{ console.log("post supprimé res",res.data)})
                 .catch(err=>{ console.log("err",err); })
@@ -146,16 +163,15 @@ export default {
            console.log("voir plus"); 
        },
         postLike(){
+            let like= this.like
             this.like++
+            return like
+           
         },
         
     },
    
-    mounted (){
-     // get allposts and dispaly them 
-      this.$store.dispatch('getAllPosts');
-     
-    }
+   
    
 }
 </script>
@@ -179,9 +195,7 @@ export default {
         cursor: pointer;
         padding: 5px 0px;
     }
-    ul {
-        padding: 10PX 0 0 0;
-    }
+    
     .icon {
     cursor: pointer;
     background-color:#f08080;
@@ -224,6 +238,7 @@ export default {
     .media.body{
     padding: 5px 0px;
     }
+    
     .user-title .name{
         font-weight: 700;
         margin-bottom: 3px;
