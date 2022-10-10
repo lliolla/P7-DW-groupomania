@@ -3,16 +3,16 @@
         <h1 class="d-flex justify-center my-8">Mon mur</h1>
          <!-- btn create post -->
         <v-row justify="center">
-                <CreatePost 
-                @post-created='setPost'></CreatePost>  
+                <CreatePost
+                @post-created='setPost'></CreatePost>
         </v-row>
         <v-row justify="center">
-    <!-- box see forum --> 
-            <v-card 
+    <!-- box see forum -->
+            <v-card
                 class="d-flex flex-column post-card"
                 v-for='post in posts'
                 :key='post.id'>
-                <div class="post-header"> 
+                <div class="post-header">
                     <div class="post-media">
                         <v-avatar
                             size="49"
@@ -24,26 +24,26 @@
                             <div class="user-title">
                                 <p class="name">{{post.User.username}} </p>
                             </div>
-                            
+
                         <div class="media-time">
-                        <p>Publié {{publishedDaysAgo(post.updatedAt)}}</p> 
+                        <p>Publié le  {{publishedDaysAgo(post.updatedAt)}}</p>
                         </div>
                         </div>
                     </div>
                     <div class="post-dropdown">
             <!-- box menu modifier supprimer -->
-                      
+
                     </div>
-                </div> 
+                </div>
                 <div class="post-body">
                     <v-card-subtitle >
                 {{post.title}} {{post.id_users}}
                 </v-card-subtitle>
                   <v-card-text>
-                <v-img 
+                <v-img
                 v-if ="post.media"
                 class="mb-3"
-                height="225" 
+                height="225"
                 aspect-ratio="2"
                 :src="post.media"
                 ></v-img>
@@ -52,19 +52,19 @@
                 color="orange"
                 class="mr-2"
                 >loisir</v-chip>
-                    {{post.content}} 
+                    {{post.content}}
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
                    <v-divider></v-divider>
-                </div>   
-             
+                </div>
+
                 <CmtsByUser
-                :idPost="post.id" 
+                :idPost="post.id"
                 @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
         </v-row>
-    <!-- box pagination -->         
+    <!-- box pagination -->
         <div class="Post-pagination text-center">
         <v-container>
             <v-row justify="center">
@@ -108,7 +108,7 @@ export default {
         alert: false,//alerte pour confirmer la suppression d'un post
         toggle :false,//faire disparaitre le btn des modif une fois l'alert de suppression lancer et le faire rapararitree a la fermeture
         //todo : ramener l'image avatar des quue multer ok
-        
+
         }
     },
      computed:{
@@ -120,15 +120,15 @@ export default {
           if(newValue != oldValue) {
              this.$store.dispatch('getAllPosts')
              setTimeout(()=>{this.update=false},1500)
-          } 
+          }
         }
 
      },
 
     mounted (){
-     // get allposts and dispaly them 
+     // get allposts and dispaly them
       this.$store.dispatch('getAllPosts');
-     
+
     },
     methods: {
          setPost(payload){
@@ -136,8 +136,11 @@ export default {
           console.log("payload",this.update);
         },
         publishedDaysAgo (date){
-        return moment(date).startOf('day').fromNow();
-         
+           // let now = moment().moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+            let creatDate =moment(date).format("dddd D MMMM YYYY à HH mm"); 
+          
+         return creatDate;
+
       },
         updatePost(idPost){
             this.dialog = true
@@ -149,30 +152,30 @@ export default {
             this.alert = true
             this.toggle= true
         },
-     
+
         delatePost(idpost){
          console.log("Post supprimé",idpost);
             axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(res=>{ console.log("post supprimé res",res.data)})
                 .catch(err=>{ console.log("err",err); })
-                this.alert= false 
+                this.alert= false
                 this.toggle= true
                 this.$router.go()
         },
        seePost(){
-           console.log("voir plus"); 
+           console.log("voir plus");
        },
         postLike(){
             let like= this.like
             this.like++
             return like
-           
+
         },
-        
+
     },
-   
-   
-   
+
+
+
 }
 </script>
 
@@ -181,21 +184,21 @@ export default {
     background-color:  rgb(226, 225, 223);
     }
     posts-btn__create{
-     position: absolute;  
-     left:50px; 
+     position: absolute;
+     left:50px;
     }
     .post-card{
          width: 70%;
         margin:15px 5px;
         padding:  5px;
-    } 
+    }
     .post-header{
         display: flex;
         justify-content: space-between;
         cursor: pointer;
         padding: 5px 0px;
     }
-    
+
     .icon {
     cursor: pointer;
     background-color:#f08080;
@@ -204,13 +207,13 @@ export default {
     margin: 5px;
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18);
     list-style-type : none;
-    
+
     }
     .blog-like, .blog-comments {
-        list-style-type : none; 
+        list-style-type : none;
         margin: 5px;
     }
-     
+
      .v-btn > .v-btn__content{
         font-size: 20px;
         color: rgb(250, 237, 237);
@@ -238,7 +241,7 @@ export default {
     .media.body{
     padding: 5px 0px;
     }
-    
+
     .user-title .name{
         font-weight: 700;
         margin-bottom: 3px;
@@ -260,7 +263,7 @@ export default {
     flex-direction: row;
     align-items: center;
     }
-    
+
     .click-menu{
         cursor: pointer;
     }
