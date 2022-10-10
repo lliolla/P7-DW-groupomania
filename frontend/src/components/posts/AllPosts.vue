@@ -85,6 +85,7 @@
                             </div>
                         </template>
                     </div>
+                    /
                 </div> 
                 <div class="post-body">
                     <v-card-subtitle >
