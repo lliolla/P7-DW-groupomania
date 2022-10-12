@@ -4,6 +4,7 @@
              <li class="blog-like d-flex ">
                   <div >
                     <v-btn
+                    :disabled="!liked"
                     class="icon"
                     icon>
                         <v-badge
@@ -21,6 +22,7 @@
                  </div>
                   <div >
                      <v-btn
+                     :disabled="!disliked"
                         class="icon"
                         icon>
                             <v-badge
@@ -191,6 +193,8 @@ export default {
             err :"",//error's field
             postCmts:[],
             show: false,
+            liked:1,
+            disliked:1
            
         }
     },
@@ -204,10 +208,11 @@ export default {
     },
     methods : {
         postLike(idPost){
-       //POST 1 
-       //get id post 
-        console.log("userPostLiked",idPost);
-        //POST 1 
+       //
+        this.liked=false
+        this.disliked=true
+        console.log("userPostLiked",idPost,"Like",this.liked,this.like,"Dislike", this.disliked,this.dislike);
+        
       //post like: this.like+>requette POST
       //const newLike = new FormData;
            // newLike.append('like',this.like)
@@ -215,7 +220,11 @@ export default {
 
         },
         postDislike(idPost){
-             console.log("userPostdisLiked",idPost);
+            this.liked=true
+
+            this.disliked=false
+             console.log("userPostDISLiked",idPost,"Like",this.liked,this.like,"Dislike", this.disliked,this.dislike);
+
             //POST -1 
 //post dislike: this.dislike +>requette POST
         },
