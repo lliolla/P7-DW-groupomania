@@ -3,22 +3,22 @@
        <ul class="d-flex flex-row d-flex justify-space-between ">
              <li class="blog-like d-flex ">
                   <div >
-                                <v-btn
-                                class="icon"
-                                icon>
-                                    <v-badge
-                                    bordered
-                                    offset-x="5"
-                                    offset-y="5">
-                                        <span slot="badge">  {{like}} </span> <!--slot can be any component-->
-                                        <v-icon
-                                        class=" white--text"
-                                        dark
-                                        @click="postLike()">
-                                        mdi-thumb-up-outline</v-icon>
-                                    </v-badge>
-                            </v-btn>
-                  </div>
+                    <v-btn
+                    class="icon"
+                    icon>
+                        <v-badge
+                        bordered
+                        offset-x="5"
+                        offset-y="5">
+                            <span slot="badge">  {{like}} </span> <!--slot can be any component-->
+                            <v-icon
+                            class=" white--text"
+                            dark
+                            @click="postLike(idPost)">
+                            mdi-thumb-up-outline</v-icon>
+                        </v-badge>
+                    </v-btn>
+                 </div>
                   <div >
                      <v-btn
                         class="icon"
@@ -31,7 +31,7 @@
                                 <v-icon
                                 class=" white--text"
                                 dark
-                                @click="postDislike()">
+                                @click="postDislike(idPost)">
                                 mdi-thumb-down-outline</v-icon>
                             </v-badge>
                      </v-btn>
@@ -167,8 +167,14 @@ export default {
     name : "CmtsByUser",
     props :{
         idPost : Number,
-        
-       
+        like : {
+        type:Number,
+        default:0
+        } ,
+       dislike :  {
+        type:Number,
+        default:0
+        } ,
     },
     components : { 
         EditCmt
@@ -185,8 +191,7 @@ export default {
             err :"",//error's field
             postCmts:[],
             show: false,
-            like:"10",
-            dislike:"3",
+           
         }
     },
    
@@ -198,11 +203,21 @@ export default {
       
     },
     methods : {
-        postLike(){
-        this.like++
+        postLike(idPost){
+       //POST 1 
+       //get id post 
+        console.log("userPostLiked",idPost);
+        //POST 1 
+      //post like: this.like+>requette POST
+      //const newLike = new FormData;
+           // newLike.append('like',this.like)
+         // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )          
+
         },
-        postDislike(){
-        this.dislike++
+        postDislike(idPost){
+             console.log("userPostdisLiked",idPost);
+            //POST -1 
+//post dislike: this.dislike +>requette POST
         },
         dateDaysAgo(date) {
                 return moment(date).startOf('day').fromNow();
@@ -256,6 +271,7 @@ export default {
                  console.log("response",response);})
                  .catch(err=>{console.log("err",err);})
          },
+         
         }
 }
 

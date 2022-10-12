@@ -41,7 +41,7 @@ if(content.length <=2 ||content.length >= 500 ){
 exports.getAllPosts = (req,res,next)=>{
     console.log('getAllPosts');
     Model.Post.findAll({
-        attributes :['id', 'title','content','like', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
+        attributes :['id', 'title','content','like','dislike', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
         include: [ Model.User] ,
         order: [["id", "DESC"]],
       },)
@@ -125,4 +125,16 @@ exports.delatePost = (req,res,next)=>{
 
 }
 
+exports.userPostLiked =(req,res,next)=>{
+  // id du post 
+  // if req.body.like (renvoi 1 ou -1)
+  // si renvoi 1 alors increment like de 1 l'utilisateur aime le post => req.body.like renvoi 1 
 
+  //sinon si incremente dislike de 1 l'utilisateur n'aime pas le post => req.body.like renvoi -1 
+
+  // sinon  decremnete like de -1 l'utilisateur n'aime plus le post
+
+
+  //sion si decremente dislikes de -1 l'utilsateur enleve sont dislike
+console.log("userPostLiked",req.body.like);
+}

@@ -7,6 +7,7 @@
                 @post-created='setPost'></CreatePost>
         </v-row>
         <v-row justify="center">
+            
     <!-- box see forum -->
             <v-card
                 class="d-flex flex-column post-card"
@@ -51,15 +52,18 @@
                 <v-chip
                 color="orange"
                 class="mr-2"
-                >loisir</v-chip>
-                    {{post.content}}
+                
+                >loisir</v-chip> <br />
+                    {{post.content}} <br />
                     <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
                    <v-divider></v-divider>
                 </div>
 
                 <CmtsByUser
-                :idPost="post.id"
+                  v-bind:idPost="post.id"
+                 v-bind:like="post.like"
+                v-bind:dislike="post.dislike"
                 @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>

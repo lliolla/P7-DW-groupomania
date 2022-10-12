@@ -17,6 +17,8 @@ router.get('/user/:id',postCtrl.getOneUserPosts );//display all posts of one use
 router.post('/',multer,postCtrl.createPost);
 router.put('/:id',multer,postCtrl.updatePost);
 router.delete('/:id',postCtrl.delatePost);
+router.post('/:id/like',postCtrl.userPostLiked);
+
 
 
 module.exports = router
