@@ -62,8 +62,8 @@
 
                 <CmtsByUser
                   v-bind:idPost="post.id"
-                 v-bind:like="post.like"
-                v-bind:dislike="post.dislike"
+                 v-bind:likes="post.likes"
+                v-bind:dislikes="post.dislikes"
                 @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
@@ -169,12 +169,7 @@ export default {
        seePost(){
            console.log("voir plus");
        },
-        postLike(){
-            let like= this.like
-            this.like++
-            return like
-
-        },
+       
 
     },
 

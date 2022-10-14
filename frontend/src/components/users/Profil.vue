@@ -4,7 +4,7 @@
           <v-avatar
               size="45"
               dark>
-              <img :src="userInfos.avatar" alt="avatar">
+              <img :src="userInfos.media" alt="avatar">
           </v-avatar>
           <v-card-title  >
             Modifier mon profil
@@ -63,7 +63,7 @@
           block
           elevation="2"
           color="success"
-          @click="updateProfil(userInfos.avatar)">
+          @click="updateProfil(userInfos.media)">
           Valider les changements 
         </v-btn>
 

@@ -2,7 +2,7 @@
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
-const { log } = require('console');
+// const { log } = require('console');
 
 
 exports.createPost = (req,res,next)=>{
@@ -41,7 +41,7 @@ if(content.length <=2 ||content.length >= 500 ){
 exports.getAllPosts = (req,res,next)=>{
     console.log('getAllPosts');
     Model.Post.findAll({
-        attributes :['id', 'title','content','like','dislike', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
+        attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
         include: [ Model.User] ,
         order: [["id", "DESC"]],
       },)
@@ -52,7 +52,7 @@ exports.getAllPosts = (req,res,next)=>{
 
 exports.getOnePost = (req,res,next)=>{
     Model.Post.findOne({
-        attributes :['id', 'title','content','like', 'UserId', 'media'],// on precise les attributs que l'on veux recup
+        attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media'],// on precise les attributs que l'on veux recup
         where : {id : req.params.id}
      })
      .then(displayPost=> res.status(200).json(displayPost ))// on affiche l'utilisateur
@@ -75,7 +75,7 @@ exports.updatePost = (req,res,next)=>{
 
 exports.delatePost = (req,res,next)=>{
   Model.Post.findOne({
-    attributes :['id', 'title','content','like', 'UserId', 'media'],// on precise les attributs que l'on veux recup
+    attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media'],// on precise les attributs que l'on veux recup
     where : {id : req.params.id}
  })
  .then(delatePost=> {
@@ -106,7 +106,7 @@ exports.delatePost = (req,res,next)=>{
  
       Model.Post.findAll({
       where : {UserId : idUser},
-      attributes :['id', 'title','content','like', 'UserId', 'media','updatedAt'],
+      attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media','updatedAt'],
       include: [ Model.User] ,
       order: [["id", "DESC"]],
       })

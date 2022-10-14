@@ -43,7 +43,7 @@
                 size="38"
               >
                 <v-img
-                    :src="user.avatar">
+                    :src="user.media">
                 </v-img>
                </v-avatar>
             </td>

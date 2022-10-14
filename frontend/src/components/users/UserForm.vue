@@ -11,8 +11,7 @@
               dark
               class="mb-2"
               v-bind="attrs"
-              v-on="on"
-            >
+              v-on="on">
               Créer un utilisateur
             </v-btn>
           </template>
@@ -135,7 +134,7 @@ export default {
            name:this.name,
            firstname : this.firstname,
            lastname : this.lastname,
-           avatar:this.avatar,
+           media:this.media,
            message:"",
          })
            .then(res=>{

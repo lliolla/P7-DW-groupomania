@@ -11,7 +11,7 @@
                         bordered
                         offset-x="5"
                         offset-y="5">
-                            <span slot="badge">  {{like}} </span> <!--slot can be any component-->
+                            <span slot="badge">  {{likes}} </span> <!--slot can be any component-->
                             <v-icon
                             class=" white--text"
                             dark
@@ -29,7 +29,7 @@
                             bordered
                             offset-x="5"
                             offset-y="5">
-                                <span slot="badge">  {{dislike}} </span> <!--slot can be any component-->
+                                <span slot="badge">  {{dislikes}} </span> <!--slot can be any component-->
                                 <v-icon
                                 class=" white--text"
                                 dark
@@ -60,6 +60,7 @@
              </li>
        </ul>
        <v-expand-transition>
+       
             <div v-show="show">
                SHOW {{show}}
                  <v-divider></v-divider>
@@ -169,11 +170,11 @@ export default {
     name : "CmtsByUser",
     props :{
         idPost : Number,
-        like : {
+        likes : {
         type:Number,
         default:0
         } ,
-       dislike :  {
+       dislikes :  {
         type:Number,
         default:0
         } ,
@@ -204,26 +205,30 @@ export default {
         cmtLength(){
             return this.postCmts.length
         },
-      
+      userPostLikedId (){
+        return this.user.userId
+      }
     },
     methods : {
         postLike(idPost){
-       //
+
         this.liked=false
         this.disliked=true
-        console.log("userPostLiked",idPost,"Like",this.liked,this.like,"Dislike", this.disliked,this.dislike);
+        this.like=1
+        console.log("userPostLiked",idPost,this.userPostLikedId,"Like",this.liked,this.like,);
         
-      //post like: this.like+>requette POST
-      //const newLike = new FormData;
-           // newLike.append('like',this.like)
+      const newLike = new FormData;
+            newLike.append('like',this.like),
+            newLike.append('IdPost',idPost)
          // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )          
 
         },
         postDislike(idPost){
-            this.liked=true
-
-            this.disliked=false
-             console.log("userPostDISLiked",idPost,"Like",this.liked,this.like,"Dislike", this.disliked,this.dislike);
+           
+        this.liked=true
+        this.disliked=false
+        this.like=-1
+        console.log("userPostLiked",idPost,this.userPostLikedId,"Like",this.liked,this.like,);
 
             //POST -1 
 //post dislike: this.dislike +>requette POST
