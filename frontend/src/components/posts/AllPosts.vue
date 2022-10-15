@@ -3,8 +3,7 @@
         <h1 class="d-flex justify-center my-8">Mon mur</h1>
          <!-- btn create post -->
         <v-row justify="center">
-                <CreatePost
-                @post-created='setPost'></CreatePost>
+                <CreatePost @post-created='setPost'></CreatePost>
         </v-row>
         <v-row justify="center">
             

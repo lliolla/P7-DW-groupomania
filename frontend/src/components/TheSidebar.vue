@@ -4,7 +4,7 @@
       <v-list>
         <v-list-item>
           <v-list-item-avatar>
-            <v-img :src="user.avatar" > </v-img>
+            <v-img :src="user.media" > </v-img>
           </v-list-item-avatar>
         </v-list-item>
 

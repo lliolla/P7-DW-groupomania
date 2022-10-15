@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     media: DataTypes.STRING,
-    like:{
+    likes:{
       type: DataTypes.INTEGER,
       defaultValue :0
     },
-    dislike: {
+    dislikes: {
       type: DataTypes.INTEGER,
       defaultValue :0
     },

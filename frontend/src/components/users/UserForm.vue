@@ -93,7 +93,6 @@ import { mapState } from 'vuex'
 
 export default {
    name : 'Profil',
-   props:['id', 'mode','newUser'],
    data:()=>{
        return {
          dialog :"",
@@ -135,10 +134,10 @@ export default {
            firstname : this.firstname,
            lastname : this.lastname,
            media:this.media,
-           message:"",
          })
            .then(res=>{
              this.$emit('user-created',this.update=true)
+            this.$emit('crud-msg',this.message="Création du profil réussie")
              this.$refs.userForm.reset();
              this.dialog=false
              console.log(res);

@@ -8,9 +8,9 @@ const fs = require('fs');
 exports.createPost = (req,res,next)=>{
 
 // specify params 
-let title = req.body.title;
-let content = req.body.content;
-let  media = (req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null)
+const title = req.body.title;
+const content = req.body.content;
+const  media = (req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:null)
 
 const token = req.headers.authorization.split(" ")[1];
 const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
@@ -30,9 +30,9 @@ if(content.length <=2 ||content.length >= 500 ){
 }
 
  let newPost ={UserId,title,content,media}
- console.log("create post user id",newPost);
+ console.log("backend post pret a envoye en bd",newPost);
  Model.Post.create(newPost)
-     .then((newPost)=> res.status(200).json(newPost))
+     .then(newPost=> res.status(201).json(newPost))
      .catch(error => res.status(400).json ({error: 'impossible de créer le post'}))
 }
 

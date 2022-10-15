@@ -96,7 +96,7 @@ export default {
             //on creer un formdata pour envoyer les données
             const newDataPost = new FormData;
             newDataPost.append('title',this.title)
-            newDataPost.append('id_users',userId)
+            newDataPost.append('UserId',userId)
             newDataPost.append('content',this.content)
             newDataPost.append('media',this.media)  
 
@@ -104,7 +104,7 @@ export default {
             axios.post("http://localhost:3000/api/v1/post",newDataPost,{headers: {Authorization: 'Bearer ' + token}})
             .then(()=>{
                  this.$emit('post-created',this.update=true)
-                /this.$refs.postForm.reset();
+                this.$refs.postForm.reset();
                  this.dialog=false
             })
             .catch(err =>{

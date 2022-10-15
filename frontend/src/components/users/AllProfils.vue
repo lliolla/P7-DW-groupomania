@@ -5,7 +5,8 @@
          
     <v-card-title>
           <UserForm 
-            @user-created ='setUser'>
+            @user-created ='setUser'
+            @crud-msg = 'setMsg'>
           </UserForm>
       <v-spacer></v-spacer>
       <v-text-field
@@ -140,10 +141,8 @@ export default {
          axios.delete("http://localhost:3000/api/v1/user/"+id,{headers: {Authorization: 'Bearer ' + localStorage.token}})
                 .then(res=>{ 
                   this.update=true
-
                   this.message ="l'utilisateur ainsi que tout son historique a bien été supprimé"
                   console.log("post supprimé res",this.update,res.data)})
-
                 .catch(err=>{ console.log("err",err); })
         },
         

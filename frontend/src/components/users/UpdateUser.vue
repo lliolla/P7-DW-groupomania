@@ -151,12 +151,10 @@ export default {
  console.log("idUser",this.idUser);
     //axios put data to database
      axios.put("http://localhost:3000/api/v1/user/"+idUsers,updateDataProfil,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(response=>{
-             console.log("profil envoyé",response)
+            .then(()=>{
               this.$emit('user-created',this.update=true)
               this.$emit('crud-msg',this.message="Mise a jour du profil réussie")
               this.dialog=false
-          
              })
              .catch(err =>{
                 console.log(err);
