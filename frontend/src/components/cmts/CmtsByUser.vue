@@ -39,9 +39,7 @@
                      </v-btn>
                   </div>
              </li>
-
              <li class="blog-comments">
-                 id du post {{idPost}} 
                 <v-btn
                    class="icon"
                    icon>
@@ -61,12 +59,14 @@
        </ul>
        <v-expand-transition>
             <div v-show="show">
+             
                  <v-divider></v-divider>
                     <v-alert 
                     type= "error"
                     v-if="err =='false'"
                     >{{errMsg}} 
                  </v-alert>
+<!-- box create comment -->
                  <div class="createComment d-flex justify-center mt-2 mr-2">
                     <v-avatar
                         color="teal"
@@ -75,8 +75,7 @@
                         <v-img
                         :src="user.media">
                         </v-img>
-                    </v-avatar>
-                    
+                    </v-avatar> 
                     <v-textarea
                     ref="cmtContent"
                      clearable
@@ -208,6 +207,10 @@ export default {
         return this.user.userId
       }
     },
+    mounted () {
+  this.postCmts.length
+           
+   },
     methods : {
         postLike(idPost){
             this.liked=false
@@ -234,18 +237,13 @@ export default {
                 },
         showCmt(idPost){
             this.show = !this.show
-
-
             //Get all posts's cmts
             //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
-
             axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
                 .then(res=> {this.postCmts = res.data})
                 .catch(err=>{ console.log("err axios getPOstCmts",err); })
-
-        
                 },
         
         submitCom(idPost){
@@ -257,8 +255,9 @@ export default {
         //get id of post who want create coments
                 axios.post("http://localhost:3000/api/v1/cmt",{PostId:idPost,UserId:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
                 .then(()=>{
-                     this.err = 'true'
+                    this.err = true
                     this.$refs.cmtContent.reset();
+                    this.show= false
                     this.showCmt(idPost)
                     
                 })
@@ -277,8 +276,12 @@ export default {
             let token=user.token
             
             axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
-                 .then( response=>{this.showCmt()
-                 console.log("response",response);})
+                 .then( ()=>{
+                   
+                    console.log("show",this.show);
+                    this.showCmt()
+                   
+                })
                  .catch(err=>{console.log("err",err);})
          },
          

@@ -91,16 +91,14 @@ export default {
             })
         },
         updateCmt(idCmt){
-            // let idPost=this.oneCmt.id_posts
-            // let idUsers=this.oneCmt.id_users
-            let content =this.oneCmt.content
+             let idPost=this.oneCmt.id_posts
+             let idUser=this.oneCmt.id_users
            
-            // const updateDataCmt = new FormData;
-                // updateDataCmt.append('content',content),
-                // updateDataCmt.append('id_users',idUsers),
-                // updateDataCmt.append('id_posts',idPost),
-            console.log('updateDataCmt',idCmt,content);
-            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,content,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            //  const updateDataCmt = new FormData;
+            //      updateDataCmt.append('content',content),
+            //      updateDataCmt.append('idUsers',idUsers),
+            //      updateDataCmt.append('idPost',idPost),
+            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,{PostId:idPost,UserId:idUser ,content:this.content},{headers: {Authorization: 'Bearer ' + localStorage.token}})
             .then(response=>{
                 this.closeCmt = true
                 this.update = true

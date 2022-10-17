@@ -63,7 +63,7 @@
                   v-bind:idPost="post.id"
                  v-bind:likes="post.likes"
                 v-bind:dislikes="post.dislikes"
-                @update-cmt="setPost">
+                 @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
         </v-row>

@@ -55,9 +55,9 @@ exports.getOneCmt = (req,res,next)=>{
 }
 
 exports.updateCmt = (req,res,next)=>{
-    let content = req.body.content;
-    let PostId =req.body.PostId
-    let UserId =req.body.UserId
+    let content = req.body.content
+   let PostId =req.body.PostId
+  let UserId = req.body.UserId
 
     let updateObject ={content,PostId,UserId }
     console.log('updateCmts back',updateObject);
