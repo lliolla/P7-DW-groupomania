@@ -118,10 +118,10 @@
                                         <v-card-text>
                                             {{cmt.content}}
                                         </v-card-text>
-                                        <!-- box menu modifier supprimer -->
                                 </v-card> 
-                        </v-timeline-item>
-                        <template  >
+                        </v-timeline-item> 
+<!-- box menu modifier supprimer -->
+                        <template v-if="user.userId ==cmt.UserId " >
                              <div >
                                  <v-menu offset-y>
                                      <template v-slot:activator="{ on, attrs }">
@@ -195,11 +195,10 @@ export default {
             postCmts:[],
             show: false,
             liked:1,
-            disliked:1
-           
+            disliked:1,
         }
     },
-   
+ 
     computed:{
         ...mapState(['user']),
         cmtLength(){
@@ -215,7 +214,6 @@ export default {
             this.disliked=true
             this.like=1
             console.log("userPostLiked",idPost,this.userPostLikedId,"Like",this.liked,this.like,);
-            
             const newLike = new FormData;
             newLike.append('like',this.like),
             newLike.append('IdPost',idPost)
@@ -236,13 +234,18 @@ export default {
                 },
         showCmt(idPost){
             this.show = !this.show
+
+
             //Get all posts's cmts
             //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
+
             axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
                 .then(res=> {this.postCmts = res.data})
                 .catch(err=>{ console.log("err axios getPOstCmts",err); })
+
+        
                 },
         
         submitCom(idPost){

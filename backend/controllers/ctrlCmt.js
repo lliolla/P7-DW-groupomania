@@ -22,7 +22,7 @@ exports.getOnePostCmts = (req,res,next)=>{
       attributes :['id','content','UserId', 'PostId','updatedAt'],
       include: {
         model: Model.User ,
-        attributes:['username','media']
+        attributes:['id','username','media']
     } ,
       order: [["id", "DESC"]],
     })
