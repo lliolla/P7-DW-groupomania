@@ -146,10 +146,15 @@
                             :rules ="rulesContent">
                     </v-textarea>
                     <v-btn
-                    class="send-Cmt_Btn"
+                   
+                    class="mx-2"
+                    fab
+                    dark
+                    small
+                  
                      color="success"
                      @click="submitCom(idPost)">
-                     Envoyer
+                     <v-icon>email-arrow-right</v-icon>
                     </v-btn>
                 </div >
             </div>
