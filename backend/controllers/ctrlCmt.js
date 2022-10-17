@@ -6,6 +6,9 @@ exports.getAllCmt = (req,res,next)=>{
 console.log('getAllCmts');
 Model.Comment.findAll({
     attributes :['id', 'content','updatedAt','UserId','PostId'],  
+    include: {
+        model: Model.User ,
+        attributes:['username','media']},
     order: [["id", "DESC"]],
 })
 .then(cmt=> res.status(200).json(cmt))
@@ -13,13 +16,13 @@ Model.Comment.findAll({
 }
 
 exports.getOnePostCmts = (req,res,next)=>{
-    console.log('getOneCmts',req.params.id, req.body);
+    console.log('getOneCmts',req.params.id);
     Model.Comment.findAll({
-      where : {id : req.params.id},
+      where : {PostID : req.params.id},
       attributes :['id','content','UserId', 'PostId','updatedAt'],
       include: {
         model: Model.User ,
-        attributes:['username','avatar']
+        attributes:['username','media']
     } ,
       order: [["id", "DESC"]],
     })
@@ -53,8 +56,8 @@ exports.getOneCmt = (req,res,next)=>{
 
 exports.updateCmt = (req,res,next)=>{
     let content = req.body.content;
-    let PostId =req.body.id_posts
-    let UserId =req.body.id_users
+    let PostId =req.body.PostId
+    let UserId =req.body.UserId
 
     let updateObject ={content,PostId,UserId }
     console.log('updateCmts back',updateObject);
@@ -71,21 +74,21 @@ exports.createCmt =(req, res,next)=>{
 // Test datas comming Frontend and empty field
 let content = req.body.content
 let PostId =req.body.PostId
-
+let UserId = req.body.UserId
 if ( content==null||content <= 0 ){
     return res.status(400).json({ error: "le commentaire ne peut pas etre envoyé vide " });
 }
+console.log("create comment",PostId,UserId,content);
 Model.Post.findOne({
 where : {id :PostId}
 })
 .then(postFound =>{
     if(postFound){
-    let UserId = req.params.id 
     let newCmt = {content,UserId,PostId}
     console.log("commentaire pret a envoyé en bd",newCmt)
     Model.Comment.create(newCmt)
-    .then( res.status(200).json({message: 'commentaire créer avec succès '}) ) 
-    .catch(error => res.status(400).json ({error: "impossible de creer le commentaire"})) 
+    .then(newCmt=> res.status(200).json(newCmt) ) 
+    .catch(() => res.status(400).json ({error: "impossible de creer le commentaire"})) 
     }else{
         return res.status(409).json({ error: 'aucun post trouvé impossible de créer le commentaire'})
     }

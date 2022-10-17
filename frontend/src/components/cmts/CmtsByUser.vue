@@ -60,10 +60,44 @@
              </li>
        </ul>
        <v-expand-transition>
-       
             <div v-show="show">
-               SHOW {{show}}
                  <v-divider></v-divider>
+                    <v-alert 
+                    type= "error"
+                    v-if="err =='false'"
+                    >{{errMsg}} 
+                 </v-alert>
+                 <div class="createComment d-flex justify-center mt-2 mr-2">
+                    <v-avatar
+                        color="teal"
+                        size="30"
+                        class="mx-3">
+                        <v-img
+                        :src="user.media">
+                        </v-img>
+                    </v-avatar>
+                    
+                    <v-textarea
+                    ref="cmtContent"
+                     clearable
+                    clear-icon="mdi-close-circle"
+                            outlined
+                            rows="1"
+                            auto-grow
+                            label="Commentez ce post"
+                            v-model="content"
+                            :rules ="rulesContent">
+                    </v-textarea>
+                    <v-btn
+                    class="mx-2 "
+                    fab
+                    dark
+                    small
+                     color="success"
+                     @click="submitCom(idPost)">
+                     <v-icon color="light-green lighten-4">mdi-email-arrow-right</v-icon>
+                    </v-btn>
+                 </div >
                  <v-timeline
                  class="d-flex"
                     align-top
@@ -73,13 +107,13 @@
                         <v-timeline-item class="timeline-1"  >
                                 <template v-slot:icon>
                                     <v-avatar size="30" class="red lighten-3">
-                                    <img :src=cmt.User.avatar>
+                                  <img :src=cmt.User.media> 
                                     </v-avatar>
                                 </template>
                                 <v-card class="red lighten-5 cmt-card">
-                                        <v-card-title >
-                                    <!-- todo recupere le nom du user qui a ecrit le post -->
-                                    {{cmt.User.username}} <span class="card-title__span">à répondu {{ dateDaysAgo(cmt.updatedAt)}}</span>
+                                <v-card-title >
+                                 <span class="card-title__span"><strong>{{cmt.User.username}}</strong> 
+                                     à répondu {{ dateDaysAgo(cmt.updatedAt)}}</span>
                                         </v-card-title>
                                         <v-card-text>
                                             {{cmt.content}}
@@ -117,46 +151,7 @@
                                  </v-menu>
                               </div>
                         </template> 
-                
                  </v-timeline>
-                 <v-divider></v-divider>
-                 <v-alert 
-                    type= "error"
-                    v-if="err =='false'"
-                    >{{errMsg}} 
-                    </v-alert>
-                <div class="createComment d-flex justify-center mt-2 mr-2">
-                    <v-avatar
-                        color="teal"
-                        size="30"
-                        class="mx-3">
-                        <v-img
-                        :src="user.avatar">
-                        </v-img>
-                    </v-avatar>
-                    
-                    <v-textarea
-                     clearable
-                    clear-icon="mdi-close-circle"
-                            outlined
-                            rows="1"
-                            auto-grow
-                            label="Commentez ce post"
-                            v-model="content"
-                            :rules ="rulesContent">
-                    </v-textarea>
-                    <v-btn
-                   
-                    class="mx-2"
-                    fab
-                    dark
-                    small
-                  
-                     color="success"
-                     @click="submitCom(idPost)">
-                     <v-icon>email-arrow-right</v-icon>
-                    </v-btn>
-                </div >
             </div>
        </v-expand-transition>
   </div>
@@ -216,17 +211,15 @@ export default {
     },
     methods : {
         postLike(idPost){
-
-        this.liked=false
-        this.disliked=true
-        this.like=1
-        console.log("userPostLiked",idPost,this.userPostLikedId,"Like",this.liked,this.like,);
-        
-      const newLike = new FormData;
+            this.liked=false
+            this.disliked=true
+            this.like=1
+            console.log("userPostLiked",idPost,this.userPostLikedId,"Like",this.liked,this.like,);
+            
+            const newLike = new FormData;
             newLike.append('like',this.like),
             newLike.append('IdPost',idPost)
          // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )          
-
         },
         postDislike(idPost){
            
@@ -259,17 +252,12 @@ export default {
         //get token in storage and extract ID
             let token=user.token
         //get id of post who want create coments
-        console.log('idPost',idPost,userId,this.content);
-        //create form to send comment datas
-            //   const newDataCmt = new FormData();
-            //   newDataCmt.append('id_posts',idPost)
-            //   newDataCmt.append('id_users',userId)
-            //   newDataCmt.append('content',this.content)
-            console.log('submitCom')
-                axios.post("http://localhost:3000/api/v1/cmt",{id_posts:idPost,id_users:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
-                .then(response=>{
-                    console.log("nouveau com créer",response)
+                axios.post("http://localhost:3000/api/v1/cmt",{PostId:idPost,UserId:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
+                .then(()=>{
+                     this.err = 'true'
+                    this.$refs.cmtContent.reset();
                     this.showCmt(idPost)
+                    
                 })
                 .catch(err =>{
                     if(err !== 200){
