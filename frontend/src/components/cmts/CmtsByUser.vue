@@ -122,7 +122,11 @@
 <!-- box menu modifier supprimer -->
                         <template v-if="user.userId ==cmt.UserId " >
                              <div >
-                                 <v-menu offset-y>
+                                 <v-menu 
+                                 offset-y 
+                                  v-model="menu"
+                                :close-on-content-click="false"  
+                                >
                                      <template v-slot:activator="{ on, attrs }">
                                         <v-btn
                                             class ="dropdown-icon icon"
@@ -139,7 +143,11 @@
                                          <v-list-item d-flex flex-column>
                                             <v-list-item-title class="a">
                                                <template>
-                                                 <EditCmt :idCmt="cmt.id" :idPost="idPost" ></EditCmt> 
+                                                 <EditCmt 
+                                                 :idCmt="cmt.id" :idPost="idPost"
+                                                 @update-cmt='setUpdate'
+                                                 @menu-event ='setMenu'
+                                                 ></EditCmt> 
                                                 </template>
                                             </v-list-item-title>
                                          </v-list-item>
@@ -195,9 +203,24 @@ export default {
             show: false,
             liked:1,
             disliked:1,
+            update:false,
+            menu: false,
+
         }
     },
- 
+    watch:{
+        update(newValue, oldValue){
+          console.log("newValue, oldValue",newValue, oldValue);
+          if(newValue != oldValue) {
+            
+
+            this.showCmt(this.idPost)
+            this.show=true
+             console.log("upshowdate",this.show);
+          }
+        }
+
+     },
     computed:{
         ...mapState(['user']),
         cmtLength(){
@@ -212,6 +235,12 @@ export default {
            
    },
     methods : {
+         setUpdate(payload){
+          this.update=payload
+        },
+        setMenu(payload){
+          this.menu=payload  
+        },
         postLike(idPost){
             this.liked=false
             this.disliked=true
@@ -259,11 +288,10 @@ export default {
                     this.$refs.cmtContent.reset();
                     this.show= false
                     this.showCmt(idPost)
-                    
                 })
                 .catch(err =>{
                     if(err !== 200){
-                    this.err = 'false'
+                    this.err = false
                     this.errMsg =err.response.data.error  
                     }
                 
@@ -277,10 +305,7 @@ export default {
             
             axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
                  .then( ()=>{
-                   
-                    console.log("show",this.show);
-                    this.showCmt()
-                   
+                    this.showCmt() 
                 })
                  .catch(err=>{console.log("err",err);})
          },

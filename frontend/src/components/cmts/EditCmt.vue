@@ -8,6 +8,7 @@
         class="card ">
                 <div class="post-content">
                     <v-textarea
+                        ref=upContent
                         label="Modifier le commentaire"
                         prepend-icon="mdi-pen"
                         v-model="oneCmt.content">
@@ -23,19 +24,19 @@
                 <v-divider></v-divider>
                 <div class="post-footer">
                     <template>
-
-                        <v-btn color="warning"
-                        @click=" closePost()"
+                        <v-btn 
+                        color="warning"
+                        @click=" closeDialog()"
                         >Fermer</v-btn>
-
-                        <v-btn color="success"
+                        <v-btn 
+                        color="success"
                         @click=" updateCmt(idCmt)"
                         >Envoyer</v-btn>
                     </template>
                 </div>
         </v-card>
         <template v-slot:activator="{ on, attrs }">
-            <v-icon   
+            <v-icon  
             v-bind="attrs"
             v-on="on"
             class="icon">
@@ -72,7 +73,7 @@ export default {
             this.message ='Votre commentaire a bien ete modifié'
             setTimeout(() => {
             this.closeCmt = false
-            this.closePostDialog()
+            this.closeDialog()
             }, 1000)
         },
     },
@@ -91,26 +92,22 @@ export default {
             })
         },
         updateCmt(idCmt){
-             let idPost=this.oneCmt.id_posts
-             let idUser=this.oneCmt.id_users
-           
-            //  const updateDataCmt = new FormData;
-            //      updateDataCmt.append('content',content),
-            //      updateDataCmt.append('idUsers',idUsers),
-            //      updateDataCmt.append('idPost',idPost),
-            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,{PostId:idPost,UserId:idUser ,content:this.content},{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(response=>{
+            let content =this.oneCmt.content
+
+            axios.put("http://localhost:3000/api/v1/cmt/"+idCmt,{content},{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            .then(()=>{
                 this.closeCmt = true
                 this.update = true
-              console.log("cmt envoyé update=",this.update,response.data)
-             this.$emit('update-cmt',this.update)
+                this.$emit('update-cmt',this.update)
+                this.$emit('show-cmt',this.show=false)
+                this.$emit('menu-event',this.menu=false)
              })
              .catch(err =>{
                 console.log(err);
              });
          },
          
-        closePostDialog(){
+        closeDialog(){
                this.dialog=false
         }
 
