@@ -76,6 +76,7 @@
                         </v-img>
                     </v-avatar> 
                     <v-textarea
+                    counter="254" 
                     ref="cmtContent"
                      clearable
                     clear-icon="mdi-close-circle"
@@ -166,6 +167,7 @@ export default {
             userId:"",//form'S field comments
             rulesContent:[
                 v => !!v || 'Le contenu ne doit pas être vide',
+                v => v.length <= 254 || 'Max 254 characters'
             ],
             errMsg :"",//error's field
             err :true,//error's field
@@ -174,8 +176,6 @@ export default {
             liked:1,
             disliked:1,
             update:false,
-         
-
         }
     },
     watch:{
@@ -184,7 +184,6 @@ export default {
           if(newValue != oldValue) {
             this.showCmt(this.idPost)
             this.show=true
-             console.log("upshowdate",this.show);
           }
         }
 

@@ -3,8 +3,7 @@
     <v-menu 
         offset-y 
         v-model="menu"
-       :close-on-content-click="false"  
-    >
+       :close-on-content-click="false"  >
             <template v-slot:activator="{ on, attrs }">
             <v-btn
                 class ="dropdown-icon icon"
@@ -28,6 +27,8 @@
                         class="card ">
                             <div class="post-content">
                                 <v-textarea
+                                     :rules="rules"
+                                    counter="254" 
                                     ref=upContent
                                     label="Modifier le commentaire"
                                     prepend-icon="mdi-pen"
@@ -94,6 +95,7 @@ export default {
                 id:"",         
                 content:"",
             },
+             rules: [v => v.length <= 254 || 'Max 254 characters'],
         }
     } ,
     watch:{
