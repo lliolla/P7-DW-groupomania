@@ -123,15 +123,11 @@ export default {
           if(newValue != oldValue) {
              this.$store.dispatch('getAllPosts')
              setTimeout(()=>{this.update=false},1500)
-          }
-        }
-
-     },
+          }}},
 
     mounted (){
      // get allposts and dispaly them
       this.$store.dispatch('getAllPosts');
-
     },
     methods: {
          setPost(payload){

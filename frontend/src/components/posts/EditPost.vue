@@ -94,6 +94,7 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
+
     this.getPost()
            
    },

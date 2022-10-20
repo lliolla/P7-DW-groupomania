@@ -59,11 +59,10 @@
        </ul>
        <v-expand-transition>
             <div v-show="show">
-             
                  <v-divider></v-divider>
                     <v-alert 
                     type= "error"
-                    v-if="err =='false'"
+                    v-if="err ==false"
                     >{{errMsg}} 
                  </v-alert>
 <!-- box create comment -->
@@ -119,45 +118,15 @@
                                         </v-card-text>
                                 </v-card> 
                         </v-timeline-item> 
-<!-- box menu modifier supprimer -->
-                        <template v-if="user.userId ==cmt.UserId " >
-                             <div >
-                                 <v-menu 
-                                 offset-y 
-                                  v-model="menu"
-                                :close-on-content-click="false"  
-                                >
-                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                            class ="dropdown-icon icon"
-                                            icon
-                                            v-bind="attrs"
-                                            v-on="on">
-                                            <v-icon
-                                                class=" white--text">
-                                                mdi-dots-vertical
-                                            </v-icon>
-                                        </v-btn>
-                                     </template>
-                                     <v-list>
-                                         <v-list-item d-flex flex-column>
-                                            <v-list-item-title class="a">
-                                               <template>
-                                                 <EditCmt 
-                                                 :idCmt="cmt.id" :idPost="idPost"
-                                                 @update-cmt='setUpdate'
-                                                 @menu-event ='setMenu'
-                                                 ></EditCmt> 
-                                                </template>
-                                            </v-list-item-title>
-                                         </v-list-item>
-                                         <v-list-item d-flex flex-column>
-                                           <v-list-item-title class="a" @click="deleteCmt(cmt.id)"><v-icon class="icon" >mdi-close</v-icon>Supprimer</v-list-item-title>
-                                                </v-list-item>
-                                     </v-list>
-                                 </v-menu>
-                              </div>
-                        </template> 
+<!-- box menu modifier supprimer -->  
+                        <template  v-if="user.userId == cmt.UserId ">
+                            <EditCmt 
+                            :idCmt="cmt.id" 
+                            :idPost="idPost"
+                            @update-cmt='setUpdate'
+                            @menu-event ='setMenu'
+                            ></EditCmt> 
+                        </template>
                  </v-timeline>
             </div>
        </v-expand-transition>
@@ -186,7 +155,8 @@ export default {
         default:0
         } ,
     },
-    components : { 
+    components : 
+    { 
         EditCmt
     },
     data(){
@@ -198,13 +168,13 @@ export default {
                 v => !!v || 'Le contenu ne doit pas être vide',
             ],
             errMsg :"",//error's field
-            err :"",//error's field
+            err :true,//error's field
             postCmts:[],
-            show: false,
+            show: false, 
             liked:1,
             disliked:1,
             update:false,
-            menu: false,
+         
 
         }
     },
@@ -212,8 +182,6 @@ export default {
         update(newValue, oldValue){
           console.log("newValue, oldValue",newValue, oldValue);
           if(newValue != oldValue) {
-            
-
             this.showCmt(this.idPost)
             this.show=true
              console.log("upshowdate",this.show);
@@ -231,7 +199,7 @@ export default {
       }
     },
     mounted () {
-  this.postCmts.length
+
            
    },
     methods : {
@@ -298,18 +266,6 @@ export default {
                 });
 
             },
-        deleteCmt(idcmt){
-        //get token in storage and extract ID
-            let user=JSON.parse(localStorage.getItem('user'))
-            let token=user.token
-            
-            axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
-                 .then( ()=>{
-                    this.showCmt() 
-                })
-                 .catch(err=>{console.log("err",err);})
-         },
-         
         }
 }
 
