@@ -167,7 +167,7 @@ export default {
             userId:"",//form'S field comments
             rulesContent:[
                 v => !!v || 'Le contenu ne doit pas être vide',
-                v => v.length <= 254 || 'Max 254 characters'
+                v => v && v.length <= 254 || 'Max 254 characters'
             ],
             errMsg :"",//error's field
             err :true,//error's field
