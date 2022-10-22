@@ -89,7 +89,6 @@ export default {
             menu: false,
             closeCmt:false,
             update:false,
-            message:"",
             media:"",
             oneCmt:{
                 id:"",         
@@ -107,11 +106,11 @@ export default {
             this.closeDialog()
             }, 1000)
         },
+        
     },
     mounted () {
          this.getCmts() 
-         console.log("mounted post" ,this.idPost,"mounted cmt",this.idCmt);
-    
+        
     },
     methods: {
         getCmts(){
@@ -129,8 +128,7 @@ export default {
             .then(()=>{
                 this.err = true
                 this.closeCmt = true
-                this.update = true
-                this.$emit('update-cmt',this.update)
+                this.$emit('update-cmt',this.update= !this.update)
                 this.$emit('show-cmt',this.show=false)
                 this.$emit('menu-event',this.menu=false)
              })
@@ -140,14 +138,13 @@ export default {
          },
         deleteCmt(idcmt){
         //get token in storage and extract ID
-            let user=JSON.parse(localStorage.getItem('user'))
-            let token=user.token
-            
-            axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + token}})
-                 .then( (res)=>{
-                    this.$emit('menu-event',this.menu=true)
-                  
-                    console.log("axios.delete",res,)
+            axios.delete("http://localhost:3000/api/v1/cmt/"+idcmt,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+                 .then( ()=>{
+                this.$emit('update-cmt',this.update= !this.update)
+                this.$emit('show-cmt',this.show=false)
+                this.$emit('menu-event',this.menu=false)
+                  console.log("delate",this.update ,"delate2",!this.update);
+                    
                 })
                  .catch(err=>{console.log("err",err);})
          },

@@ -261,9 +261,7 @@ export default {
                     this.err = false
                     this.errMsg =err.response.data.error  
                     }
-                
                 });
-
             },
         }
 }

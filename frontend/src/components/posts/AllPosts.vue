@@ -159,7 +159,7 @@ export default {
                 .catch(err=>{ console.log("err",err); })
                 this.alert= false
                 this.toggle= true
-                this.$router.go()
+                
         },
        seePost(){
            console.log("voir plus");
