@@ -23,6 +23,8 @@
                         v-model="onePost.title">
                     </v-text-field>
                     <v-textarea
+                    :rules ="rulesContent"
+                       counter="254" 
                         prepend-icon="mdi-pen"
                         v-model="onePost.content">
                     </v-textarea>
@@ -33,14 +35,6 @@
                             label="Changer de fichier">
                         </v-file-input>
                     </div>
-                    <v-alert
-                    outlined
-                    type="success"
-                    text
-                    v-if=" update==true"
-                    >
-                    {{message}} 
-                    </v-alert>
                 </div>
                 <v-divider></v-divider>
                 <div class="post-footer">
@@ -82,7 +76,11 @@ export default {
         return {
             dialog: false,
             update:false,
-            message:"",
+            menu: false,
+            rulesContent:[
+                v => !!v || 'Le contenu ne doit pas être vide',
+                v => v && v.length <= 254 || 'Max 254 characters'
+            ],
             media:[],
             onePost:{
                 id:"",
@@ -94,19 +92,10 @@ export default {
     } ,
    mounted () {
     this.idPost = this.getIdPost
-
     this.getPost()
            
    },
-   watch: {
-    update(newValue, oldValue){
-     if(newValue, oldValue) 
-     this.getPost() 
-        setTimeout(() => {
-         this.closePost()
-        }, 1500)
-    }
-   },
+   
    computed: {
        ...mapState(['user']),
        getIdPost (){
@@ -142,12 +131,12 @@ export default {
             console.log("post modifie pret a envoyer backend",updateDataPost,this.media)
 
              axios.put("http://localhost:3000/api/v1/post/"+this.idPost,updateDataPost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
-            .then(response=>{
-                this.update=true
+            .then(()=>{
+                this.$emit('update-cmt',this.update= !this.update)
+                this.$emit('menu-event',this.menu=false)
                 this.dialog=false
-                this.message ='Votre commentaire a bien ete modifié'
-                this.$emit('updateCmt',this.updateCmt=true)  
-             console.log("post envoyé this.updateemit",this.updateCmt,response)
+                // this.message ='Votre commentaire a bien ete modifié'
+             console.log("post envoyé this.updateemit",this.menu,this.update)
              })
              .catch(err =>{
                 console.log(err);
@@ -155,7 +144,7 @@ export default {
         },
         closePost(){
             this.dialog=false
-            this.update=false
+            this.$emit('menu-event',this.menu=false)
                 
         }
 

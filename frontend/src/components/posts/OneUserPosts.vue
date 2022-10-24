@@ -49,8 +49,11 @@
                                     <v-list-item d-flex flex-column>
                                     <v-list-item-title class="a">
                                         <template>
-                                            <EditPost :idPost=post.id
-                                            @update-cmt="setUpdate"></EditPost>
+                                            <EditPost 
+                                            :idPost=post.id
+                                             @update-cmt='setUpdate'
+                                             @menu-event ='setMenu'
+                                            ></EditPost>
                                         </template>
                                     </v-list-item-title>
                                     </v-list-item>
@@ -132,7 +135,8 @@ export default {
     data: ()=>{
         return {
         dialog: false,
-        updateCmt:false,
+        menu:false,
+        update:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{
         },
@@ -140,8 +144,11 @@ export default {
     }
     },
     watch:{
-        updateCmt(newValue){
-           console.log("newValue",newValue);
+        update(newValue,oldValue){
+           console.log("newValue, oldValue",newValue, oldValue);
+           if(newValue != oldValue) {
+          this.getAllCmts()
+          }
         }
     },
     mounted (){
@@ -154,10 +161,13 @@ export default {
      },
     methods: {
 
-        setUpdate(updateCmt){
-          this.updateCmt=updateCmt 
-         console.log('setUpdate payload',this.updateCmt)
-
+        setUpdate(update){
+          this.update=update
+         console.log('setUpdate payload',this.update)
+        },
+         setMenu(payload){
+          this.menu=payload 
+              console.log('setMenu payload',this.update) 
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();

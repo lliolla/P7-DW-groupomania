@@ -30,7 +30,9 @@
                     </v-text-field>
                     <v-textarea
                         label="Ecrivez votre contenu"
-                        v-model="content">
+                        counter="254" 
+                        v-model="content"
+                        :rules ="rulesContent">
                     </v-textarea>
                     <v-file-input
                     v-model="media"
@@ -78,6 +80,10 @@ export default {
             dialog :false,
             update:false,
             errMsg:"",
+            rulesContent:[
+                v => !!v || 'Le contenu ne doit pas être vide',
+                v => v && v.length <= 254 || 'Max 254 charactères'
+            ],
         }
     } ,
     computed:{

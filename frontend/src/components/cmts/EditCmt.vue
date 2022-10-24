@@ -142,9 +142,7 @@ export default {
                  .then( ()=>{
                 this.$emit('update-cmt',this.update= !this.update)
                 this.$emit('show-cmt',this.show=false)
-                this.$emit('menu-event',this.menu=false)
-                  console.log("delate",this.update ,"delate2",!this.update);
-                    
+                this.$emit('menu-event',this.menu=false)                    
                 })
                  .catch(err=>{console.log("err",err);})
          },

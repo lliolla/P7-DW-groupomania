@@ -60,9 +60,9 @@
                 </div>
 
                 <CmtsByUser
-                  v-bind:idPost="post.id"
+                 v-bind:idPost="post.id"
                  v-bind:likes="post.likes"
-                v-bind:dislikes="post.dislikes"
+                 v-bind:dislikes="post.dislikes"
                  @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
