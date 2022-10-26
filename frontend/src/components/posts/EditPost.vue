@@ -6,15 +6,22 @@
     >
         <v-card
             class="card ">
-                <div class="post-media">
-                    <v-avatar
-                        size="45"
-                        color="red">
-                        <img :src="user.avatar" alt="alt">
-                    </v-avatar>
-                    <v-card-title>
-                        Modifier le post 
+                <div class="post-title d-flex justify-space-around align-center">
+                    <v-card-title
+                     class="mx-auto">
+                        Modifier l'article
                     </v-card-title >
+                    <v-btn
+                        class="post-btn ml-8"
+                        fab
+                        dark
+                        x-small
+                        color="red darken-1"  
+                        @click="closePost()" >
+                            <v-icon  color="white" >
+                            mdi-close
+                            </v-icon>
+                    </v-btn>
                 </div>
                 
                 <div class="post-content">
@@ -28,8 +35,10 @@
                         prepend-icon="mdi-pen"
                         v-model="onePost.content">
                     </v-textarea>
-                    <div class="update-media">
-                        <img width="25%" :src="onePost.media" alt="">
+                    <div
+                  
+                    class="update-media">
+                        <img width="25%" :src="onePost.media" alt=""  >
                         <v-file-input
                             v-model="media"
                             label="Changer de fichier">
@@ -39,10 +48,9 @@
                 <v-divider></v-divider>
                 <div class="post-footer">
                     <template>
-                        <v-btn color="warning"
-                        @click=" closePost()"
-                        >Fermer</v-btn>
-                        <v-btn color="success"
+                        <v-btn 
+                        block
+                        color="success"
                         @click="editDataPost(onePost.media)"
                         > Valider</v-btn>
                     </template>
@@ -75,8 +83,6 @@ export default {
     data(){
         return {
             dialog: false,
-            update:false,
-            menu: false,
             rulesContent:[
                 v => !!v || 'Le contenu ne doit pas être vide',
                 v => v && v.length <= 254 || 'Max 254 characters'
@@ -164,10 +170,8 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
-.post-media{
-    display: flex;
 
-}
+
  .icon {
     cursor: pointer;
     background-color:lightcoral;

@@ -52,7 +52,7 @@
                                             <EditPost 
                                             :idPost=post.id
                                              @update-cmt='setUpdate'
-                                             @menu-event ='setMenu'
+                                             @menu-event='setMenu'
                                             ></EditPost>
                                         </template>
                                     </v-list-item-title>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                    Titre  {{post.title}}
+                  <h3>{{post.title}}</h3>  
                     </v-card-subtitle>
                     <v-img
                     v-if="post.media "
@@ -82,12 +82,13 @@
                     :src="post.media"
                     ></v-img>
                     <v-card-text  >
+                    
+                   <p > {{post.content}} </p>
+                    <a href="" @click="seePost()">Voir plus</a> <br />
                     <v-chip
                     class="my-2"
                     color="orange">
                     loisir</v-chip>
-                   <p > {{post.content}} </p>
-                    <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
                 </div>
                 <v-divider></v-divider>
@@ -138,8 +139,7 @@ export default {
         menu:false,
         update:false,
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-        userPosts:{
-        },
+        userPosts:{},
      
     }
     },
@@ -147,32 +147,30 @@ export default {
         update(newValue,oldValue){
            console.log("newValue, oldValue",newValue, oldValue);
            if(newValue != oldValue) {
-          this.getAllCmts()
+          this.getAllPosts()
           }
         }
     },
     mounted (){
-    this.getAllCmts()
-    console.log("monted ComponentParent update",this.updateCmt)
+    this.getAllPosts()
+ 
         },
         
     computed:{
       ...mapState(['user']),
      },
     methods: {
-
         setUpdate(update){
           this.update=update
          console.log('setUpdate payload',this.update)
         },
-         setMenu(payload){
-          this.menu=payload 
-              console.log('setMenu payload',this.update) 
+         setMenu(menu){
+          this.menu=menu 
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
         },
-        getAllCmts(){
+        getAllPosts(){
             //Get all user's posts
             //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
@@ -182,18 +180,10 @@ export default {
             let userConnectId =userConnect.userId
             console.log("userConnectId",userConnectId,"closeCmt");
                 axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
-                    .then(res=>{ this.userPosts =res.data
-                })
+                    .then(res=>{ this.userPosts =res.data })
                     .catch(err=>{ console.log("err axios getouneuser",err); })
         },
-        updatePost(idPost){
-            this.dialog = false
-            console.log('dialog',this.dialog);
-            localStorage.setItem('idPost',idPost)
-            let id = localStorage.getItem('idPost')
-            console.log('recuperer idpost pour modif post',id)
-            this.$router.push({name:'EditPost', params: {id: id}})
-        },
+        
         delatePost(idpost){
        //get token in storage and extract ID
         let user=JSON.parse(localStorage.getItem('user'))
@@ -205,11 +195,13 @@ export default {
 
         // afficher un message de confirmation de supression qui declanche le delate
             axios.delete("http://localhost:3000/api/v1/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(response=> { 
-               
-                console.log("post suprimé",response)})
+            .then(()=> { 
+                this.update= !this.update
+                this.menu=false
+                this.message ="l'article a bien été supprimé"
+            })
             .catch(err=>{console.log("err",err)})
-            this.$router.go()
+  
         },
        seePost(){
            console.log("voir plus");

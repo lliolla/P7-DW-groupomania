@@ -61,11 +61,12 @@ exports.getOnePost = (req,res,next)=>{
 
 
 exports.updatePost = (req,res,next)=>{
+  console.log("media",req.file,req.body.media);
    let title = req.body.title;
    let content = req.body.content;
-   let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
+  let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
    let updateObject = { title,content,media}
-   console.log('updatePost back',updateObject);
+   console.log('updatePost back',updateObject.media);
        Model.Post.update(
         updateObject , 
         {where : {id : req.params.id} })

@@ -37,7 +37,7 @@
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                {{post.title}} {{post.id_users}}
+                <h3> {{post.title}}</h3> 
                 </v-card-subtitle>
                   <v-card-text>
                 <v-img
@@ -48,13 +48,14 @@
                 :src="post.media"
                 ></v-img>
                  <v-divider class="pa-2"></v-divider>
-                <v-chip
+                
+                    {{post.content}} <br />
+                    <a href="" @click="seePost()">Voir plus</a> <br />
+                    <v-chip
                 color="orange"
                 class="mr-2"
                 
-                >loisir</v-chip> <br />
-                    {{post.content}} <br />
-                    <a href="" @click="seePost()">Voir plus</a>
+                >loisir</v-chip>
                 </v-card-text>
                    <v-divider></v-divider>
                 </div>

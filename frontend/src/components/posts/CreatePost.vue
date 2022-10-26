@@ -6,7 +6,7 @@
           scrollable>
         <v-card class="new-post ">
             <div class="post-media d-flex justify-space-around align-center">
-                <v-card-title>
+                <v-card-title  class="mx-auto">
                    NOUVEL ARTICLE 
                 </v-card-title >
                 <v-btn
@@ -19,7 +19,7 @@
             <v-icon  color="white" >
               mdi-close
             </v-icon>
-         </v-btn>
+                </v-btn>
             </div>
             
              <v-divider></v-divider>
