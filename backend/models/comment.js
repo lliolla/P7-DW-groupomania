@@ -17,14 +17,15 @@ module.exports = (sequelize, DataTypes) => {
             name: "PostId",
             allowNull: false,
           },
-        
+          onDelete: "CASCADE",
         });
       models.Comment.belongsTo(models.User,
         {
           foreignKey:{
              name: "UserId",
             allowNull: false,
-          }
+          },
+          onDelete: "CASCADE",
         })
       //on precise que la relation de la clef etrangere ne doit pas etre egale a null
     }
