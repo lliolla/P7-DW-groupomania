@@ -178,7 +178,7 @@ export default {
     .posts{
     background-color:  rgb(226, 225, 223);
     }
-    posts-btn__create{
+    .posts-btn__create{
      position: absolute;
      left:50px;
     }

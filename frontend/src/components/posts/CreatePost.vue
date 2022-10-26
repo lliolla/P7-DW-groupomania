@@ -10,6 +10,7 @@
                    NOUVEL ARTICLE 
                 </v-card-title >
                 <v-btn
+                class="post-btn ml-8"
                   fab
                   dark
                   x-small
@@ -137,7 +138,7 @@ export default {
     display: flex;
    
 }
-.card{
+.new-post{
   padding: 10px;
 }
 .v-icon.v-icon {

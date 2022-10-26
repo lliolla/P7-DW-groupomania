@@ -246,7 +246,7 @@ export default {
         color: rgb(250, 237, 237);
         vertical-align: middle;
     }
-    .v-icon{
+  .v-icon.v-icon{
         font-size: 20px;
         color: rgb(250, 237, 237);
         vertical-align: middle;

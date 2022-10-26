@@ -7,12 +7,11 @@
         <v-card
             class="card ">
                 <div class="post-title d-flex justify-space-around align-center">
-                    <v-card-title
-                     class="mx-auto">
+                    <v-card-title class="mx-auto">
                         Modifier l'article
                     </v-card-title >
                     <v-btn
-                        class="post-btn ml-8"
+                      
                         fab
                         dark
                         x-small
@@ -38,7 +37,7 @@
                     <div
                   
                     class="update-media">
-                        <img width="25%" :src="onePost.media" alt=""  >
+                        <img width="15%" :src="onePost.media" alt=""  >
                         <v-file-input
                             v-model="media"
                             label="Changer de fichier">
@@ -58,7 +57,8 @@
                 
         </v-card>
         <template v-slot:activator="{ on, attrs }">
-            <v-icon   
+            <v-icon 
+            dark  
             v-bind="attrs"
             v-on="on"
             class="icon"
