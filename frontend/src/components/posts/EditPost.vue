@@ -11,7 +11,6 @@
                         Modifier l'article
                     </v-card-title >
                     <v-btn
-                      
                         fab
                         dark
                         x-small
@@ -25,19 +24,20 @@
                 
                 <div class="post-content">
                     <v-text-field
-                        prepend-icon="mdi-pen"
+                   
                         v-model="onePost.title">
                     </v-text-field>
                     <v-textarea
                     :rules ="rulesContent"
                        counter="254" 
-                        prepend-icon="mdi-pen"
                         v-model="onePost.content">
                     </v-textarea>
-                    <div
-                  
-                    class="update-media">
-                        <img width="15%" :src="onePost.media" alt=""  >
+                    <div class="update-media">
+                        <img 
+                        v-if="onePost.media"
+                        width="15%" 
+                        :src="onePost.media" 
+                        alt="" >
                         <v-file-input
                             v-model="media"
                             label="Changer de fichier">
@@ -182,7 +182,7 @@ export default {
     list-style-type : none;
     
     }
-  .v-icon.v-icon {
+.v-icon {
         font-size: 20px;
         color: rgb(250, 237, 237);
         vertical-align: middle;   

@@ -14,6 +14,7 @@
                             size="49"
                             class="mx-3">
                             <v-img
+                              contain
                             :src="user.media">
                             </v-img>
                         </v-avatar>
@@ -76,9 +77,9 @@
                     </v-card-subtitle>
                     <v-img
                     v-if="post.media "
-                    class="mb-3"
+                    contain
+                    class="mb-3 img-fit "
                     height="225"
-                    aspect-ratio="2"
                     :src="post.media"
                     ></v-img>
                     <v-card-text  >
@@ -218,6 +219,10 @@ export default {
         margin:15px 5px;
         padding:  5px;
     }
+    .img-fit{
+        object-fit: scale-down;
+        
+    }
     .post-header{
         display: flex;
         justify-content: space-between;
@@ -291,5 +296,6 @@ export default {
     .click-menu{
         cursor: pointer;
     }
+
 
 </style>

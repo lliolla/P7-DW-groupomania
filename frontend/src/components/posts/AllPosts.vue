@@ -17,7 +17,10 @@
                         <v-avatar
                             size="49"
                             class="mx-3">
-                            <v-img :src="post.User.media">
+                              
+                            <v-img 
+                            contain
+                            :src="post.User.media">
                             </v-img>
                         </v-avatar>
                         <div class="media-body">
@@ -44,7 +47,7 @@
                 v-if ="post.media"
                 class="mb-3"
                 height="225"
-                aspect-ratio="2"
+                contain
                 :src="post.media"
                 ></v-img>
                  <v-divider class="pa-2"></v-divider>
