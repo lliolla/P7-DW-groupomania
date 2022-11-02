@@ -5,9 +5,10 @@
       <!--  -->
    
     <TheNavbar></TheNavbar>
-    <h1>Vous vous etes perdus ? vous allez etre rediriger sur la page d'acceuil </h1>
- <div class="imag">
-  <img src="/frontend/public/image/404.jpg" alt="page 404">
+    
+ <div class="image">
+  <h1>Vous vous etes perdus ? vous allez etre rediriger sur la page d'acceuil </h1>
+  <img src="/image/404.jpg" alt="page 404">
  </div>
    
   </v-app>

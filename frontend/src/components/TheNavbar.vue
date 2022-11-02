@@ -53,7 +53,7 @@ export default {
             this.$router.push('/')
         },
         settings (){
-          this.$router.push('/user/:id')  
+          this.$router.push('/buildPage')  
         }
     }
 }

@@ -12,8 +12,6 @@
     <v-main class="main d-flex justify-center pa-4" >  
     <AllProfils v-if="isAdmin"  ></AllProfils>
     <Profil v-else ></Profil>
-    
-
 
     </v-main>
     <Footer></Footer>

@@ -96,6 +96,7 @@ if(email==null || password==null){
                             userId: userExist.id,
                             media :userExist.media,
                             username:userExist.username,
+                            email:userExist.email,
                             isAdmin:userExist.isAdmin,
                             token: jwt.sign(
                                 { userId: userExist.id },
