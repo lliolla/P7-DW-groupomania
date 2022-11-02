@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 //on importe les vues que l'on cahrge entierement , les composant sont chargés ds la route
 import Home from '../views/Home.vue'
+import BuildPage from '../views/BuildPage.vue'
 import Wall from '../views/Wall.vue'
 import NotFound from '../views/NotFound.vue'
 import Dashboard from '../views/Dashboard.vue'
@@ -18,6 +19,12 @@ const routes = [
     name: '404',
     component: NotFound
   },
+  {
+    path: '/buildPage',
+    name: 'buildPage',
+    component: BuildPage
+  },
+  
  // routes Adminstration
   {
     path: '/',

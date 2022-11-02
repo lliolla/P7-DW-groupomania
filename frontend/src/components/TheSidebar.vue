@@ -56,9 +56,9 @@ export default {
       items: [
         { text: 'Mon mur', icon: 'mdi-wall', to:"/posts"},
         { text: 'Mes publications', icon: 'mdi-forum', to:"/MyPosts"},
-        { text: 'Mes commentaires', icon: 'mdi-star' , to:"/"},
-        { text: 'Mes collegues', icon: 'mdi-account-multiple', to:"/" },
-        { text: 'Mes fichiers', icon: 'mdi-folder', to:"/followers" },
+        { text: 'Mes commentaires', icon: 'mdi-star' , to:"/buildPage"},
+        { text: 'Mes collegues', icon: 'mdi-account-multiple', to:"/buildPage" },
+        { text: 'Mes fichiers', icon: 'mdi-folder', to:"/buildPage" },
         { text: 'Administration', icon: 'mdi-folder', to:"/dashboard"  },
 
       ],

@@ -2,13 +2,18 @@
  <v-app id="dashboard">
     
     <TheSidebar></TheSidebar>
-      <!--  -->
+
    
     <TheNavbar></TheNavbar>
-    <h1>Vous vous etes perdus ? vous allez etre rediriger sur la page d'acceuil </h1>
- <div class="imag">
-  <img src="/frontend/public/image/404.jpg" alt="page 404">
+  
+  <div class="build-page">
+  <h1>Désolé cette fonctionnalité n'est pas acccessible" vous allez etre rediriger sur la page d'acceuil </h1>
+
+  <img src="/image/build-page.jpg" 
+  width="300px"
+  alt="page 404">
  </div>
+
    
   </v-app>
 </template>
