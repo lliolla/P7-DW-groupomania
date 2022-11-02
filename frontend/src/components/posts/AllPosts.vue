@@ -19,7 +19,7 @@
                             class="mx-3">
                               
                             <v-img 
-                            contain
+                     
                             :src="post.User.media">
                             </v-img>
                         </v-avatar>
@@ -136,7 +136,7 @@ export default {
     methods: {
          setPost(payload){
           this.update=payload
-          console.log("payload",this.update);
+          console.log("create post payload",this.update);
         },
         publishedDaysAgo (date){
            // let now = moment().moment().format("dddd, MMMM Do YYYY, h:mm:ss a");

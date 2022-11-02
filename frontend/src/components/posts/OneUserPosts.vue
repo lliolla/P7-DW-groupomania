@@ -14,7 +14,7 @@
                             size="49"
                             class="mx-3">
                             <v-img
-                              contain
+                  
                             :src="user.media">
                             </v-img>
                         </v-avatar>
@@ -28,45 +28,19 @@
                         </div>
                     </div>
                     <div class="post-dropdown">
-                        <!-- box menu modifier supprimer -->
+<!-- box menu modifier supprimer -->
                         <template>
                             <div class="text-center">
-                                <v-menu 
-                                offset-y
-                                > 
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                        class ="dropdown-icon icon"
-                                        icon
-                                        v-bind="attrs"
-                                        v-on="on">
-                                        <v-icon 
-                                            class=" white--text">
-                                            mdi-dots-vertical
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-list>
-                                    <v-list-item d-flex flex-column>
-                                    <v-list-item-title class="a">
+                               
                                         <template>
                                             <EditPost 
                                             :idPost=post.id
                                              @update-cmt='setUpdate'
+                                             @msg-event='setMsg'
                                              @menu-event='setMenu'
                                             ></EditPost>
                                         </template>
-                                    </v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item d-flex flex-column>
-                                        <v-list-item-title class="a" >
-                                            <v-icon class="icon" @click="delatePost(post.id)">
-                                                mdi-close</v-icon>
-                                                Supprimer
-                                                </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                                </v-menu>
+                                   
                             </div>
                         </template>
                     </div>
@@ -139,34 +113,34 @@ export default {
         dialog: false,
         menu:false,
         update:false,
+        message:"",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{},
-     
     }
     },
     watch:{
         update(newValue,oldValue){
-           console.log("newValue, oldValue",newValue, oldValue);
-           if(newValue != oldValue) {
+          console.log("update newValue, oldValue",newValue, oldValue)
           this.getAllPosts()
-          }
-        }
+        },
     },
     mounted (){
     this.getAllPosts()
- 
-        },
-        
+    },
     computed:{
       ...mapState(['user']),
      },
     methods: {
-        setUpdate(update){
-          this.update=update
+        setUpdate(payload){
+          this.update=payload
          console.log('setUpdate payload',this.update)
         },
-         setMenu(menu){
-          this.menu=menu 
+         setMenu(payload){
+          this.menu=payload 
+        },
+        setMsg(payload){
+        this.message=payload
+         console.log('setMsg payload',this.message)
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
@@ -184,26 +158,7 @@ export default {
                     .then(res=>{ this.userPosts =res.data })
                     .catch(err=>{ console.log("err axios getouneuser",err); })
         },
-        
-        delatePost(idpost){
-       //get token in storage and extract ID
-        let user=JSON.parse(localStorage.getItem('user'))
-        let token=user.token
-        // get post's ID
-        localStorage.setItem('idpost',idpost)
-        let idPost = localStorage.getItem('idpost')
-        console.log("post a supprimer",idPost,token)
-
-        // afficher un message de confirmation de supression qui declanche le delate
-            axios.delete("http://localhost:3000/api/v1/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(()=> { 
-                this.update= !this.update
-                this.menu=false
-                this.message ="l'article a bien été supprimé"
-            })
-            .catch(err=>{console.log("err",err)})
-  
-        },
+      
        seePost(){
            console.log("voir plus");
        },
