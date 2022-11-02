@@ -17,7 +17,10 @@
                         <v-avatar
                             size="49"
                             class="mx-3">
-                            <v-img :src="post.User.media">
+                              
+                            <v-img 
+                     
+                            :src="post.User.media">
                             </v-img>
                         </v-avatar>
                         <div class="media-body">
@@ -37,32 +40,33 @@
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                {{post.title}} {{post.id_users}}
+                <h3> {{post.title}}</h3> 
                 </v-card-subtitle>
                   <v-card-text>
                 <v-img
                 v-if ="post.media"
                 class="mb-3"
                 height="225"
-                aspect-ratio="2"
+                contain
                 :src="post.media"
                 ></v-img>
                  <v-divider class="pa-2"></v-divider>
-                <v-chip
+                
+                    {{post.content}} <br />
+                    <a href="" @click="seePost()">Voir plus</a> <br />
+                    <v-chip
                 color="orange"
                 class="mr-2"
                 
-                >loisir</v-chip> <br />
-                    {{post.content}} <br />
-                    <a href="" @click="seePost()">Voir plus</a>
+                >loisir</v-chip>
                 </v-card-text>
                    <v-divider></v-divider>
                 </div>
 
                 <CmtsByUser
-                  v-bind:idPost="post.id"
+                 v-bind:idPost="post.id"
                  v-bind:likes="post.likes"
-                v-bind:dislikes="post.dislikes"
+                 v-bind:dislikes="post.dislikes"
                  @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
@@ -132,7 +136,7 @@ export default {
     methods: {
          setPost(payload){
           this.update=payload
-          console.log("payload",this.update);
+          console.log("create post payload",this.update);
         },
         publishedDaysAgo (date){
            // let now = moment().moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
@@ -177,7 +181,7 @@ export default {
     .posts{
     background-color:  rgb(226, 225, 223);
     }
-    posts-btn__create{
+    .posts-btn__create{
      position: absolute;
      left:50px;
     }

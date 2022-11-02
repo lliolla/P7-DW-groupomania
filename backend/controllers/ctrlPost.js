@@ -61,11 +61,12 @@ exports.getOnePost = (req,res,next)=>{
 
 
 exports.updatePost = (req,res,next)=>{
+  console.log("media",req.file,req.body.media);
    let title = req.body.title;
    let content = req.body.content;
-   let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
+  let media =(req.file? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`:req.body.media);
    let updateObject = { title,content,media}
-   console.log('updatePost back',updateObject);
+   console.log('updatePost back',updateObject.media);
        Model.Post.update(
         updateObject , 
         {where : {id : req.params.id} })
@@ -74,32 +75,33 @@ exports.updatePost = (req,res,next)=>{
 }
 
 exports.delatePost = (req,res,next)=>{
+  
   Model.Post.findOne({
-    attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media'],// on precise les attributs que l'on veux recup
-    where : {id : req.params.id}
- })
- .then(delatePost=> {
-  if(delatePost.media){
+    where : {id : req.params.id},
+    attributes : ['id','media']
+  })
+  .then(delatePost=>{
+    if(delatePost.media){
       const filename = delatePost.media.split('/images/')[1]
-      console.log("filename",filename)
       fs.unlink(`images/${filename}`,()=>{
-              Model.Post.destroy({
-                where : {id : req.params.id} 
-              })
-              .then(() => res.status(200).json({ message: 'post supprimé !'}))
-              .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
-    })
-  }else{
-    Model.Post.destroy({
-      where : {id : req.params.id} 
-    })
-    .then(() => res.status(200).json({ message: 'post supprimé !'}))
-    .catch (error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
-  }
- 
-})
- .catch ( console.log("error"))}
-
+        Model.Post.destroy( {
+          where : {id : req.params.id}
+        })
+          .then(() => res.status(200).json({ message: 'post supprimé !'}))
+          .catch(error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+      })
+    }else{
+      Model.Post.destroy( {
+           where : {id : req.params.id}
+         })
+           .then(() => res.status(200).json({ message: 'post supprimé !'}))
+           .catch(error=> res.status(404).json( { error: "un pb a eu liue lors de l a suppression du post"}))
+    }
+      
+  })
+  .catch()
+}
+  
  exports.getOneUserPosts = (req,res,next)=>{
   let idUser = req.params.id
   console.log('getOneUserPost',idUser);

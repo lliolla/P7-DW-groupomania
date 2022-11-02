@@ -14,6 +14,7 @@
                             size="49"
                             class="mx-3">
                             <v-img
+                  
                             :src="user.media">
                             </v-img>
                         </v-avatar>
@@ -27,64 +28,42 @@
                         </div>
                     </div>
                     <div class="post-dropdown">
-                        <!-- box menu modifier supprimer -->
+<!-- box menu modifier supprimer -->
                         <template>
                             <div class="text-center">
-                                <v-menu 
-                                offset-y
-                                > 
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                        class ="dropdown-icon icon"
-                                        icon
-                                        v-bind="attrs"
-                                        v-on="on">
-                                        <v-icon 
-                                            class=" white--text">
-                                            mdi-dots-vertical
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-list>
-                                    <v-list-item d-flex flex-column>
-                                    <v-list-item-title class="a">
+                               
                                         <template>
-                                            <EditPost :idPost=post.id
-                                            @update-cmt="setUpdate"></EditPost>
+                                            <EditPost 
+                                            :idPost=post.id
+                                             @update-cmt='setUpdate'
+                                             @msg-event='setMsg'
+                                             @menu-event='setMenu'
+                                            ></EditPost>
                                         </template>
-                                    </v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item d-flex flex-column>
-                                        <v-list-item-title class="a" >
-                                            <v-icon class="icon" @click="delatePost(post.id)">
-                                                mdi-close</v-icon>
-                                                Supprimer
-                                                </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                                </v-menu>
+                                   
                             </div>
                         </template>
                     </div>
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                    Titre  {{post.title}}
+                  <h3>{{post.title}}</h3>  
                     </v-card-subtitle>
                     <v-img
                     v-if="post.media "
-                    class="mb-3"
+                    contain
+                    class="mb-3 img-fit "
                     height="225"
-                    aspect-ratio="2"
                     :src="post.media"
                     ></v-img>
                     <v-card-text  >
+                    
+                   <p > {{post.content}} </p>
+                    <a href="" @click="seePost()">Voir plus</a> <br />
                     <v-chip
                     class="my-2"
                     color="orange">
                     loisir</v-chip>
-                   <p > {{post.content}} </p>
-                    <a href="" @click="seePost()">Voir plus</a>
                 </v-card-text>
                 </div>
                 <v-divider></v-divider>
@@ -132,37 +111,41 @@ export default {
     data: ()=>{
         return {
         dialog: false,
-        updateCmt:false,
+        menu:false,
+        update:false,
+        message:"",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
-        userPosts:{
-        },
-     
+        userPosts:{},
     }
     },
     watch:{
-        updateCmt(newValue){
-           console.log("newValue",newValue);
-        }
+        update(newValue,oldValue){
+          console.log("update newValue, oldValue",newValue, oldValue)
+          this.getAllPosts()
+        },
     },
     mounted (){
-    this.getAllCmts()
-    console.log("monted ComponentParent update",this.updateCmt)
-        },
-        
+    this.getAllPosts()
+    },
     computed:{
       ...mapState(['user']),
      },
     methods: {
-
-        setUpdate(updateCmt){
-          this.updateCmt=updateCmt 
-         console.log('setUpdate payload',this.updateCmt)
-
+        setUpdate(payload){
+          this.update=payload
+         console.log('setUpdate payload',this.update)
+        },
+         setMenu(payload){
+          this.menu=payload 
+        },
+        setMsg(payload){
+        this.message=payload
+         console.log('setMsg payload',this.message)
         },
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
         },
-        getAllCmts(){
+        getAllPosts(){
             //Get all user's posts
             //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
@@ -172,35 +155,10 @@ export default {
             let userConnectId =userConnect.userId
             console.log("userConnectId",userConnectId,"closeCmt");
                 axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
-                    .then(res=>{ this.userPosts =res.data
-                })
+                    .then(res=>{ this.userPosts =res.data })
                     .catch(err=>{ console.log("err axios getouneuser",err); })
         },
-        updatePost(idPost){
-            this.dialog = false
-            console.log('dialog',this.dialog);
-            localStorage.setItem('idPost',idPost)
-            let id = localStorage.getItem('idPost')
-            console.log('recuperer idpost pour modif post',id)
-            this.$router.push({name:'EditPost', params: {id: id}})
-        },
-        delatePost(idpost){
-       //get token in storage and extract ID
-        let user=JSON.parse(localStorage.getItem('user'))
-        let token=user.token
-        // get post's ID
-        localStorage.setItem('idpost',idpost)
-        let idPost = localStorage.getItem('idpost')
-        console.log("post a supprimer",idPost,token)
-
-        // afficher un message de confirmation de supression qui declanche le delate
-            axios.delete("http://localhost:3000/api/v1/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
-            .then(response=> { 
-               
-                console.log("post suprimé",response)})
-            .catch(err=>{console.log("err",err)})
-            this.$router.go()
-        },
+      
        seePost(){
            console.log("voir plus");
        },
@@ -215,6 +173,10 @@ export default {
         width: 70%;
         margin:15px 5px;
         padding:  5px;
+    }
+    .img-fit{
+        object-fit: scale-down;
+        
     }
     .post-header{
         display: flex;
@@ -244,7 +206,7 @@ export default {
         color: rgb(250, 237, 237);
         vertical-align: middle;
     }
-    .v-icon{
+  .v-icon.v-icon{
         font-size: 20px;
         color: rgb(250, 237, 237);
         vertical-align: middle;
@@ -289,5 +251,6 @@ export default {
     .click-menu{
         cursor: pointer;
     }
+
 
 </style>

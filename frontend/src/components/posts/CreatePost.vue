@@ -6,10 +6,11 @@
           scrollable>
         <v-card class="new-post ">
             <div class="post-media d-flex justify-space-around align-center">
-                <v-card-title>
+                <v-card-title  class="mx-auto">
                    NOUVEL ARTICLE 
                 </v-card-title >
                 <v-btn
+                class="post-btn ml-8"
                   fab
                   dark
                   x-small
@@ -19,7 +20,7 @@
             <v-icon  color="white" >
               mdi-close
             </v-icon>
-         </v-btn>
+                </v-btn>
             </div>
             
              <v-divider></v-divider>
@@ -30,7 +31,9 @@
                     </v-text-field>
                     <v-textarea
                         label="Ecrivez votre contenu"
-                        v-model="content">
+                        counter="254" 
+                        v-model="content"
+                        :rules ="rulesContent">
                     </v-textarea>
                     <v-file-input
                     v-model="media"
@@ -78,6 +81,10 @@ export default {
             dialog :false,
             update:false,
             errMsg:"",
+            rulesContent:[
+                v => !!v || 'Le contenu ne doit pas être vide',
+                v => v && v.length <= 254 || 'Max 254 charactères'
+            ],
         }
     } ,
     computed:{
@@ -131,7 +138,7 @@ export default {
     display: flex;
    
 }
-.card{
+.new-post{
   padding: 10px;
 }
 .v-icon.v-icon {

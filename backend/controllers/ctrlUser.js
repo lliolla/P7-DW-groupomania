@@ -74,7 +74,7 @@ exports.delateUser= (req,res, next) =>{
   // }
 
 exports.updateUser= (req,res, next) =>{
-console.log("image par defaut update",req.body.media);
+console.log("image par defaut update",req.file,req.body.media);
   let username = req.body.username;
   let firstname = req.body.firstname;
   let lastname = req.body.lastname;
