@@ -2,17 +2,18 @@
 <div class="sidebar">
  
       <v-list>
-        <v-list-item>
+         <div>
+        <v-list-item >
           <v-list-item-avatar>
             <v-img :src="user.media" > </v-img>
           </v-list-item-avatar>
         </v-list-item>
-
-        <v-list-item link>
+        <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="text-h6">
               {{user.username}}
             </v-list-item-title>
+
             <v-list-item-subtitle class="m-3">{{email}}</v-list-item-subtitle>
           </v-list-item-content>
 
@@ -75,3 +76,9 @@ export default {
 }
 
 </script>
+<style scoped>
+.v-icon.v-icon{
+  color:#E53935;
+}
+
+</style>

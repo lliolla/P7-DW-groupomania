@@ -209,7 +209,7 @@ export default {
 
                        }else{
                    this.update=true
-                   this.message ="Votre profil vient d'etre supprimé /n vous aller etre redirigé vers la page d'acceuil"
+                   this.message ="Votre profil vient d'être supprimé  vous aller etre redirigé vers la page d'acceuil"
                     setTimeout(()=>{this.$router.push({ path: '/' })},2100)
                        }
                  })
