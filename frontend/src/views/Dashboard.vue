@@ -61,7 +61,9 @@
   }
 </script>
 
-<style >
+<style scoped>
+
+
 .form{
   padding:0 20px;
   margin: 10px;

@@ -2,7 +2,7 @@
 <div class="sidebar">
  
       <v-list>
-         <div>
+   
         <v-list-item >
           <v-list-item-avatar>
             <v-img :src="user.media" > </v-img>
