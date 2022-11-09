@@ -2,22 +2,33 @@
 <div class="sidebar">
  
       <v-list>
-   
-        <v-list-item >
-          <v-list-item-avatar>
-            <v-img :src="user.media" > </v-img>
-          </v-list-item-avatar>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              {{user.username}}
-            </v-list-item-title>
+         <v-list-item-group
+         v-model="group">
+            <v-list-item >
+                    <v-btn
+                      fab
+                      dark
+                      x-small
+                      color="red darken-1"
+                      @click="changeDrawerState"
+                    > 
+                      <v-icon color="white"> mdi-close </v-icon>
+                    </v-btn>
+              <v-list-item-avatar>
+                <v-img :src="user.media" > </v-img>
+              </v-list-item-avatar>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">
+                  {{user.username}}
+                </v-list-item-title>
 
-            <v-list-item-subtitle class="m-3">{{email}}</v-list-item-subtitle>
-          </v-list-item-content>
+                <v-list-item-subtitle class="m-3">{{email}}</v-list-item-subtitle>
+              </v-list-item-content>
 
-        </v-list-item>
+            </v-list-item>
+        </v-list-item-group>
       </v-list>
       <v-divider></v-divider>
       <v-list
@@ -51,7 +62,7 @@ import {mapState} from 'vuex';
 
 export default {
   name : "TheSidebar",
-  props : ['drawer'],
+
   data: () => ({
       selectedItem: 0,
       items: [
@@ -69,8 +80,13 @@ export default {
     
  computed:{
        ...mapState(['user']),
-      
      },
+    methods : {
+    changeDrawerState (){
+    this.$emit('drawer-state', this.drawer = !this.drawer)
+
+    }
+    },
 }
 
 </script>

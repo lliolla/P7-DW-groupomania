@@ -6,9 +6,9 @@
     <TheSidebar></TheSidebar>
     </v-navigation-drawer>
 
-    <TheNavbar></TheNavbar>
-
-
+    <TheNavbar
+     @drawer-state='setDrawerState'>
+     </TheNavbar>
     <v-main class="main d-flex justify-center pa-4" >  
     <AllProfils v-if="isAdmin"  ></AllProfils>
     <Profil v-else ></Profil>
@@ -42,7 +42,7 @@
       
     },
     data: () => ({ 
-      drawer: null ,
+      drawer: true ,
       username: "",
       lastname:"",
       firstname:"",
@@ -55,9 +55,11 @@
     computed:{
       ...mapState(['users'])
     },
-
-      
-   
+    methods:{
+      setDrawerState(payload){
+          this.drawer=payload
+      }
+    }
   }
 </script>
 

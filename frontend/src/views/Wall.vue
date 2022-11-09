@@ -1,14 +1,15 @@
 <template>
  <v-app>
   <div class="wall">
- <v-navigation-drawer
+    <v-navigation-drawer
       v-model="drawer"
       app
     >
     <TheSidebar></TheSidebar>
-  
     </v-navigation-drawer>
-    <TheNavbar></TheNavbar>
+
+    <TheNavbar
+    @drawer-state='setDrawerState'></TheNavbar>
     <main>
     <AllPosts></AllPosts> 
     </main>
@@ -43,13 +44,30 @@
      
     },
 
-    data: () => ({ 
-      drawer:null, 
+    data: () => { 
+      return{
+      drawer:true,
       username: "",
       userId:"",
       dialog:"",
       seePostUser:true,
-    }),
+      }
+    
+    },
+    watch:{
+       darwer (newValue, oldValue){
+        console.log("watch drawer wall",newValue, oldValue);
+       }
+
+    },
+     mounted(){
+  console.log("mounted drawer",this.drawer);
+     },
+    methods:{
+      setDrawerState(payload){
+          this.drawer=payload
+      }
+    }
  }
 </script>
 <style>

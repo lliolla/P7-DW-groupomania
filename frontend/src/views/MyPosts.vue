@@ -6,7 +6,7 @@
         app >
         <TheSidebar></TheSidebar>
         </v-navigation-drawer>
-        <TheNavbar ></TheNavbar>
+        <TheNavbar @drawer-state='setDrawerState' ></TheNavbar>
              <main >
         <OneUserPosts></OneUserPosts>
              </main> 
@@ -31,7 +31,7 @@
     },
     data: () => {
       return{
-        drawer: null ,
+        drawer:true,
         username: "",
         userId:"",
         dialog:"",
@@ -64,6 +64,9 @@
                 this.toggle= true
                 this.$router.push({ name: 'Wall'})
      },
+      setDrawerState(payload){
+          this.drawer=payload
+      },
      toggleDropddown(){
             this.alert = true
             this.toggle= true

@@ -6,7 +6,9 @@
 
     <TheSidebar></TheSidebar>
 </v-navigation-drawer>
-    <TheNavbar></TheNavbar>
+    <TheNavbar
+    @drawer-state='setDrawerState' >
+    </TheNavbar>
   <h1 class="d-flex justify-center pa-4" >Désolé cette fonctionnalité n'est pas encore acccessible</h1> 
   <v-main class="main " > 
   <img src="/image/build-page.jpg" 
@@ -22,6 +24,10 @@
   import TheNavbar from '@/components/TheNavbar.vue'
 export default {
   name :'NotFound',
+  data: () => {
+      return{
+        drawer:true,
+      }},
   components: {
       TheSidebar,
       TheNavbar,
