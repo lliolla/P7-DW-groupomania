@@ -3,7 +3,8 @@
     <v-navigation-drawer
       v-model="drawer"
       app >
-    <TheSidebar></TheSidebar>
+    <TheSidebar
+     @drawer-state-sidebar='setDrawerSidebar'></TheSidebar>
     </v-navigation-drawer>
 
     <TheNavbar
@@ -57,6 +58,9 @@
     },
     methods:{
       setDrawerState(payload){
+          this.drawer=payload
+      },
+      setDrawerSidebar(payload){
           this.drawer=payload
       }
     }

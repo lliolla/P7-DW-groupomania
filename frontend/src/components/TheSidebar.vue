@@ -42,6 +42,7 @@
           active-class="red--text text--accent-4"
         >
           <v-list-item
+          @click.stop="changeDrawerState()"
             v-for="(item, i) in items"
             :key="i"
             :to="item.to"
@@ -86,6 +87,7 @@ export default {
     methods : {
     changeDrawerState (){
     this.$emit('drawer-state-sidebar', this.drawer = false)
+    console.log("changeDrawerState ", this.drawer)
     }
     },
 }

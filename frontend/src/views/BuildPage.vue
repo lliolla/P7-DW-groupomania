@@ -4,7 +4,9 @@
       v-model="drawer"
       app >  
 
-    <TheSidebar></TheSidebar>
+    <TheSidebar
+     @drawer-state-sidebar='setDrawerSidebar'
+    ></TheSidebar>
 </v-navigation-drawer>
     <TheNavbar
     @drawer-state='setDrawerState' >
@@ -37,7 +39,15 @@ export default {
      setTimeout(() => {
         this.$router.push('/posts')
       }, 2500)
-   }
+   },
+   methods:{
+      setDrawerState(payload){
+          this.drawer=payload
+      },
+      setDrawerSidebar(payload){
+          this.drawer=payload
+      }
+    }
 }
 </script>
 <style scoped>

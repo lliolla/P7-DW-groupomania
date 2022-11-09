@@ -14,15 +14,8 @@
     <main>
     <AllPosts></AllPosts> 
     </main>
-  </div>
-   
-
-
-       
-        
-        
+  </div>  
 <!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
-  
      <Footer></Footer>
   </v-app>
 </template>
@@ -36,15 +29,12 @@
 
   export default {
     name: 'Wall',
-
     components: {
       TheSidebar,
       TheNavbar,
       AllPosts,
       Footer
-     
     },
-
     data: () => { 
       return{
       drawer:true,
@@ -53,17 +43,14 @@
       dialog:"",
       seePostUser:true,
       }
-    
     },
     watch:{
-       darwer (newValue, oldValue){
-        console.log("watch drawer wall",newValue, oldValue);
+       drawer (newValue, oldValue){
+        console.log("watch drawer wall newValue",newValue,"watch drawer wall oldValue", oldValue);
+        
        }
-
     },
-     mounted(){
-  console.log("mounted drawer",this.drawer);
-     },
+    
     methods:{
       setDrawerState(payload){
           this.drawer=payload

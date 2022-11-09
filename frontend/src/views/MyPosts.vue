@@ -4,7 +4,8 @@
         <v-navigation-drawer
         v-model="drawer"
         app >
-        <TheSidebar></TheSidebar>
+        <TheSidebar
+         @drawer-state-sidebar='setDrawerSidebar'></TheSidebar>
         </v-navigation-drawer>
         <TheNavbar @drawer-state='setDrawerState' ></TheNavbar>
              <main >
@@ -65,6 +66,9 @@
                 this.$router.push({ name: 'Wall'})
      },
       setDrawerState(payload){
+          this.drawer=payload
+      },
+       setDrawerSidebar(payload){
           this.drawer=payload
       },
      toggleDropddown(){

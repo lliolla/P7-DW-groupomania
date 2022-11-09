@@ -47,9 +47,11 @@ export default {
             notifNumber :"1",
             friendNumber :"10",
     }},
+    
     methods : {
         changeDrawerState(){
             this.$emit('drawer-state', this.drawer = !this.drawer)
+                console.log("changeDrawerState navbar", this.drawer)
         },
         logout (){
             localStorage.clear();
