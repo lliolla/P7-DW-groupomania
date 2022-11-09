@@ -76,11 +76,11 @@
                         <p>
                           les champs suivis d'un * sont obligatoires
                         </p>
-                    <v-btn class="btnForm" :disabled="!validatedFields" block @click="login()" v-if="mode=='login'" >
-                      <span v-if="status == 'loading'">  Connexion en cours ...</span>
+                    <v-btn color="green" class="btnForm " :disabled="!validatedFields" block @click="login()" v-if="mode=='login'" >
+                      <span class="connect" v-if="status == 'loading'">  Connexion en cours ...</span>
                       <span v-else>connexion</span>
                      </v-btn>
-                    <v-btn class="btnForm" :disabled="!validatedFields" block @click="register()" v-else ><span v-if="status == 'loading'">  Inscription en cours ...</span>
+                    <v-btn color="green" class="btnForm" :disabled="!validatedFields" block @click="register()" v-else ><span class="connect" v-if="status == 'loading'">  Inscription en cours ...</span>
                       <span v-else>Inscription</span></v-btn>
                    <router-link  to=""> <span v-if="mode=='login'" @click="forgotPasseword()" >Mot de passe oublié?</span> </router-link> 
 
@@ -198,7 +198,12 @@ export default {
    
 }
 </script>
-<style>
+<style  scoped>
+
+ span .connect{
+  font-size: 10px;
+ }
+
   .header-wrapper{
     height: 100px;
    background-color:bisque;
@@ -206,6 +211,7 @@ export default {
   
  .btnForm{
    margin-bottom: 16px;
+   
  }
  
 

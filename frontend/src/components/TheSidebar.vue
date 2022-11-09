@@ -60,13 +60,11 @@ export default {
         { text: 'Mes commentaires', icon: 'mdi-star' , to:"/buildPage"},
         { text: 'Mes collegues', icon: 'mdi-account-multiple', to:"/buildPage" },
         { text: 'Mes fichiers', icon: 'mdi-folder', to:"/buildPage" },
-        { text: 'Administration', icon: 'mdi-folder', to:"/dashboard"  },
-
+        { text: 'Administration', icon: 'mdi-view-dashboard-edit-outline', to:"/dashboard"  },
       ],
         username:localStorage.getItem('username'),
         email :localStorage.getItem('email'),
         userId :localStorage.getItem('userId'),
-       
     }),
     
  computed:{
