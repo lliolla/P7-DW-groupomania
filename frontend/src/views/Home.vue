@@ -23,14 +23,6 @@
                    <v-alert type="error" v-if="auth=='false'" >
                      {{errMsg}} 
                    </v-alert>
-                   <!-- afficher un loader et cahcher tout les champs
-                     <v-alert
-                        v-if="auth=='true'"
-                        dense
-                        color="success"
-                        dark>
-                        connexion en cours
-                    </v-alert> -->
                     <v-card-subtitle v-if="mode=='login'">
                       Vous n'avez pas encore de compte ? 
                       <router-link to=""> <span @click="switchRegister()" >Créer votre compte</span> </router-link> 
@@ -121,6 +113,11 @@ export default {
         auth:""
       }
     },
+    watch:{
+     mode(newValue,oldValue){
+      console.log("mode newValue",newValue, "mode oldValue", oldValue)
+     }
+    },
      computed:{
        validatedFields: function(){
         if( this.mode == 'register'){
@@ -140,10 +137,10 @@ export default {
       ...mapState(['status'])
      },
      methods: {
-        switchRegister : function(){
+        switchRegister(){
             this.mode = "register"
         },
-        switchLogin : function(){
+        switchLogin(){
             this.mode = "login"
         },
       forgotPasseword(){
@@ -162,10 +159,10 @@ export default {
            avatar:this.avatar,
            message:"",
          })
-           .then(res=>{
-             this.mode="loging"
+           .then(()=>{
+             this.switchLogin()
              this.auth="true"
-             console.log('response',res.data);
+             console.log('response log ', this.mode,this.auth);
            })
            .catch(err =>{
                if(err!== 200){
