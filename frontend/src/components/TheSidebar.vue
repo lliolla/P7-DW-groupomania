@@ -1,23 +1,12 @@
 <template>
 <div class="sidebar">
  
-      <v-list>
-         <v-list-item-group
-         v-model="group">
-            <v-list-item >
-                    <v-btn
-                      fab
-                      dark
-                      x-small
-                      color="red darken-1"
-                      @click="changeDrawerState"
-                    > 
-                      <v-icon color="white"> mdi-close </v-icon>
-                    </v-btn>
-              <v-list-item-avatar>
+      <v-list class="d-flex flex-row" >
+      
+          <v-list-item-avatar class="ma-2">
                 <v-img :src="user.media" > </v-img>
-              </v-list-item-avatar>
-            </v-list-item>
+            </v-list-item-avatar>
+  
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title class="text-h6">
@@ -28,7 +17,20 @@
               </v-list-item-content>
 
             </v-list-item>
-        </v-list-item-group>
+            <v-list-item >
+               <v-btn
+                    class="ml-auto"
+                    width="25px"
+                    height="25px"
+                      fab
+                      dark
+                      x-small
+                      color="red darken-1"
+                      @click="changeDrawerState"
+                    > 
+                      <v-icon color="white"> mdi-close </v-icon>
+                    </v-btn>
+            </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list
@@ -84,7 +86,6 @@ export default {
     methods : {
     changeDrawerState (){
     this.$emit('drawer-state', this.drawer = !this.drawer)
-
     }
     },
 }
