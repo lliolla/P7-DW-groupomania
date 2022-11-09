@@ -39,7 +39,7 @@
       >
         <v-list-item-group
           v-model="selectedItem"
-          color="primary"
+          active-class="red--text text--accent-4"
         >
           <v-list-item
             v-for="(item, i) in items"
@@ -85,7 +85,7 @@ export default {
      },
     methods : {
     changeDrawerState (){
-    this.$emit('drawer-state', this.drawer = !this.drawer)
+    this.$emit('drawer-state-sidebar', this.drawer = false)
     }
     },
 }
