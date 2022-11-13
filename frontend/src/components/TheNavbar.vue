@@ -50,7 +50,7 @@ export default {
     
     methods : {
         changeDrawerState(){
-            this.$emit('drawer-state', this.drawer = !this.drawer)
+            this.$emit('drawer-state', this.drawer = true)
                 console.log("changeDrawerState navbar", this.drawer)
         },
         logout (){

@@ -28,18 +28,18 @@ export default {
   name :'NotFound',
   data: () => {
       return{
-        drawer:true,
+        drawer:false,
       }},
   components: {
       TheSidebar,
       TheNavbar,
     },
-   mounted : 
-   function(){
-     setTimeout(() => {
-        this.$router.push('/posts')
-      }, 2500)
-   },
+  //  mounted : 
+  //  function(){
+  //    setTimeout(() => {
+  //       this.$router.push('/posts')
+  //     }, 2500)
+  //  },
    methods:{
       setDrawerState(payload){
           this.drawer=payload

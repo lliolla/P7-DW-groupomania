@@ -15,7 +15,6 @@
     <AllPosts></AllPosts> 
     </main>
   </div>  
-<!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
      <Footer></Footer>
   </v-app>
 </template>

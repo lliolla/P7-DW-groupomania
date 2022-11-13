@@ -4,10 +4,12 @@
         <v-navigation-drawer
         v-model="drawer"
         app >
-        <TheSidebar
-         @drawer-state-sidebar='setDrawerSidebar'></TheSidebar>
+       <TheSidebar
+     @drawer-state-sidebar='setDrawerSidebar'></TheSidebar>
         </v-navigation-drawer>
-        <TheNavbar @drawer-state='setDrawerState' ></TheNavbar>
+       <TheNavbar
+     @drawer-state='setDrawerState'>
+     </TheNavbar>
              <main >
         <OneUserPosts></OneUserPosts>
              </main> 
@@ -32,7 +34,7 @@
     },
     data: () => {
       return{
-        drawer:true,
+        drawer:false,
         username: "",
         userId:"",
         dialog:"",

@@ -42,10 +42,11 @@
           active-class="red--text text--accent-4"
         >
           <v-list-item
-          @click.stop="changeDrawerState()"
+          @click="changeDrawerState()"
             v-for="(item, i) in items"
             :key="i"
             :to="item.to"
+            link
           >
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -87,7 +88,7 @@ export default {
     methods : {
     changeDrawerState (){
     this.$emit('drawer-state-sidebar', this.drawer = false)
-    console.log("changeDrawerState ", this.drawer)
+    console.log("changeDrawerState in sidebar ", this.drawer)
     }
     },
 }

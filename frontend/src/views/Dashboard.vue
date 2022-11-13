@@ -8,8 +8,7 @@
     </v-navigation-drawer>
 
     <TheNavbar
-     @drawer-state='setDrawerState'>
-     </TheNavbar>
+    @drawer-state='setDrawerState'></TheNavbar>
     <v-main class="main d-flex justify-center pa-4" >  
     <AllProfils v-if="isAdmin"  ></AllProfils>
     <Profil v-else ></Profil>
@@ -43,7 +42,7 @@
       
     },
     data: () => ({ 
-      drawer: true ,
+      drawer:false,
       username: "",
       lastname:"",
       firstname:"",
