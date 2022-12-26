@@ -68,7 +68,8 @@
                 </div>
                 <v-divider></v-divider>
                 <CmtsByUser
-                :idPost="post.id" 
+                :idPost="post.id"
+                :seeCmt="true" 
                 @update-cmt="setUpdate">
                 </CmtsByUser>
 

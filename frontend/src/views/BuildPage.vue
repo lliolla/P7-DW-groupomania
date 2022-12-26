@@ -11,8 +11,9 @@
     <TheNavbar
     @drawer-state='setDrawerState' >
     </TheNavbar>
-  <h1 class="d-flex justify-center pa-4" >Désolé cette fonctionnalité n'est pas encore acccessible</h1> 
-  <v-main class="main " > 
+  
+  <v-main class="d-flex justify-center pa-4 " > 
+    <h1  >Désolé cette fonctionnalité n'est pas encore acccessible</h1> 
   <img src="/image/build-page.jpg" 
   width="500px"
   alt="page en construction">

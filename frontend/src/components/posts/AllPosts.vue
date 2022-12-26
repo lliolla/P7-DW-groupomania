@@ -6,7 +6,7 @@
                 <CreatePost @post-created='setPost'></CreatePost>
         </v-row>
         <v-row justify="center">
-            
+           
     <!-- box see forum -->
             <v-card
                 class="d-flex flex-column post-card"
@@ -66,6 +66,7 @@
                  v-bind:idPost="post.id"
                  v-bind:likes="post.likes"
                  v-bind:dislikes="post.dislikes"
+                v-bind:seeCmt="false"
                  @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
@@ -107,6 +108,7 @@ export default {
     data: ()=>{
         return {
         dialog: false,
+        seeCmt :false,
         update:false,
         updateCmt:false,
         comments:"10",

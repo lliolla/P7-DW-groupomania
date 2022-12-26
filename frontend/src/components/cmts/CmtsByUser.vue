@@ -120,7 +120,7 @@
                                 </v-card> 
                         </v-timeline-item> 
 <!-- box menu modifier supprimer -->  
-                        <template  v-if="user.userId == cmt.UserId ">
+                        <template  v-if="seeCmt == true ">
                             <EditCmt 
                             :idCmt="cmt.id" 
                             :idPost="idPost"
@@ -147,6 +147,7 @@ export default {
     name : "CmtsByUser",
     props :{
         idPost : Number,
+        seeCmt:Boolean,
         likes : {
         type:Number,
         default:0
