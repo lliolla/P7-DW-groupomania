@@ -188,5 +188,8 @@ export default {
 .cards-form{
   padding: 15px;
 }
+.v-icon.v-icon{
+  color:#E53935;
+}
 </style>
 

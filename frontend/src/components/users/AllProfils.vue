@@ -34,7 +34,7 @@
         <th>Role</th>
         <th>Articles</th>
         <th>Commentaires</th>
-        <th>Administartion</th>
+        <th>Administration</th>
         </tr>
       </thead>
       <tbody >
