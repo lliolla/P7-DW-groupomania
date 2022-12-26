@@ -20,7 +20,7 @@
                         </v-avatar>
                         <div class="media-body">
                             <div class="user-title">
-                                <p class="name">username {{ user.username}}  </p>
+                                <p class="name text-capitalize">{{ user.username}}  </p>
                             </div>
                         <div class="media-time">
                         <p>Publié {{ dateDaysAgo(post.updatedAt)}}</p>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                  <h3>{{post.title}}</h3>  
+                  <h3 class="text-capitalize">{{post.title}}</h3>  
                     </v-card-subtitle>
                     <v-img
                     v-if="post.media "
@@ -58,7 +58,7 @@
                     ></v-img>
                     <v-card-text  >
                     
-                   <p > {{post.content}} </p>
+                   <p class="text-capitalize" > {{post.content}} </p>
                     <a href="" @click="seePost()">Voir plus</a> <br />
                     <v-chip
                     class="my-2"
