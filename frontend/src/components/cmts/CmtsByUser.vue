@@ -1,6 +1,6 @@
 <template>
   <div class="post-meta ">
-       <ul class="d-flex flex-row d-flex justify-space-between ">
+       <ul class="d-flex flex-row justify-space-between pl-0">
              <li class="blog-like d-flex ">
                   <div >
                     <v-btn

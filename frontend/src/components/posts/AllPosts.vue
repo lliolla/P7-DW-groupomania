@@ -50,15 +50,14 @@
                 :src="post.media"
                 ></v-img>
                  <v-divider class="pa-2"></v-divider>
-                <div class="text-capitalize">
+                <div class="text-capitalize py-3">
                     {{post.content}} <br />
                 </div>
-                    <a href="" @click="seePost()">Voir plus</a> <br />
-                    <v-chip
+                <a href="" @click="seePost()">Voir plus</a> <br />
+                <div class="d-flex justify-end" ><v-chip
                 color="orange"
-                class="mr-2"
+                class="my-2  ">loisir</v-chip></div>
                 
-                >loisir</v-chip>
                 </v-card-text>
                    <v-divider></v-divider>
                 </div>
