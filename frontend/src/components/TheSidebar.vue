@@ -68,7 +68,7 @@ export default {
   name : "TheSidebar",
 
   data: () => ({
-      selectedItem: 0,
+      selectedItem: 1,
       items: [
         { text: 'Mon mur', icon: 'mdi-wall', to:"/posts"},
         { text: 'Mes publications', icon: 'mdi-forum', to:"/MyPosts"},
