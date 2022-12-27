@@ -12,13 +12,16 @@
     @drawer-state='setDrawerState' >
     </TheNavbar>
   
-  <v-main class="d-flex justify-center pa-4 " > 
-    <h1  >Désolé cette fonctionnalité n'est pas encore acccessible</h1> 
-  <img src="/image/build-page.jpg" 
+  <div class="d-flex flex-column text-center pa-8 mx-auto " > 
+    
+    <h2 >  OUPS !!  </h2> 
+    <h2>Cette page est en construction</h2>
+   <img class
+   src="/image/build-page.jpg" 
   width="500px"
   alt="page en construction">
-  <p>vous allez être redirigé automatiquement sur la page d'acceuil </p>
-  </v-main>
+   <p >vous allez être redirigé automatiquement sur la page d'acceuil </p>
+  </div>
       <Footer></Footer>
   </v-app>
 </template>
