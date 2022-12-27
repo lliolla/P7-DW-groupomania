@@ -6,7 +6,7 @@
                 <CreatePost @post-created='setPost'></CreatePost>
         </v-row>
         <v-row justify="center">
-            
+           
     <!-- box see forum -->
             <v-card
                 class="d-flex flex-column post-card"
@@ -19,16 +19,15 @@
                             class="mx-3">
                               
                             <v-img 
-                     
                             :src="post.User.media">
                             </v-img>
                         </v-avatar>
                         <div class="media-body">
                             <div class="user-title">
-                                <p class="name">{{post.User.username}} </p>
+                                <p class="name text-capitalize">{{post.User.username}} </p>
                             </div>
 
-                        <div class="media-time">
+                        <div class="media-time text-capitalize">
                         <p>Publié le  {{publishedDaysAgo(post.updatedAt)}}</p>
                         </div>
                         </div>
@@ -40,7 +39,7 @@
                 </div>
                 <div class="post-body">
                     <v-card-subtitle >
-                <h3> {{post.title}}</h3> 
+                <h3 class="text-capitalize"> {{post.title}}</h3> 
                 </v-card-subtitle>
                   <v-card-text>
                 <v-img
@@ -51,14 +50,14 @@
                 :src="post.media"
                 ></v-img>
                  <v-divider class="pa-2"></v-divider>
-                
+                <div class="text-capitalize py-3">
                     {{post.content}} <br />
-                    <a href="" @click="seePost()">Voir plus</a> <br />
-                    <v-chip
+                </div>
+                <a href="" @click="seePost()">Voir plus</a> <br />
+                <div class="d-flex justify-end" ><v-chip
                 color="orange"
-                class="mr-2"
+                class="my-2  ">loisir</v-chip></div>
                 
-                >loisir</v-chip>
                 </v-card-text>
                    <v-divider></v-divider>
                 </div>
@@ -67,6 +66,7 @@
                  v-bind:idPost="post.id"
                  v-bind:likes="post.likes"
                  v-bind:dislikes="post.dislikes"
+                v-bind:seeCmt="false"
                  @update-cmt="setPost">
                 </CmtsByUser>
             </v-card>
@@ -108,6 +108,7 @@ export default {
     data: ()=>{
         return {
         dialog: false,
+        seeCmt :false,
         update:false,
         updateCmt:false,
         comments:"10",

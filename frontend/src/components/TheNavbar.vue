@@ -1,6 +1,6 @@
 <template>
     <v-app-bar app>
-        <v-app-bar-nav-icon @click="drawer = !drawer" ></v-app-bar-nav-icon> <!-- faire disparaitre / appararitre side bar -->
+        <v-app-bar-nav-icon @click="changeDrawerState" ></v-app-bar-nav-icon> <!-- faire disparaitre / appararitre side bar -->
         <v-avatar
             size="avatarSize"
             color="red" >
@@ -46,8 +46,13 @@ export default {
         return {
             notifNumber :"1",
             friendNumber :"10",
-    }} ,
+    }},
+    
     methods : {
+        changeDrawerState(){
+            this.$emit('drawer-state', this.drawer = true)
+                console.log("changeDrawerState navbar", this.drawer)
+        },
         logout (){
             localStorage.clear();
             this.$router.push('/')

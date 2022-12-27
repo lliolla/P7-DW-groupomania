@@ -18,23 +18,23 @@
             </v-btn>
            
           </template>
-    <v-card class="update-user">
+    <v-card class="card">
        <div class="post-avatar d-flex justify-space-around align-center">
           <v-avatar
               size="45"
               dark>
               <img :src="userInfos.media" alt="avatar">
           </v-avatar>
-          <v-card-title >
+          <v-card-title  class="mx-auto">
            Modifier votre profil
           </v-card-title >
           <v-btn
-            icon
-            color="red"   
-            outlined
+            fab
+            dark
             x-small
+            color="red darken-1"
             @click="closePost()">
-            <v-icon >
+            <v-icon color="white" >
               mdi-close
             </v-icon>
          </v-btn> 
@@ -170,8 +170,9 @@ export default {
 }
 </script>
 <style scoped>
-.cards-form{
-  padding: 15px;
+.card{
+  padding: 20px;
 }
+
 </style>
 

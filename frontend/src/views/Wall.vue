@@ -1,26 +1,20 @@
 <template>
  <v-app>
   <div class="wall">
- <v-navigation-drawer
+    <v-navigation-drawer
       v-model="drawer"
       app
     >
-    <TheSidebar></TheSidebar>
-  
+    <TheSidebar
+     @drawer-state-sidebar='setDrawerSidebar'></TheSidebar>
     </v-navigation-drawer>
-    <TheNavbar></TheNavbar>
+
+    <TheNavbar
+    @drawer-state='setDrawerState'></TheNavbar>
     <main>
     <AllPosts></AllPosts> 
     </main>
-  </div>
-   
-
-
-       
-        
-        
-<!-- todo: rendre dynamique le choix allpost my post en passant uniquement par wall -->
-  
+  </div>  
      <Footer></Footer>
   </v-app>
 </template>
@@ -34,22 +28,36 @@
 
   export default {
     name: 'Wall',
-
     components: {
       TheSidebar,
       TheNavbar,
       AllPosts,
       Footer
-     
     },
-
-    data: () => ({ 
-      drawer:null, 
+    data: () => { 
+      return{
+      drawer:true,
       username: "",
       userId:"",
       dialog:"",
       seePostUser:true,
-    }),
+      }
+    },
+    watch:{
+       drawer (newValue, oldValue){
+        console.log("watch drawer wall newValue",newValue,"watch drawer wall oldValue", oldValue);
+        
+       }
+    },
+    
+    methods:{
+      setDrawerState(payload){
+          this.drawer=payload
+      },
+      setDrawerSidebar(payload){
+          this.drawer=payload
+      }
+    }
  }
 </script>
 <style>

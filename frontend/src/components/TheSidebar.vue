@@ -1,23 +1,36 @@
 <template>
 <div class="sidebar">
  
-      <v-list>
-   
-        <v-list-item >
-          <v-list-item-avatar>
-            <v-img :src="user.media" > </v-img>
-          </v-list-item-avatar>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              {{user.username}}
-            </v-list-item-title>
+      <v-list class="d-flex flex-row" >
+      
+          <v-list-item-avatar class="ma-2">
+                <v-img :src="user.media" > </v-img>
+            </v-list-item-avatar>
+  
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">
+                  {{user.username}}
+                </v-list-item-title>
 
-            <v-list-item-subtitle class="m-3">{{email}}</v-list-item-subtitle>
-          </v-list-item-content>
+                <v-list-item-subtitle class="m-3">{{email}}</v-list-item-subtitle>
+              </v-list-item-content>
 
-        </v-list-item>
+            </v-list-item>
+            <v-list-item >
+               <v-btn
+                    class="ml-auto"
+                    width="25px"
+                    height="25px"
+                      fab
+                      dark
+                      x-small
+                      color="red darken-1"
+                      @click="changeDrawerState"
+                    > 
+                      <v-icon color="white"> mdi-close </v-icon>
+                    </v-btn>
+            </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list
@@ -26,12 +39,14 @@
       >
         <v-list-item-group
           v-model="selectedItem"
-          color="primary"
+          active-class="red--text text--accent-4"
         >
           <v-list-item
+          @click="changeDrawerState()"
             v-for="(item, i) in items"
             :key="i"
             :to="item.to"
+            link
           >
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -51,9 +66,9 @@ import {mapState} from 'vuex';
 
 export default {
   name : "TheSidebar",
-  props : ['drawer'],
+
   data: () => ({
-      selectedItem: 0,
+      selectedItem: 1,
       items: [
         { text: 'Mon mur', icon: 'mdi-wall', to:"/posts"},
         { text: 'Mes publications', icon: 'mdi-forum', to:"/MyPosts"},
@@ -69,8 +84,13 @@ export default {
     
  computed:{
        ...mapState(['user']),
-      
      },
+    methods : {
+    changeDrawerState (){
+    this.$emit('drawer-state-sidebar', this.drawer = false)
+    console.log("changeDrawerState in sidebar ", this.drawer)
+    }
+    },
 }
 
 </script>

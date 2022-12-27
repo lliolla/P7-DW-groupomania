@@ -4,16 +4,24 @@
       v-model="drawer"
       app >  
 
-    <TheSidebar></TheSidebar>
+    <TheSidebar
+     @drawer-state-sidebar='setDrawerSidebar'
+    ></TheSidebar>
 </v-navigation-drawer>
-    <TheNavbar></TheNavbar>
-  <h1 class="d-flex justify-center pa-4" >Désolé cette fonctionnalité n'est pas encore acccessible</h1> 
-  <v-main class="main " > 
-  <img src="/image/build-page.jpg" 
+    <TheNavbar
+    @drawer-state='setDrawerState' >
+    </TheNavbar>
+  
+  <div class="d-flex flex-column text-center pa-8 mx-auto " > 
+    
+    <h2 >  OUPS !!  </h2> 
+    <h2>Cette page est en construction</h2>
+   <img class
+   src="/image/build-page.jpg" 
   width="500px"
   alt="page en construction">
-  <p>vous allez être redirigé automatiquement sur la page d'acceuil </p>
-  </v-main>
+   <p >vous allez être redirigé automatiquement sur la page d'acceuil </p>
+  </div>
       <Footer></Footer>
   </v-app>
 </template>
@@ -22,16 +30,28 @@
   import TheNavbar from '@/components/TheNavbar.vue'
 export default {
   name :'NotFound',
+  data: () => {
+      return{
+        drawer:false,
+      }},
   components: {
       TheSidebar,
       TheNavbar,
     },
-   mounted : 
-   function(){
-     setTimeout(() => {
-        this.$router.push('/posts')
-      }, 2500)
-   }
+  //  mounted : 
+  //  function(){
+  //    setTimeout(() => {
+  //       this.$router.push('/posts')
+  //     }, 2500)
+  //  },
+   methods:{
+      setDrawerState(payload){
+          this.drawer=payload
+      },
+      setDrawerSidebar(payload){
+          this.drawer=payload
+      }
+    }
 }
 </script>
 <style scoped>

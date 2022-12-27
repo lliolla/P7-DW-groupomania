@@ -1,9 +1,8 @@
 <template>
-
    <v-app id ="connection">
        <v-main>
           <section class="header-wrapper red darken-1 ">
-            <h1 class="text-center pa-5">Bienvenue sur votre réseau social</h1>
+            <h1 class="text-center pa-5"> {{welcomMsg}} </h1>
           </section>
           <section class="auth-wrapper" max-width="500">
             <v-img src="../assets/images/home-img.jpg">
@@ -18,7 +17,7 @@
                   <v-card-title v-else >
                     Connectez vous
                   </v-card-title>
-                   <!-- affichage des messages du backend echec de connexion-->
+                   <!-- see backend's messages if connexion fail -->
                
                    <v-alert type="error" v-if="auth=='false'" >
                      {{errMsg}} 
@@ -101,6 +100,7 @@ export default {
     },
     data (){
       return{
+        welcomMsg: "Bienvenue sur votre réseau social",
         mode : "login",
         email:"",
         username: "",
@@ -147,9 +147,9 @@ export default {
         console.log("renvoi sur la fonction mot de passe oublié");
       },
        register(){
-       // on creer un appel API ds le store
+       // create an API call in the store
          this.$store.dispatch('register',{
-        //on passe les variables
+        //passing variables
            email: this.email,
            username:this.username,
            password:this.password,
@@ -172,15 +172,14 @@ export default {
          })
       },
       login (){
-         // on creer un appel API ds le store
+       // create an API call in the store
          this.$store.dispatch('login',{
-            //on passe les variables
+        //passing variables
             email: this.email,
             password:this.password,
             message:"",
          })
          .then(res=>{
-          //  this.auth="true"
           console.log('response',res.data);
            this.$router.push({name:'Wall'})
           })
@@ -197,21 +196,14 @@ export default {
 </script>
 <style  scoped>
 
- span .connect{
+  span .connect{
   font-size: 10px;
- }
-
+  }
   .header-wrapper{
     height: 100px;
    background-color:bisque;
   }
-  
  .btnForm{
    margin-bottom: 16px;
-   
  }
- 
-
- 
-  
 </style>
