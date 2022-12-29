@@ -117,9 +117,14 @@ export default {
   },
   methods: {
     getPost() {
+        //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
       axios
         .get("http://localhost:3000/api/v1/post/" + this.idPost, {
-          headers: { Authorization: "Bearer " + localStorage.token },
+          headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           this.onePost = res.data
@@ -129,6 +134,11 @@ export default {
         });
     },
     editDataPost(media) {
+        //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
       //get user'id who wrote the post
       let id_users = this.onePost.id_users;
       //on recuperer l'id du post a modifier
@@ -148,7 +158,7 @@ export default {
         .put(
           "http://localhost:3000/api/v1/post/" + this.idPost,
           updateDataPost,
-          { headers: { Authorization: "Bearer " + localStorage.token } }
+          { headers: { Authorization: "Bearer " + token } }
         )
         .then(() => {
           this.$emit("update-cmt", (this.update = !this.update))

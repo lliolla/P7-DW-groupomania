@@ -7,12 +7,12 @@ const cmtCtrl = require('../controllers/ctrlCmt');
 const auth = require('../middleware/auth');// on protege les routes avec les tokens
 
 //routes d'authentification
- router.get('/post/:id',cmtCtrl.getOnePostCmts )
- router.get('/',cmtCtrl.getAllCmt )
- router.get('/:id',cmtCtrl.getOneCmt )
- router.post('/',cmtCtrl.createCmt)
- router.delete('/:id',cmtCtrl.delateCmt )
- router.put('/:id',cmtCtrl.updateCmt )
+ router.get('/post/:id',auth,cmtCtrl.getOnePostCmts )
+ router.get('/',auth,cmtCtrl.getAllCmt )
+ router.get('/:id',auth,cmtCtrl.getOneCmt )
+ router.post('/',auth,cmtCtrl.createCmt)
+ router.delete('/:id',auth,cmtCtrl.delateCmt )
+ router.put('/:id',auth,cmtCtrl.updateCmt )
 
 
 module.exports = router

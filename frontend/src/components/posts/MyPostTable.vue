@@ -122,7 +122,6 @@ export default {
           this.update=payload
           console.log("payload",this.update);
         },
-
         updatePost(idPost){
             this.dialog = true
             localStorage.setItem('idPost',idPost)
@@ -130,8 +129,11 @@ export default {
            this.$router.push({name:'EditPost', params: {id: id}})
         },
         delatePost(idpost){
+             //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
          console.log("POst supprimé",idpost);
-            axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + token}})
                 .then(res=>{ console.log("post supprimé res",res.data)})
                 .catch(err=>{ console.log("err",err); })
                 this.alert= false 

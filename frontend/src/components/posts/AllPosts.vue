@@ -158,15 +158,18 @@ export default {
             this.alert = true
             this.toggle= true
         },
-
         delatePost(idpost){
+            //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
          console.log("Post supprimé",idpost);
-            axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + localStorage.token}})
+            axios.delete("http://localhost:3000/api/v1/post/"+idpost,{headers: {Authorization: 'Bearer ' + token}})
                 .then(res=>{ console.log("post supprimé res",res.data)})
                 .catch(err=>{ console.log("err",err); })
                 this.alert= false
-                this.toggle= true
-                
+                this.toggle= true     
         },
        seePost(){
            console.log("voir plus");

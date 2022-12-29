@@ -11,13 +11,13 @@ const multer = require('../middleware/multer');
 
 
 // routes 
-router.get('/',postCtrl.getAllPosts);
-router.get('/:id',postCtrl.getOnePost);//display one post
-router.get('/user/:id',postCtrl.getOneUserPosts );//display all posts of one user
-router.post('/',multer,postCtrl.createPost);
-router.put('/:id',multer,postCtrl.updatePost);
-router.delete('/:id',postCtrl.delatePost);
-router.post('/:id/like',postCtrl.userPostLiked);
+router.get('/',auth,postCtrl.getAllPosts);
+router.get('/:id',auth,postCtrl.getOnePost);//display one post
+router.get('/user/:id',auth,postCtrl.getOneUserPosts );//display all posts of one user
+router.post('/',multer,auth,postCtrl.createPost);
+router.put('/:id',multer,auth,postCtrl.updatePost);
+router.delete('/:id',auth,postCtrl.delatePost);
+router.post('/:id/like',auth,postCtrl.userPostLiked);
 
 
 

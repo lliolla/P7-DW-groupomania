@@ -106,12 +106,19 @@ export default {
         });
     },
     updateCmt(idCmt) {
+         //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
+            console.log("token frontend",token);
+        //get id of post who want create coments
       let content = this.oneCmt.content;
       axios
         .put(
           "http://localhost:3000/api/v1/cmt/" + idCmt,
           { content },
-          { headers: { Authorization: "Bearer " + localStorage.token } }
+          { headers: { Authorization: "Bearer " + token } }
         )
         .then(() => {
           this.err = true;
@@ -126,9 +133,14 @@ export default {
     },
     deleteCmt(idcmt) {
       //get token in storage and extract ID
+        //get user connect and  his ID in local storage
+            let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
       axios
         .delete("http://localhost:3000/api/v1/cmt/" + idcmt, {
-          headers: { Authorization: "Bearer " + localStorage.token },
+          headers: { Authorization: "Bearer " + token },
         })
         .then(() => {
           this.$emit("update-cmt", (this.update = !this.update));

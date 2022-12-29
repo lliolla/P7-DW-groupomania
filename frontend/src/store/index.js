@@ -19,7 +19,7 @@ if(!user){
     //on parse le user ds LS
     user = JSON.parse(user)
   
-    console.log("user logged validity token =>",user)
+  
    
   } catch (error) {
     //si pb avec le parse on definit parametre user par defaut
@@ -27,7 +27,6 @@ if(!user){
       userId: -1,
       token : "",
     } 
-    console.log("user logged => non")
   }
  
 
@@ -90,8 +89,12 @@ export default new Vuex.Store({
   actions: {
     
     getAllPosts({commit}){
+        //get user connect and  his ID in local storage
+        let user=JSON.parse(localStorage.getItem('user'))
+        //get token in storage and extract ID
+        let token=user.token
       axios
-      .get("http://localhost:3000/api/v1/post", {headers: {Authorization: 'Bearer' + localStorage.token}})
+      .get("http://localhost:3000/api/v1/post", {headers: {Authorization: 'Bearer ' + token}})
       .then(res => {
         commit('SET_POSTS', res.data)
       })
@@ -100,8 +103,13 @@ export default new Vuex.Store({
       })
     },
     getAllUsers({commit}){
+        //get user connect and  his ID in local storage
+        let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
       axios
-      .get("http://localhost:3000/api/v1/user", {headers: {Authorization: 'Bearer' + localStorage.token}})
+      .get("http://localhost:3000/api/v1/user", {headers: {Authorization: 'Bearer' + token}})
       .then(res => {
         commit('GET_USERS', res.data)
       })
@@ -143,9 +151,14 @@ export default new Vuex.Store({
     },
     //la fonction n'est pas asynchrone car lee se met a jour toute seule avec les mutations
     getUserInfo:( {commit} )=>{
+        //get user connect and  his ID in local storage
+        let user=JSON.parse(localStorage.getItem('user'))
+         
+        //get token in storage and extract ID
+            let token=user.token
       let userConnect = JSON.parse(localStorage.getItem('user')) 
        let userConnectId =userConnect.userId
-       axios .get("http://localhost:3000/api/v1/user"+userConnectId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
+       axios .get("http://localhost:3000/api/v1/user"+userConnectId, {headers: {Authorization: 'Bearer ' + token}})
         .then(res =>{
         commit;
           console.log('LOG_USER',res.data)

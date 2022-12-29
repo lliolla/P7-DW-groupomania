@@ -50,23 +50,23 @@
                      bordered
                      offset-x="5"
                        offset-y="5">
-                            <span slot="badge"> {{cmtLength}} </span> 
+                            <span slot="badge"> {{cmtLength}} </span>
                              <v-icon
                                 class=" white--text"
                                 @click="showCmt(idPost)">
                                 mdi-comment-text-outline
                             </v-icon>
                     </v-badge>
-                </v-btn>    
+                </v-btn>
              </li>
        </ul>
        <v-expand-transition>
             <div v-show="show">
                  <v-divider></v-divider>
-                    <v-alert 
+                    <v-alert
                     type= "error"
                     v-if="err ==false"
-                    >{{errMsg}} 
+                    >{{errMsg}}
                  </v-alert>
 <!-- box create comment -->
                  <div class="createComment d-flex justify-center mt-2 mr-2">
@@ -77,9 +77,9 @@
                         <v-img
                         :src="user.media">
                         </v-img>
-                    </v-avatar> 
+                    </v-avatar>
                     <v-textarea
-                    counter="254" 
+                    counter="254"
                     ref="cmtContent"
                      clearable
                     clear-icon="mdi-close-circle"
@@ -109,27 +109,27 @@
                         <v-timeline-item class="timeline-1"  >
                                 <template v-slot:icon>
                                     <v-avatar size="30" class="red lighten-3">
-                                  <img :src=cmt.User.media> 
+                                  <img :src=cmt.User.media>
                                     </v-avatar>
                                 </template>
                                 <v-card class="red lighten-5 cmt-card">
                                 <v-card-title >
-                                 <span class="card-title__span"><strong>{{cmt.User.username}}</strong> 
+                                 <span class="card-title__span"><strong>{{cmt.User.username}}</strong>
                                      à répondu {{ dateDaysAgo(cmt.updatedAt)}}</span>
                                         </v-card-title>
                                         <v-card-text>
                                             {{cmt.content}}
                                         </v-card-text>
-                                </v-card> 
-                        </v-timeline-item> 
-<!-- box menu modifier supprimer -->  
+                                </v-card>
+                        </v-timeline-item>
+<!-- box menu modifier supprimer -->
                         <template  v-if="seeCmt == true ">
-                            <EditCmt 
-                            :idCmt="cmt.id" 
+                            <EditCmt
+                            :idCmt="cmt.id"
                             :idPost="idPost"
                             @update-cmt='setUpdate'
                             @menu-event ='setMenu'
-                            ></EditCmt> 
+                            ></EditCmt>
                         </template>
                  </v-timeline>
             </div>
@@ -166,8 +166,8 @@ export default {
             type : Array
         },
     },
-    components : 
-    { 
+    components :
+    {
         EditCmt
     },
     data(){
@@ -182,10 +182,11 @@ export default {
             errMsg :"",//error's field
             err :true,//error's field
             postCmts:[],
-            show: false, 
+            show: false,
             liked:1,
             disliked:1,
             update:false,
+
         }
     },
     watch:{
@@ -209,36 +210,40 @@ export default {
     },
     mounted () {
 
-           
+
    },
     methods : {
          setUpdate(payload){
           this.update=payload
         },
         setMenu(payload){
-          this.menu=payload  
+          this.menu=payload
         },
         postLike(idPost){
+            const userlike = this.user.userId
             this.liked=false
             this.disliked=true
-            this.likes++
+            this.likes=+1
+            console.log("userId",this.user.userId,"usersLiked" ,userlike)
+        //    this.usersLiked.push(userlike)
+        //  console.log("userId",this.user.userId,"usersLiked" ,this.usersLiked)
             const newLike = new FormData;
             newLike.append('like',this.likes),
             newLike.append('IdPost',idPost)
-         // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )      
-         console.log("newLike",newLike,"id user like",this.userPostLikedId,"Like",this.liked,"Liked",this.likes,);    
+         // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )
+         console.log("newLike",newLike,"id user like",this.userPostLikedId,"Like",this.liked,"Liked",this.likes,);
         },
         postDislike(idPost){
-           
+
         this.liked=true
         this.disliked=false
-        this.dislikes++
+        this.dislikes=+1
         const newLike = new FormData;
             newLike.append('dislike',this.dislikes),
             newLike.append('IdPost',idPost)
-         console.log("newLike",newLike,"id user like",this.userPostLikedId,"disLike",this.liked,"disLiked",this.likes,);    
+         console.log("newLike",newLike,"id user like",this.userPostLikedId,"disLike",this.liked,"disLiked",this.likes,);
 
-            //POST -1 
+            //POST -1
 //post dislike: this.dislike +>requette POST
         },
         dateDaysAgo(date) {
@@ -254,13 +259,14 @@ export default {
                 .then(res=> {this.postCmts = res.data})
                 .catch(err=>{ console.log("err axios getPOstCmts",err); })
                 },
-        
+
         submitCom(idPost){
         //get user connect and  his ID in local storage
             let user=JSON.parse(localStorage.getItem('user'))
             let userId=user.userId
         //get token in storage and extract ID
             let token=user.token
+            console.log("token frontend",token);
         //get id of post who want create coments
                 axios.post("http://localhost:3000/api/v1/cmt",{PostId:idPost,UserId:userId ,content:this.content},{headers: {Authorization: 'Bearer ' + token}})
                 .then(()=>{
@@ -272,7 +278,7 @@ export default {
                 .catch(err =>{
                     if(err !== 200){
                     this.err = false
-                    this.errMsg =err.response.data.error  
+                    this.errMsg =err.response.data.error
                     }
                 });
             },
