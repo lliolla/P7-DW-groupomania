@@ -3,6 +3,8 @@
        <ul class="d-flex flex-row justify-space-between pl-0">
              <li class="blog-like d-flex ">
                   <div >
+                    {{usersDisliked}}
+                    {{usersLiked}}
                     <v-btn
                     :disabled="!liked"
                     class="icon"
@@ -12,7 +14,7 @@
                         offset-x="5"
                         offset-y="5"
                        >
-                            <span slot="badge">  {{posts.likes}} </span>  <!--slot can be any component-->
+                            <span slot="badge">  {{likes}} </span>  <!--slot can be any component-->
                             <v-icon
                             class=" white--text"
                             dark
@@ -147,10 +149,22 @@ moment.locale('fr')
 export default {
     name : "CmtsByUser",
     props :{
-        posts : {
-            type :Object,
+        idPost : Number,
+        seeCmt:Boolean,
+        likes : {
+        type:Number,
+        default:0
+        } ,
+       dislikes :  {
+        type:Number,
+        default:0
+        } ,
+        usersDisliked :{
+            type : Array
         },
-        
+        usersLiked:{
+            type : Array
+        },
     },
     components : 
     { 
@@ -194,7 +208,7 @@ export default {
       }
     },
     mounted () {
-            console.log("props",this.post);
+
            
    },
     methods : {
