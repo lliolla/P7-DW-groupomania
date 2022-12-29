@@ -63,9 +63,8 @@
                 </div>
 
                 <CmtsByUser
-                 v-bind:idPost="post.id"
-                 v-bind:likes="post.likes"
-                 v-bind:dislikes="post.dislikes"
+                 v-bind="posts"
+                
                 v-bind:seeCmt="false"
                  @update-cmt="setPost">
                 </CmtsByUser>
@@ -116,7 +115,6 @@ export default {
         alert: false,//alerte pour confirmer la suppression d'un post
         toggle :false,//faire disparaitre le btn des modif une fois l'alert de suppression lancer et le faire rapararitree a la fermeture
         //todo : ramener l'image avatar des quue multer ok
-
         }
     },
      computed:{

@@ -41,7 +41,7 @@ if(content.length <=2 ||content.length >= 500 ){
 exports.getAllPosts = (req,res,next)=>{
     console.log('getAllPosts');
     Model.Post.findAll({
-        attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media','updatedAt'],// on precise les attributs que l'on veux recup)
+        attributes :['id', 'title','content','likes','dislikes','usersDisliked','usersLiked', 'UserId', 'media','updatedAt'],
         include: [ Model.User] ,
         order: [["id", "DESC"]],
       },)
@@ -108,7 +108,7 @@ exports.delatePost = (req,res,next)=>{
  
       Model.Post.findAll({
       where : {UserId : idUser},
-      attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media','updatedAt'],
+      attributes :['id', 'title','content','likes','dislikes','usersDisliked','usersLiked', 'UserId', 'media','updatedAt'],
       include: [ Model.User] ,
       order: [["id", "DESC"]],
       })
@@ -138,5 +138,5 @@ exports.userPostLiked =(req,res,next)=>{
 
 
   //sion si decremente dislikes de -1 l'utilsateur enleve sont dislike
-console.log("userPostLiked",req.body.like);
+console.log("back=>like",req.body.like);
 }
