@@ -36,7 +36,7 @@
     },
     data: () => { 
       return{
-      drawer:true,
+      drawer:false,
       username: "",
       userId:"",
       dialog:"",
