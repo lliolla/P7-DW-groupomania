@@ -208,9 +208,8 @@ export default {
         return this.user.userId
       }
     },
-    mounted () {
-
-
+   mounted () {
+     this.getAllCmts(this.idPost)
    },
     methods : {
          setUpdate(payload){
@@ -249,17 +248,19 @@ export default {
         dateDaysAgo(date) {
                 return moment(date).startOf('day').fromNow();
                 },
-        showCmt(idPost){
-            this.show = !this.show
-            //Get all posts's cmts
+        getAllCmts(idPost){
+            
             //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
             axios.get("http://localhost:3000/api/v1/cmt/post/"+ idPost,{headers: {Authorization: 'Bearer ' + token}})
                 .then(res=> {this.postCmts = res.data})
                 .catch(err=>{ console.log("err axios getPOstCmts",err); })
-                },
-
+        },
+        showCmt(idPost){
+            this.show = !this.show
+            this.getAllCmts(idPost)
+        },
         submitCom(idPost){
         //get user connect and  his ID in local storage
             let user=JSON.parse(localStorage.getItem('user'))
