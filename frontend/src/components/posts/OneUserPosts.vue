@@ -5,7 +5,7 @@
              <!-- box see My Posts -->
             <v-card
                 class="d-flex flex-column post-card"
-                v-for='post in userPosts'
+                v-for='post in posts'
                 :key='post.id'>
                 <div class="post-header">
                     <div class="post-media">
@@ -95,7 +95,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import axios from "axios"
+
 import EditPost from'../posts/EditPost.vue'
 import CmtsByUser from'../cmts/CmtsByUser.vue'
 
@@ -129,7 +129,7 @@ export default {
     this.getAllPosts()
     },
     computed:{
-      ...mapState(['user']),
+      ...mapState(['user','posts']),
      },
     methods: {
         setUpdate(payload){
@@ -146,19 +146,7 @@ export default {
         dateDaysAgo(date) {
             return moment(date).startOf('day').fromNow();
         },
-        getAllPosts(){
-            //Get all user's posts
-            //get token in storage and extract ID
-            let user=JSON.parse(localStorage.getItem('user'))
-            let token = user.token
-            // get user conected
-            let userConnect = JSON.parse(localStorage.getItem('user'))
-            let userConnectId =userConnect.userId
-            console.log("userConnectId",userConnectId,"closeCmt");
-                axios.get("http://localhost:3000/api/v1/post/user/" + userConnectId,{headers: {Authorization: 'Bearer ' + token}})
-                    .then(res=>{ this.userPosts =res.data })
-                    .catch(err=>{ console.log("err axios getouneuser",err); })
-        },
+       
       
        seePost(){
            console.log("voir plus");
