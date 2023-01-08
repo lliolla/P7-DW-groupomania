@@ -122,11 +122,11 @@ export default {
     watch:{
         update(newValue,oldValue){
           console.log("update newValue, oldValue",newValue, oldValue)
-          this.getAllPosts()
+           this.$store.dispatch('getAllPosts')
         },
     },
     mounted (){
-    this.getAllPosts()
+     this.$store.dispatch('getAllPosts')
     },
     computed:{
       ...mapState(['user','posts']),

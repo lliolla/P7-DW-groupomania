@@ -191,7 +191,7 @@ export default {
     },
     watch:{
         update(newValue, oldValue){
-          console.log("newValue, oldValue",newValue, oldValue);
+          console.log("cmtbyuser newValue, oldValue",newValue, oldValue);
           if(newValue != oldValue) {
             this.showCmt(this.idPost)
             this.show=true
@@ -209,6 +209,7 @@ export default {
       }
     },
    mounted () {
+    console.log("cmtbyuser monted",this.update);
      this.getAllCmts(this.idPost)
    },
     methods : {

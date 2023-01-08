@@ -143,6 +143,7 @@ export default {
           headers: { Authorization: "Bearer " + token },
         })
         .then(() => {
+         console.log("update-cmt before",this.update);
           this.$emit("update-cmt", (this.update = !this.update));
           this.$emit("show-cmt", (this.show = false));
           this.$emit("menu-event", (this.menu = false));
