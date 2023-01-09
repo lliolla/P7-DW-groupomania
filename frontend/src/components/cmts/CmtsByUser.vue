@@ -127,7 +127,8 @@
                             <EditCmt
                             :idCmt="cmt.id"
                             :idPost="idPost"
-                            @update-cmt='setUpdate'
+                            :updatedCmt='update'
+                            @updated-cmt='setUpdate'
                             @menu-event ='setMenu'
                             ></EditCmt>
                         </template>
@@ -213,7 +214,7 @@ export default {
      this.getAllCmts(this.idPost)
    },
     methods : {
-         setUpdate(payload){
+        setUpdate(payload){
           this.update=payload
         },
         setMenu(payload){

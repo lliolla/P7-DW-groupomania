@@ -64,13 +64,13 @@ export default {
   props: {
     idCmt: Number,
     idPost: Number,
+    updatedCmt: Boolean,
   },
   data() {
     return {
       dialog: false,
       menu: false,
       closeCmt: false,
-      update: false,
       media: "",
       oneCmt: {
         id: "",
@@ -89,8 +89,22 @@ export default {
       }, 1000);
     },
   },
-  mounted() {
+  created() {
     this.getCmts();
+    console.log('editCmt created ',this.editCmt);
+  },
+  computed:{
+    editCmt:{
+        get(){
+        return this.updateCmt
+        },
+        set(value){
+        //    this.update =! this.update
+             this.$emit('update:updateCmt', value)
+         
+        }
+    }
+ 
   },
   methods: {
     getCmts() {
@@ -123,7 +137,7 @@ export default {
         .then(() => {
           this.err = true;
           this.closeCmt = true;
-          this.$emit("update-cmt", (this.update = !this.update));
+          this.$emit("update-cmt", (this.updateCmt =! this.updateCmt));
           this.$emit("show-cmt", (this.show = false));
           this.$emit("menu-event", (this.menu = false));
         })
@@ -143,10 +157,11 @@ export default {
           headers: { Authorization: "Bearer " + token },
         })
         .then(() => {
-         console.log("update-cmt before",this.update);
-          this.$emit("update-cmt", (this.update = !this.update));
+         console.log("updated-cmt before",this.update);
+          this.$emit("updated-cmt", (this.updatedCmt =! this.updatedCmt));
           this.$emit("show-cmt", (this.show = false));
           this.$emit("menu-event", (this.menu = false));
+          console.log("update-cmt after",this.update);
         })
         .catch((err) => {
           console.log("err", err);

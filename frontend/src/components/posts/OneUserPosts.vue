@@ -70,6 +70,7 @@
                 <CmtsByUser
                 :idPost="post.id"
                 :seeCmt="true" 
+                :update="update"
                 @update-cmt="setUpdate">
                 </CmtsByUser>
 
