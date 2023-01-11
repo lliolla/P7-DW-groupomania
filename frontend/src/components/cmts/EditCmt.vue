@@ -89,9 +89,9 @@ export default {
       }, 1000);
     },
   },
-  created() {
-    this.getCmts();
-    console.log('editCmt created ',this.editCmt);
+  mounted() {
+    this.getCmts(this.idCmt);
+
   },
   computed:{
     editCmt:{
@@ -107,10 +107,15 @@ export default {
  
   },
   methods: {
-    getCmts() {
+    getCmts(idCmt) {
+         let user=JSON.parse(localStorage.getItem('user'))
+    qlet token = user.token
+           
       axios
-        .get("http://localhost:3000/api/v1/cmt/" + this.idCmt, {
-          headers: { Authorization: "Bearer " + localStorage.token },
+      //get token in storage and extract ID
+           
+        .get("http://localhost:3000/api/v1/cmt/" +idCmt, {
+          headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           this.oneCmt = res.data;
@@ -125,7 +130,7 @@ export default {
          
         //get token in storage and extract ID
             let token=user.token
-            console.log("token frontend",token);
+            
         //get id of post who want create coments
       let content = this.oneCmt.content;
       axios

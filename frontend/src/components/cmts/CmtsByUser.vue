@@ -210,7 +210,7 @@ export default {
       }
     },
    mounted () {
-    console.log("cmtbyuser monted",this.update);
+
      this.getAllCmts(this.idPost)
    },
     methods : {

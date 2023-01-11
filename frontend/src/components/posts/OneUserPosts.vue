@@ -114,7 +114,6 @@ export default {
         dialog: false,
         menu:false,
        update:false,
-      
         message:"",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{},
