@@ -85,6 +85,7 @@ export default {
   name: "EditPost",
   props: {
     idPost: Number,
+    updatedPost: Boolean,
   },
   data() {
     return {
@@ -114,6 +115,16 @@ export default {
     getIdPost() {
       return this.idPost;
     },
+    editCmt:{
+        get(){
+        return this.updatePost
+        },
+        set(value){
+        //    this.update =! this.update
+             this.$emit('updatePost', value)
+         
+        }
+    }
   },
   methods: {
     getPost() {
@@ -161,7 +172,7 @@ export default {
           { headers: { Authorization: "Bearer " + token } }
         )
         .then(() => {
-          this.$emit("update-cmt", (this.update = !this.update))
+          this.$emit("updated-post", !this.updatedPost)
           this.$emit("menu-event", (this.menu = false))
           this.$emit("msg-event", ( this.message = "l'article a bien été modifié"));
           this.dialog = false
@@ -184,7 +195,7 @@ export default {
           headers: { Authorization: "Bearer " + token },
         })
         .then(() => {
-           this.$emit("update-cmt", (this.update = !this.update))
+          this.$emit("updated-post", !this.updatedPost)
           this.$emit("menu-event", (this.menu = false))
             this.dialog = false
           this.$emit("msg-event", ( this.message = "l'article a bien été supprimé"));

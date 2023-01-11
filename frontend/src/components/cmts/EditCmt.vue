@@ -96,11 +96,11 @@ export default {
   computed:{
     editCmt:{
         get(){
-        return this.updateCmt
+        return this.updatedCmt
         },
         set(value){
         //    this.update =! this.update
-             this.$emit('update:updateCmt', value)
+             this.$emit('updatedCmt', value)
          
         }
     }
@@ -137,7 +137,7 @@ export default {
         .then(() => {
           this.err = true;
           this.closeCmt = true;
-          this.$emit("update-cmt", (this.updateCmt =! this.updateCmt));
+          this.$emit("updated-cmt",! this.updatedCmt);
           this.$emit("show-cmt", (this.show = false));
           this.$emit("menu-event", (this.menu = false));
         })
@@ -157,8 +157,7 @@ export default {
           headers: { Authorization: "Bearer " + token },
         })
         .then(() => {
-         console.log("updated-cmt before",this.update);
-          this.$emit("updated-cmt", (this.updatedCmt =! this.updatedCmt));
+          this.$emit("updated-cmt", !this.updatedCmt);
           this.$emit("show-cmt", (this.show = false));
           this.$emit("menu-event", (this.menu = false));
           console.log("update-cmt after",this.update);

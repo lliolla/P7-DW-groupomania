@@ -35,7 +35,8 @@
                                         <template>
                                             <EditPost 
                                             :idPost=post.id
-                                             @update-cmt='setUpdate'
+                                           :updatedPost='update'
+                                             @updated-post='setUpdate'
                                              @msg-event='setMsg'
                                              @menu-event='setMenu'
                                             ></EditPost>
@@ -69,9 +70,7 @@
                 <v-divider></v-divider>
                 <CmtsByUser
                 :idPost="post.id"
-                :seeCmt="true" 
-                :update="update"
-                @update-cmt="setUpdate">
+                :seeCmt="true" >
                 </CmtsByUser>
 
 
@@ -114,7 +113,8 @@ export default {
         return {
         dialog: false,
         menu:false,
-        update:false,
+       update:false,
+      
         message:"",
         userConnectId:JSON.parse(localStorage.getItem('user')).userId,
         userPosts:{},
