@@ -70,7 +70,12 @@
                 <v-divider></v-divider>
                 <CmtsByUser
                 :idPost="post.id"
-                :seeCmt="true" >
+                :seeCmt="true"
+                :likes='post.likes' 
+                :dislikes='post.dislikes'
+                :usersDisliked='post.usersDisliked'
+                :usersLiked='post.usersLiked'
+                >
                 </CmtsByUser>
 
 

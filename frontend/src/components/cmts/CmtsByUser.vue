@@ -3,8 +3,8 @@
        <ul class="d-flex flex-row justify-space-between pl-0">
              <li class="blog-like d-flex ">
                   <div >
-                    {{usersDisliked}}
-                    {{usersLiked}}
+                   usersDisliked {{usersDisliked}}
+                   usersLiked {{usersLiked}}
                     <v-btn
                     :disabled="!liked"
                     class="icon"
@@ -156,7 +156,7 @@ export default {
         type:Number,
         default:0
         } ,
-       dislikes :  {
+        dislikes :  {
         type:Number,
         default:0
         } ,
@@ -184,10 +184,9 @@ export default {
             err :true,//error's field
             postCmts:[],
             show: false,
-            liked:1,
-            disliked:1,
             update:false,
-
+            liked:false,
+            disliked:true
         }
     },
     watch:{
@@ -210,7 +209,6 @@ export default {
       }
     },
    mounted () {
-
      this.getAllCmts(this.idPost)
    },
     methods : {
@@ -221,18 +219,20 @@ export default {
           this.menu=payload
         },
         postLike(idPost){
-            const userlike = this.user.userId
-            this.liked=false
-            this.disliked=true
-            this.likes=+1
-            console.log("userId",this.user.userId,"usersLiked" ,userlike)
-        //    this.usersLiked.push(userlike)
-        //  console.log("userId",this.user.userId,"usersLiked" ,this.usersLiked)
-            const newLike = new FormData;
-            newLike.append('like',this.likes),
-            newLike.append('IdPost',idPost)
-         // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )
-         console.log("newLike",newLike,"id user like",this.userPostLikedId,"Like",this.liked,"Liked",this.likes,);
+        const userlike = this.user.userId
+        
+        console.log("userlike",userlike,"idPost",idPost);
+        //toggle icon like dislike
+        this.liked=false
+         this.disliked=true
+        console.log("usersDisliked",this.usersDisliked,"usersLiked",this.usersLiked);
+     
+        // //    this.usersLiked.push(userlike)
+        // //  console.log("userId",this.user.userId,"usersLiked" ,this.usersLiked)
+        //     const newLike = new FormData;
+        //     newLike.append('like',this.likes),
+        //     newLike.append('IdPost',idPost)
+        //  // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )
         },
         postDislike(idPost){
 

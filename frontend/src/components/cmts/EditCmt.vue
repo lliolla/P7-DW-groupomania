@@ -109,7 +109,7 @@ export default {
   methods: {
     getCmts(idCmt) {
          let user=JSON.parse(localStorage.getItem('user'))
-    qlet token = user.token
+    let token = user.token
            
       axios
       //get token in storage and extract ID
