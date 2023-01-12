@@ -42,8 +42,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue :0
     },
-    usersLiked: DataTypes.STRING,
-    usersDisliked :DataTypes.STRING
+    usersLiked: {
+        type: DataTypes.JSON,
+      
+        },
+
+    usersDisliked :{
+        type: DataTypes.JSON,
+      
+       }
 
   }, {
     sequelize,

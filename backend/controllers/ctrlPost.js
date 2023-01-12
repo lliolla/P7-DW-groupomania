@@ -2,6 +2,7 @@
 const Model = require('../models');
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
+const { log } = require('console');
 // const { log } = require('console');
 
 
@@ -127,7 +128,18 @@ exports.delatePost = (req,res,next)=>{
 
 }
 
-exports.userPostLiked =(req,res,next)=>{
+exports.postLiked =(req,res,next)=>{
+    let Idpost =req.params.id
+    let updateLike=req.body
+    console.log("backend likes",updateLike,Idpost);
+    
+    Model.Post.update(
+        updateLike,
+        {where : {id : Idpost} })
+    .then( updateLikes => res.status(200).json(updateLikes))
+    .catch(error => res.status(404).json({ error: "likes pas mis a jour"}))
+    
+
   // id du post 
   // if req.body.like (renvoi 1 ou -1)
   // si renvoi 1 alors increment like de 1 l'utilisateur aime le post => req.body.like renvoi 1 
@@ -138,5 +150,5 @@ exports.userPostLiked =(req,res,next)=>{
 
 
   //sion si decremente dislikes de -1 l'utilsateur enleve sont dislike
-console.log("back=>like",req.body.like);
+
 }

@@ -161,10 +161,10 @@ export default {
         default:0
         } ,
         usersDisliked :{
-            type : Array
+            type : Object
         },
         usersLiked:{
-            type : Array
+            type : Object
         },
     },
     components :
@@ -224,9 +224,24 @@ export default {
         console.log("userlike",userlike,"idPost",idPost);
         //toggle icon like dislike
         this.liked=false
-         this.disliked=true
+        this.disliked=true
         console.log("usersDisliked",this.usersDisliked,"usersLiked",this.usersLiked);
-     
+        this.likes++
+
+        //get token in storage and extract ID
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+             axios.post("http://localhost:3000/api/v1/post/like/",+ idPost +{likes:this.likes} ,{headers: {Authorization: 'Bearer ' + token}})
+                .then(()=>{
+                   console.log("likes ajouté");
+                })
+                .catch(err =>{
+                    if(err !== 200){
+                    this.err = false
+                    this.errMsg =err.response.data.error
+                    }
+                });
+
         // //    this.usersLiked.push(userlike)
         // //  console.log("userId",this.user.userId,"usersLiked" ,this.usersLiked)
         //     const newLike = new FormData;
