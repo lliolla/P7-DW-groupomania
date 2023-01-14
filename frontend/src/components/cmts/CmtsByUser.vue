@@ -231,7 +231,7 @@ export default {
         //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
-             axios.post("http://localhost:3000/api/v1/post/like/",+ idPost +{likes:this.likes} ,{headers: {Authorization: 'Bearer ' + token}})
+             axios.post("http://localhost:3000/api/v1/like/post/",+ idPost +{likes:this.likes} ,{headers: {Authorization: 'Bearer ' + token}})
                 .then(()=>{
                    console.log("likes ajouté");
                 })

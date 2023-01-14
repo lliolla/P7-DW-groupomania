@@ -34,24 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     media: DataTypes.STRING,
-    likes:{
-      type: DataTypes.INTEGER,
-      defaultValue :0
-    },
-    dislikes: {
-      type: DataTypes.INTEGER,
-      defaultValue :0
-    },
-    usersLiked: {
-        type: DataTypes.JSON,
-      
-        },
-
-    usersDisliked :{
-        type: DataTypes.JSON,
-      
-       }
-
   }, {
     sequelize,
     modelName: 'Post',

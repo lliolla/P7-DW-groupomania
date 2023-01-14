@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
           }, 
           onDelete: "CASCADE",
         });
-      models.Like.belongsTo(models.Comment,{
+      models.Like.belongsTo(models.Post,{
         foreignKey:{
           name:"PostId",
           allowNull:false,

@@ -17,7 +17,6 @@ router.get('/user/:id',auth,postCtrl.getOneUserPosts );//display all posts of on
 router.post('/',multer,auth,postCtrl.createPost);
 router.put('/:id',multer,auth,postCtrl.updatePost);
 router.delete('/:id',auth,postCtrl.delatePost);
-router.post('/like/:id',auth,postCtrl.postLiked);
 
 
 

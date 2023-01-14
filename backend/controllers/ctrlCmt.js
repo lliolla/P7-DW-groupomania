@@ -35,12 +35,7 @@ exports.getOneCmt = (req,res,next)=>{
     console.log('getOneCmts',req.params.id);
     Model.Comment.findOne({
         where : {id : req.params.id}, 
-        attributes :[
-        'id',
-        'UserId',
-        'PostId',
-        'content',
-        'updatedAt',]   
+        attributes :['id','UserId','PostId','content','updatedAt']   
     })
     .then(OneCmt=>{
         if(OneCmt){

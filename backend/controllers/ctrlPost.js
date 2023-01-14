@@ -42,7 +42,7 @@ if(content.length <=2 ||content.length >= 500 ){
 exports.getAllPosts = (req,res,next)=>{
     console.log('getAllPosts');
     Model.Post.findAll({
-        attributes :['id', 'title','content','likes','dislikes','usersDisliked','usersLiked', 'UserId', 'media','updatedAt'],
+        attributes :['id', 'title','content', 'UserId', 'media','updatedAt'],
         include: [ Model.User] ,
         order: [["id", "DESC"]],
       },)
@@ -53,7 +53,7 @@ exports.getAllPosts = (req,res,next)=>{
 
 exports.getOnePost = (req,res,next)=>{
     Model.Post.findOne({
-        attributes :['id', 'title','content','likes','dislikes', 'UserId', 'media'],// on precise les attributs que l'on veux recup
+        attributes :['id', 'title','content','UserId', 'media'],// on precise les attributs que l'on veux recup
         where : {id : req.params.id}
      })
      .then(displayPost=> res.status(200).json(displayPost ))// on affiche l'utilisateur
@@ -109,7 +109,7 @@ exports.delatePost = (req,res,next)=>{
  
       Model.Post.findAll({
       where : {UserId : idUser},
-      attributes :['id', 'title','content','likes','dislikes','usersDisliked','usersLiked', 'UserId', 'media','updatedAt'],
+      attributes :['id', 'title','content','UserId', 'media','updatedAt'],
       include: [ Model.User] ,
       order: [["id", "DESC"]],
       })
@@ -128,27 +128,4 @@ exports.delatePost = (req,res,next)=>{
 
 }
 
-exports.postLiked =(req,res,next)=>{
-    let Idpost =req.params.id
-    let updateLike=req.body
-    console.log("backend likes",updateLike,Idpost);
-    
-    Model.Post.update(
-        updateLike,
-        {where : {id : Idpost} })
-    .then( updateLikes => res.status(200).json(updateLikes))
-    .catch(error => res.status(404).json({ error: "likes pas mis a jour"}))
-    
 
-  // id du post 
-  // if req.body.like (renvoi 1 ou -1)
-  // si renvoi 1 alors increment like de 1 l'utilisateur aime le post => req.body.like renvoi 1 
-
-  //sinon si incremente dislike de 1 l'utilisateur n'aime pas le post => req.body.like renvoi -1 
-
-  // sinon  decremnete like de -1 l'utilisateur n'aime plus le post
-
-
-  //sion si decremente dislikes de -1 l'utilsateur enleve sont dislike
-
-}
