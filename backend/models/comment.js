@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Comment extends Model {
     /**
@@ -27,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
           },
           onDelete: "CASCADE",
         })
-      //on precise que la relation de la clef etrangere ne doit pas etre egale a null
     }
   };
   Comment.init({
