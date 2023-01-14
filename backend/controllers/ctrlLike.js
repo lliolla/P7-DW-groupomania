@@ -8,5 +8,6 @@ const { log } = require('console');
 
 exports.likeOnePost = (req,res,next)=>{
 console.log("post liké");
+
 }
 
