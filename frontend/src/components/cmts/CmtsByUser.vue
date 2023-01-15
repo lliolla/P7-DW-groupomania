@@ -3,7 +3,7 @@
        <ul class="d-flex flex-row justify-space-between pl-0">
              <li class="blog-like d-flex ">
                   <div >
-                   usersDisliked  {{likePost}}
+                  
                    
                     <v-btn
                     :disabled="!liked"
