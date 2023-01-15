@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');// on protege les routes avec les tok
 
 //routes d'authentification
  
-router.get('/post/:id',auth,likeCtrl.getlike )
+router.get('/',auth,likeCtrl.getlike )
 router.post('/post/:id',auth,likeCtrl.likeOnePost )
 
 

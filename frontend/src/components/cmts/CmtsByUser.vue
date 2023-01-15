@@ -3,8 +3,8 @@
        <ul class="d-flex flex-row justify-space-between pl-0">
              <li class="blog-like d-flex ">
                   <div >
-                   usersDisliked {{usersDisliked}}
-                   usersLiked {{usersLiked}}
+                   usersDisliked  {{likePost}}
+                   
                     <v-btn
                     :disabled="!liked"
                     class="icon"
@@ -18,7 +18,7 @@
                             <v-icon
                             class=" white--text"
                             dark
-                            @click="postLike(idPost)">
+                            @click="postLiked(idPost)">
                             mdi-thumb-up-outline</v-icon>
                         </v-badge>
                     </v-btn>
@@ -61,6 +61,7 @@
              </li>
        </ul>
        <v-expand-transition>
+     
             <div v-show="show">
                  <v-divider></v-divider>
                     <v-alert
@@ -186,7 +187,9 @@ export default {
             show: false,
             update:false,
             liked:false,
-            disliked:true
+            disliked:true,
+
+       
         }
     },
     watch:{
@@ -206,10 +209,16 @@ export default {
         },
       userPostLikedId (){
         return this.user.userId
+      },
+      likePost(){
+        return this.postLike
       }
+
     },
    mounted () {
      this.getAllCmts(this.idPost)
+      console.log("getLike()",this.getLike())
+     
    },
     methods : {
         setUpdate(payload){
@@ -218,22 +227,21 @@ export default {
         setMenu(payload){
           this.menu=payload
         },
-        postLike(idPost){
-        const userlike = this.user.userId
+        postLiked(idPost){
+   
+        const newLike = new FormData
+            newLike.append('disliked',this.disliked=true),
+            newLike.append('liked',this.liked=false),
+            newLike.append('UserId',this.user.userId)
         
-        console.log("userlike",userlike,"idPost",idPost);
-        //toggle icon like dislike
-        this.liked=false
-        this.disliked=true
-        console.log("usersDisliked",this.usersDisliked,"usersLiked",this.usersLiked);
-        this.likes++
-
         //get token in storage and extract ID
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
-             axios.post("http://localhost:3000/api/v1/like/post/",+ idPost +{likes:this.likes} ,{headers: {Authorization: 'Bearer ' + token}})
-                .then(()=>{
-                   console.log("likes ajouté");
+            this.idPost=idPost
+            console.log("userlike",newLike,idPost);
+             axios.post("http://localhost:3000/api/v1/like/post/",+idPost,newLike,{headers: {Authorization: 'Bearer ' + token}})
+                .then((res)=>{
+                   console.log("likes ajouté",res.body) 
                 })
                 .catch(err =>{
                     if(err !== 200){
@@ -242,25 +250,34 @@ export default {
                     }
                 });
 
-        // //    this.usersLiked.push(userlike)
-        // //  console.log("userId",this.user.userId,"usersLiked" ,this.usersLiked)
-        //     const newLike = new FormData;
-        //     newLike.append('like',this.likes),
-        //     newLike.append('IdPost',idPost)
-        //  // axios.post ("http://localhost:3000/api/v1/post/"+idPost+newLike )
-        },
+             },
         postDislike(idPost){
 
         this.liked=true
         this.disliked=false
-        this.dislikes=+1
+    
         const newLike = new FormData;
             newLike.append('dislike',this.dislikes),
             newLike.append('IdPost',idPost)
-         console.log("newLike",newLike,"id user like",this.userPostLikedId,"disLike",this.liked,"disLiked",this.likes,);
+         console.log("newLike",newLike);
 
             //POST -1
 //post dislike: this.dislike +>requette POST
+        },
+        getLike(){
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+           
+           axios 
+           .get("http://localhost:3000/api/v1/like" ,{
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          this.postLike = res.data;
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
         },
         dateDaysAgo(date) {
                 return moment(date).startOf('day').fromNow();

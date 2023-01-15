@@ -60,7 +60,6 @@ exports.getOnePost = (req,res,next)=>{
      .catch ((error)=> res.status(404).json( { error: "aucun post trouvé pour cet utilisateur"} ))
 }
 
-
 exports.updatePost = (req,res,next)=>{
   console.log("media",req.file,req.body.media);
    let title = req.body.title;
