@@ -1,5 +1,6 @@
 // import models in table POSTS
 const Model = require('../models');
+const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const { log } = require('console');
@@ -7,14 +8,52 @@ const { log } = require('console');
 
 exports.likeOnePost = (req,res,next)=>{
     let Idpost =req.params.id
-    let userLike=req.body
-    console.log("post liké",Idpost,"par",userLike);
-    Model.Like
-    .findOne({
-        where :{PostId : userLike,UserId : userLike} })
-    .then( updateLikes => { console.log("updateLikes return true") })
-    .catch(error => res.status(404).json({ error: "likes pas mis a jour"}))
-            
+    let userLike=req.body.UserId
+    let liked =req.body.liked
+    let disliked =req.body.disliked
+
+    console.log("post liké",Idpost,"par user :",userLike, "reaction like",liked, "reaction dislike",disliked);
+    
+     Model.Like
+     .findOne({
+         where :{
+            [Op.and]:[ {PostId : Idpost}, {UserId:userLike}] } })
+     .then( existingLike => {
+        if(!existingLike){
+            console.log("vous pouvez commenter");
+            if(disliked==true && liked==false ){
+                console.log("vous avez like");
+                Model.Like
+                    .create({PostId : Idpost, UserId:userLike})
+                    .then(()=>res.status(200).json( {disliked : false, liked:true},
+                        ) )
+                    .catch(error => res.status(400).json ({error : 'une erreur est survenue'}))
+
+            }else{
+                console.log("vous avez disliké");
+            } 
+        }else{
+            console.log("vous avez deja commenter cet article");
+        }
+     })
+
+    .catch(error => res.status(404).json({ error: "un probleme est survenu"}))
+      
+    
+//     if(!existingReaction ){
+//         Model.Like
+//         .create({PostId : Idpost, UserId:userLike})
+//         .then(()=>res.status(200).json({message:"Article liké " }) )
+//         .catch(error => res.status(400).json ({error : 'une erreur est survenue'}))
+
+   
+// }else{
+//         Model.Like
+//            .destroy({PostId : Idpost, UserId:userLike})
+//            .then(()=>res.status(200).json({message:"Article disliké" }) )
+//            .catch(error => res.status(400).json ({error : 'une erreur est survenue'}))
+   
+// }
     }
 exports.getlike = (req,res,next)=>{
     
