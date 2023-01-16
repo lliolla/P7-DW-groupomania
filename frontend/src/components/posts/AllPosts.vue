@@ -205,7 +205,7 @@ export default {
 
     .icon {
     cursor: pointer;
-    background-color:#f08080;
+    background-color:#FD2D01;
     border-radius: 50%;
     padding: 6px;
     margin: 5px;
@@ -220,17 +220,17 @@ export default {
 
      .v-btn > .v-btn__content{
         font-size: 20px;
-        color: rgb(250, 237, 237);
+        color: #FFD7D7;
         vertical-align: middle;
     }
     .v-icon{
         font-size: 20px;
-        color: rgb(250, 237, 237);
+        color: #FFD7D7;
         vertical-align: middle;
     }
     .icon {
     cursor: pointer;
-    background-color:lightcoral;
+    background-color:#FD2D01;
     border-radius: 50%;
     padding: 6px;
     margin: 5px;

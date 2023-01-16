@@ -239,7 +239,7 @@ export default {
             let token = user.token
             this.idPost=idPost
             console.log("userlike",newLike,idPost);
-             axios.post("http://localhost:3000/api/v1/like/post/",+idPost,newLike,{headers: {Authorization: 'Bearer ' + token}})
+             axios.post("http://localhost:3000/api/v1/post/like",+idPost,newLike,{headers: {Authorization: 'Bearer ' + token}})
                 .then((res)=>{
                    console.log("likes ajouté",res.body) 
                 })

@@ -69,7 +69,7 @@
 <style scoped>
 main .v-main{
 
-  background-color: rgb(241, 148, 187);
+  background-color: #FFD7D7;
 }
 
 .v-card{
