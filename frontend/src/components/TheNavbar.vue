@@ -63,3 +63,12 @@ export default {
     }
 }
 </script>
+<style scoped>
+.theme--light.v-app-bar.v-toolbar.v-sheet{
+    background-color:#FFD7D7;
+}
+ 
+ .v-btn > .v-btn__content .v-icon {
+	color:#4E5166;
+}
+</style>

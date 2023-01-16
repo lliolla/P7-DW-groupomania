@@ -171,7 +171,7 @@ export default {
     }
     .like-icon {
     cursor: pointer;
-    background-color:lightcoral;
+    background-color:#FD2D01;
     border-radius: 50%;
     padding: 4px;
     margin: 5px;
@@ -179,7 +179,7 @@ export default {
     }
     .v-icon.v-icon {
         font-size: 20px;
-        color: rgb(250, 237, 237);
+        color: #FFD7D7;
         vertical-align: middle;   
     }
     .post-media{

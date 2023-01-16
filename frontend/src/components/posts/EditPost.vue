@@ -235,7 +235,7 @@ export default {
 }
 .v-icon {
   font-size: 20px;
-  color: rgb(250, 237, 237);
+  color: #FFD7D7;
   vertical-align: middle;
 }
 .update-media {

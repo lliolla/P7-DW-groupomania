@@ -1,13 +1,7 @@
 <template>
     <div class="footer">
-         <v-footer class="red darken-1 " >
-           
-           <!-- <v-row>
-             <v-col class="text-center">
-                <v-icon x-large color="red lighten-5">  mdi-facebook</v-icon>
-             </v-col>
-        
-           </v-row> -->
+         <v-footer  >
+         
            <v-col
               class="text-center"
               cols="12">
@@ -23,3 +17,8 @@ export default {
 
 }
 </script>
+<style scoped>
+.theme--light.v-sheet {
+background-color:#FD2D01
+}
+</style>

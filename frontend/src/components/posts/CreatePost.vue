@@ -143,7 +143,7 @@ export default {
 }
 .v-icon.v-icon {
   font-size: 30px;
-  color: rgb(250, 237, 237);
+  color: #FFD7D7;
   vertical-align: middle;   
 }
 

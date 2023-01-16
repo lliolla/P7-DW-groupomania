@@ -201,7 +201,7 @@ export default {
   }
   .header-wrapper{
     height: 100px;
-   background-color:bisque;
+   background-color:#FD2D01;
   }
  .btnForm{
    margin-bottom: 16px;

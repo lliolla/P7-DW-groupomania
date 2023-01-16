@@ -96,7 +96,7 @@ export default {
 </script>
 <style scoped>
 .v-icon.v-icon{
-  color:#E53935;
+  color:#FD2D01;
 }
 
 </style>
