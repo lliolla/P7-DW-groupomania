@@ -31,16 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Like.init({
-   
-    likes:{
-      type: DataTypes.INTEGER,
-      defaultValue :0
-    },
-    disLikes:{
-        type: DataTypes.INTEGER,
-        defaultValue :0
-      },
-   
+
+      type: DataTypes.BOOLEAN,
+     
 
   }, {
     sequelize,

@@ -6,7 +6,6 @@ const userRoutes = require('./routes/routeUser'); // import du router
 const authRoutes = require('./routes/routeAuth'); // import du router
 const postRoutes = require('./routes/routePost'); // import du router
 const cmtRoutes = require('./routes/routeCmt'); // import du router
-const likeRoutes = require('./routes/routeLike'); // import du router
 
 //gerer les erreurs de cors avec le front end
 const cors = require('cors');
@@ -37,7 +36,6 @@ app.use('/api/v1/auth', authRoutes);// pointer vers les fonctions assignées à 
 app.use('/api/v1/user', userRoutes);// pointer vers les fonctions assignées à la route de gestion des users
 app.use('/api/v1/post', postRoutes);// pointer vers les fonctions assignées à la route de gestion des posts
 app.use('/api/v1/cmt', cmtRoutes);// pointer vers les fonctions assignées à la route de gestion des commentaires
-app.use('/api/v1/like', likeRoutes);// pointer vers les fonctions assignées à la route de gestion des likes
 
 module.exports = app;// Export de l'application
 
