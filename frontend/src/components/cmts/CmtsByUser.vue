@@ -18,7 +18,7 @@
                             <v-icon
                             class=" white--text"
                             dark
-                            @click="postLiked(idPost)">
+                            @click="postLike(idPost)">
                             mdi-thumb-up-outline</v-icon>
                         </v-badge>
                     </v-btn>
@@ -209,28 +209,31 @@ export default {
         setMenu(payload){
           this.menu=payload
         },
-        postLiked(idPost){
-   
-        const newLike = new FormData
-            newLike.append('disliked',this.disliked=true),
-            newLike.append('liked',this.liked=false),
-            newLike.append('UserId',this.user.userId)
-        
-        //get token in storage and extract ID
+        postLike(idPost){
+        this.liked=false
+        this.disliked=true
+      
+               let PostId=this.idPost
+               let type=this.type=true
+               let UserId=this.user.userId
+               let newLike = {PostId,type,UserId}
+
             let user=JSON.parse(localStorage.getItem('user'))
             let token = user.token
-            this.idPost=idPost
-            console.log("userlike",newLike,idPost);
-             axios.post("http://localhost:3000/api/v1/post/like/",+idPost,newLike,{headers: {Authorization: 'Bearer ' + token}})
-                .then((res)=>{
-                   console.log("likes ajouté",res.body) 
-                })
-                .catch(err =>{
-                    if(err !== 200){
-                    this.err = false
-                    this.errMsg =err.response.data.error
-                    }
-                });
+          
+            console.log("newLike",newLike);
+             axios
+        .put(
+          "http://localhost:3000/api/v1/post/like/" + idPost,
+          newLike,
+          { headers: { Authorization: "Bearer " + token } }
+        )
+        .then(() => {
+          console.log("like front");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
 
              },
         postDislike(idPost){
@@ -238,30 +241,46 @@ export default {
         this.liked=true
         this.disliked=false
     
-        const newLike = new FormData;
-            newLike.append('dislike',this.dislikes),
-            newLike.append('IdPost',idPost)
-         console.log("newLike",newLike);
+        let PostId=this.idPost
+               let type=this.type=true
+               let UserId=this.user.userId
+               let newLike = {PostId,type,UserId}
 
-            //POST -1
-//post dislike: this.dislike +>requette POST
+            let user=JSON.parse(localStorage.getItem('user'))
+            let token = user.token
+          
+            console.log("newLike",newLike);
+             axios
+        .put(
+          "http://localhost:3000/api/v1/post/dislike/" + idPost,
+          newLike,
+          { headers: { Authorization: "Bearer " + token } }
+        )
+        .then(() => {
+          console.log("dislike front");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+         
         },
         countLike(idPost){
-     let user=JSON.parse(localStorage.getItem('user'))
-    let token = user.token
-            axios 
-                .get("http://localhost:3000/api/v1/post/like/"+idPost ,{
-                headers: { Authorization: "Bearer " + token },
-                })
-                .then((res) => {
-                this.countLikes = res.data;
-                })
-                .catch((err) => {
-                console.log("err", err);
-                })
-        },
+        let user=JSON.parse(localStorage.getItem('user'))
+        let token = user.token
+                axios 
+                    .get("http://localhost:3000/api/v1/post/like/"+idPost ,{
+                    headers: { Authorization: "Bearer " + token },
+                    })
+                    .then((res) => {
+                    this.countLikes = res.data;
+                    })
+                    .catch((err) => {
+                    console.log("err", err);
+                    })
+            },
         countDislike(idPost){
-             let user=JSON.parse(localStorage.getItem('user'))
+                let user=JSON.parse(localStorage.getItem('user'))
         let token = user.token
             axios 
                 .get("http://localhost:3000/api/v1/post/dislike/"+idPost ,{

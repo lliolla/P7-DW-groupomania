@@ -20,8 +20,8 @@ router.put('/:id',multer,auth,postCtrl.updatePost);
 router.delete('/:id',auth,postCtrl.delatePost);
 
 //routes like
-router.post('/like/:id',auth,likeCtrl.likeOnePost );
-router.post('/dislike/:id',auth,likeCtrl.dislikeOnePost )
+router.put('/like/:id',auth,likeCtrl.likeOnePost );
+router.put('/dislike/:id',auth,likeCtrl.dislikeOnePost )
 router.get('/like/:id',auth,likeCtrl.getLike );
 router.get('/dislike/:id',auth,likeCtrl.getDislike )
 

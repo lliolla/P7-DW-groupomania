@@ -4,10 +4,9 @@ const Model = require('../models');
 exports.likeOnePost = (req,res,next)=>{
     let PostId =req.params.id
     let UserId=req.body.UserId
-    let liked =req.body.liked
-    let disliked =req.body.disliked
+    let type =req.body.UserId
 //     
-    console.log("post liké",PostId,"par user :",UserId,liked,disliked);
+    console.log("post liké",PostId,"par user :",UserId,type);
     Model.Like.findOne({
         where :{ PostId, UserId }
     })
@@ -16,9 +15,9 @@ exports.likeOnePost = (req,res,next)=>{
         console.log("like")
         Model.Like
           .create(
-              {PostId , UserId,type :true})
+              {PostId , UserId, type})
           .then(()=>res.status(200).json( 
-              {disliked : true, liked:false ,}
+              {disliked : true, liked:false }
               ) )
           .catch(error => res.status(400).json ({error : '1 une erreur est survenue'}))
        }else{
@@ -40,13 +39,7 @@ exports.dislikeOnePost = (req,res,next)=>{
     let UserId=req.body.UserId
     let liked =req.body.liked
     let disliked =req.body.disliked
-    const nbDislikes = 
-     Model.Like.count({
-         where :{ type :false  }
-     }).then(count=>{console.log(`total likes': ${count}`)
-     return count})
-     .catch(e=> console.log(e))
-//     
+    
     console.log("post disliké",PostId,"par user :",UserId,liked,disliked);
     Model.Like.findOne({
         where :{ PostId, UserId }
@@ -58,7 +51,7 @@ exports.dislikeOnePost = (req,res,next)=>{
           .create(
               {PostId , UserId,type:false,})
           .then(()=>res.status(200).json( 
-              {disliked : true, liked:false ,nbDislikes}
+              {disliked : true, liked:false ,type :true}
               ) )
           .catch(error => res.status(400).json ({error : '1 une erreur est survenue'}))
        }else{
