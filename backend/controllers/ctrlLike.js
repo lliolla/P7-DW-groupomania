@@ -77,11 +77,11 @@ exports.dislikeOnePost = (req,res,next)=>{
  
         }
 exports.getLike = (req,res,next)=>{  
-    let PostId =req.params.id   
+let PostId =req.params.id   
  Model.Like.count({
  where :{ type :true , PostId }
  })
- .then(countDislike=>res.status(200).json(countDislike))
+ .then(countlike=>res.status(200).json(countlike))
 .catch(() => res.status(500).json({ error: "requette impossible"}))
 
 }

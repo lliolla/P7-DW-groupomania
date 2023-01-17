@@ -189,50 +189,17 @@ export default {
         }
 
      },
-     mounted () {
+    mounted () {
      this.getAllCmts(this.idPost)
+     this.countLike(this.idPost)
+     this.countDislike(this.idPost)
    },
-   created(idPost){
    
-    let user=JSON.parse(localStorage.getItem('user'))
-    let token = user.token
-    // get count of likes for one post
-    axios 
-        .get("http://localhost:3000/api/v1/post/like/"+idPost ,{
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.countLikes = res.data;
-          console.log("getLike",this.countLike);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
-    // get count of dislikes for one post
-    axios 
-        .get("http://localhost:3000/api/v1/post/dislike/"+idPost ,{
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.countdisLikes = res.data;
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
-   },
     computed:{
         ...mapState(['user','posts']),
         cmtLength(){
             return this.postCmts.length
         },
-      userPostLikedId (){
-        return this.user.userId
-      },
-      likePost(){
-        return this.postLike
-      },
-     
-
     },
    
     methods : {
@@ -278,6 +245,34 @@ export default {
 
             //POST -1
 //post dislike: this.dislike +>requette POST
+        },
+        countLike(idPost){
+     let user=JSON.parse(localStorage.getItem('user'))
+    let token = user.token
+            axios 
+                .get("http://localhost:3000/api/v1/post/like/"+idPost ,{
+                headers: { Authorization: "Bearer " + token },
+                })
+                .then((res) => {
+                this.countLikes = res.data;
+                })
+                .catch((err) => {
+                console.log("err", err);
+                })
+        },
+        countDislike(idPost){
+             let user=JSON.parse(localStorage.getItem('user'))
+        let token = user.token
+            axios 
+                .get("http://localhost:3000/api/v1/post/dislike/"+idPost ,{
+                headers: { Authorization: "Bearer " + token },
+                })
+                .then((res) => {
+                this.countdisLikes = res.data;
+                })
+                .catch((err) => {
+                console.log("err", err);
+                })
         },
      
         dateDaysAgo(date) {

@@ -64,10 +64,6 @@
 
                 <CmtsByUser
                  v-bind:idPost="post.id"
-                 v-bind:likes="post.likes"
-                 v-bind:dislikes="post.dislikes"
-                 v-bind:usersLiked="post.usersLiked"
-                 v-bind:usersDisliked="post.usersDisliked"
                  v-bind:seeCmt="false"
                  @update-cmt="setPost">
                 </CmtsByUser>
