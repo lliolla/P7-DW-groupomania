@@ -6,12 +6,6 @@ exports.likeOnePost = (req,res,next)=>{
     let UserId=req.body.UserId
     let liked =req.body.liked
     let disliked =req.body.disliked
-    const nbLikes = 
-     Model.Like.count({
-         where :{ type :true  }
-     }).then(count=>{console.log(`total likes': ${count}`)
-     return count})
-     .catch(error => res.status(400).json ({error : '1 une erreur est survenue'}))
 //     
     console.log("post liké",PostId,"par user :",UserId,liked,disliked);
     Model.Like.findOne({
@@ -83,31 +77,21 @@ exports.dislikeOnePost = (req,res,next)=>{
  
         }
 exports.getLike = (req,res,next)=>{  
-    Model.Like.count({ 
-    where :{ type :true  }
+    let PostId =req.params.id   
+ Model.Like.count({
+ where :{ type :true , PostId }
  })
- .then( (countLike) => res.status(201).json(countLike))
- .catch(e => log(e))
+ .then(countDislike=>res.status(200).json(countDislike))
+.catch(() => res.status(500).json({ error: "requette impossible"}))
 
 }
 exports.getDislike = (req,res,next)=>{  
-    
+ let PostId =req.params.id   
  Model.Like.count({
- where :{ type :false  }
+ where :{ type :false , PostId }
  })
  .then(countDislike=>res.status(200).json(countDislike))
-.catch(e => log(e))
-   
-   
-   
-   // Model.Like.update(
-   //          updateLike,
-   //              {where : {PostId : PostId} })
-   //         .then( updateLikes => {
-   //             console.log("updateLikes",updateLikes);
-   //         })
-   //     .catch(error => res.status(404).json({ error: "likes pas mis a jour"}))
-   
-   }
+ .catch(() => res.status(500).json({ error: "requette impossible"}))
+}
 
 

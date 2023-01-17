@@ -14,7 +14,7 @@
                         offset-x="5"
                         offset-y="5"
                        >
-                            <span slot="badge">  {{likes}} </span>  <!--slot can be any component-->
+                            <span slot="badge">  {{countLikes}} </span>  <!--slot can be any component-->
                             <v-icon
                             class=" white--text"
                             dark
@@ -32,7 +32,7 @@
                             bordered
                             offset-x="5"
                             offset-y="5">
-                                <span slot="badge">  {{dislikes}} </span> <!--slot can be any component-->
+                                <span slot="badge">  {{countdisLikes}} </span> <!--slot can be any component-->
                                 <v-icon
                                 class=" white--text"
                                 dark
@@ -153,20 +153,7 @@ export default {
     props :{
         idPost : Number,
         seeCmt:Boolean,
-        likes : {
-        type:Number,
-        default:0
-        } ,
-        dislikes :  {
-        type:Number,
-        default:0
-        } ,
-        usersDisliked :{
-            type : Object
-        },
-        usersLiked:{
-            type : Object
-        },
+        
     },
     components :
     {
@@ -188,8 +175,8 @@ export default {
             update:false,
             liked:false,
             disliked:true,
-
-       
+            countLikes:"",
+            countdisLikes:""
         }
     },
     watch:{
@@ -202,6 +189,37 @@ export default {
         }
 
      },
+     mounted () {
+     this.getAllCmts(this.idPost)
+   },
+   created(idPost){
+   
+    let user=JSON.parse(localStorage.getItem('user'))
+    let token = user.token
+    // get count of likes for one post
+    axios 
+        .get("http://localhost:3000/api/v1/post/like/"+idPost ,{
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          this.countLikes = res.data;
+          console.log("getLike",this.countLike);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
+    // get count of dislikes for one post
+    axios 
+        .get("http://localhost:3000/api/v1/post/dislike/"+idPost ,{
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          this.countdisLikes = res.data;
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
+   },
     computed:{
         ...mapState(['user','posts']),
         cmtLength(){
@@ -212,14 +230,11 @@ export default {
       },
       likePost(){
         return this.postLike
-      }
+      },
+     
 
     },
-   mounted () {
-     this.getAllCmts(this.idPost)
-      console.log("getLike()",this.getLike())
-     
-   },
+   
     methods : {
         setUpdate(payload){
           this.update=payload
@@ -264,21 +279,7 @@ export default {
             //POST -1
 //post dislike: this.dislike +>requette POST
         },
-        getLike(){
-            let user=JSON.parse(localStorage.getItem('user'))
-            let token = user.token
-           
-           axios 
-           .get("http://localhost:3000/api/v1/like" ,{
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.postLike = res.data;
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-        },
+     
         dateDaysAgo(date) {
                 return moment(date).startOf('day').fromNow();
                 },
