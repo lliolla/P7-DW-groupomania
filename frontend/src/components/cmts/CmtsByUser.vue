@@ -186,7 +186,22 @@ export default {
             this.showCmt(this.idPost)
             this.show=true
           }
-        }
+        },
+        liked(newValue, oldValue){
+          if(newValue != oldValue) {
+            this.countLike(this.idPost)
+            this.countDislike(this.idPost)
+
+          }
+        },
+        disliked(newValue, oldValue){
+          if(newValue != oldValue) {
+            this.countLike(this.idPost)
+            this.countDislike(this.idPost)
+          }
+        },
+        
+        
 
      },
     mounted () {
@@ -212,7 +227,6 @@ export default {
         postLike(idPost){
         this.liked=false
         this.disliked=true
-      
                let PostId=this.idPost
                let type=this.type=true
                let UserId=this.user.userId
@@ -258,6 +272,8 @@ export default {
         )
         .then(() => {
           console.log("dislike front");
+           this.liked=false
+        this.disliked=true
         })
         .catch((err) => {
           console.log(err);
